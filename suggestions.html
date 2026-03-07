@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoDupe | Suggestions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.07) 1px, transparent 1px);
+            position: fixed; inset: 0; z-index: -1;
+        }
+        .bg-glow {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
+        }
+        .input-field {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #06b6d4;
+            outline: none;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
+            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Back</a>
+            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter">SUGGESTIONS</h1>
+            <div class="w-10"></div> </div>
+    </nav>
+
+    <main class="pt-40 pb-20 px-6 max-w-2xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-5xl font-black uppercase tracking-tighter mb-4">Improve the <span class="text-cyan-500">Server</span></h2>
+            <p class="text-zinc-500 font-bold uppercase text-xs tracking-widest">Your feedback goes directly to Skitxoe</p>
+        </div>
+
+        <div class="bg-zinc-900/30 p-8 rounded-[32px] border border-cyan-500/10 backdrop-blur-md">
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Minecraft Username</label>
+                    <input type="text" id="suggest-user" placeholder="Skitxoe" class="input-field w-full p-4 rounded-2xl text-white">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Your Suggestion</label>
+                    <textarea id="suggest-text" rows="5" placeholder="What should we add or change?" class="input-field w-full p-4 rounded-2xl text-white resize-none"></textarea>
+                </div>
+
+                <button onclick="submitSuggestion()" id="submit-btn" class="w-full bg-cyan-600 hover:bg-cyan-500 text-black py-5 rounded-2xl font-black uppercase tracking-widest transition-all">
+                    Submit to Staff
+                </button>
+                <p id="response-msg" class="text-center text-[10px] font-black uppercase hidden"></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="config.js"></script>
+    <script>
+        async function submitSuggestion() {
+            const user = document.getElementById('suggest-user').value.trim();
+            const text = document.getElementById('suggest-text').value.trim();
+            const btn = document.getElementById('submit-btn');
+            const msg = document.getElementById('response-msg');
+
+            if (!user || !text) {
+                alert("Please fill in both fields!");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "SENDING...";
+
+            const payload = {
+                username: "EchoDupe Feedback",
+                embeds: [{
+                    title: "💡 NEW SUGGESTION",
+                    color: 0x06b6d4,
+                    fields: [
+                        { name: "👤 Player", value: `\`${user}\``, inline: true },
+                        { name: "📝 Suggestion", value: text }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const response = await fetch(window.config.webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    msg.innerText = "Suggestion sent successfully!";
+                    msg.className = "text-center text-[10px] font-black uppercase text-cyan-500 mt-4 block";
+                    document.getElementById('suggest-text').value = "";
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                msg.innerText = "Error sending suggestion.";
+                msg.className = "text-center text-[10px] font-black uppercase text-red-500 mt-4 block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Submit to Staff";
+            }
+        }
+    </script>
+</body>
+</html>
