@@ -1,8 +1,0 @@
-# Ignore everything by default
-/*
-
-# EXCEPT these specific items
-!/README.md
-!/.gitignore
-!/src/
-!/index.html
