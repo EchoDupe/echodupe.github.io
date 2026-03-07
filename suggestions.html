@@ -38,9 +38,15 @@
             background-position: right 1rem center;
             background-size: 1em;
         }
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     </style>
 </head>
-<body>
+<body class="no-select">
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
@@ -91,6 +97,17 @@
             <p id="response-msg" class="text-center text-[10px] font-black uppercase hidden mt-6"></p>
         </div>
     </main>
+
+    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 no-select">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
+                &copy; 2026 EchoDupeLS. All Rights Reserved.
+            </p>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
+                Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
+            </p>
+        </div>
+    </footer>
 
     <script src="config.js"></script>
     <script>
