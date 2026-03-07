@@ -38,20 +38,20 @@
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
-
-        .no-select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+        .no-select { user-select: none; }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
-    <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
+    <div class="fixed top-0 w-full z-50 bg-cyan-600 text-black py-1.5 px-4 text-center">
+        <p class="text-[10px] font-black uppercase tracking-[0.2em]">
+            Daily Clicks Reset In: <span id="reset-countdown">00:00:00</span> (EST)
+        </p>
+    </div>
+
+    <nav class="fixed top-8 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
             <div class="flex items-center gap-4">
                 <div id="status-indicator" class="w-2.5 h-2.5 bg-zinc-500 rounded-full transition-all duration-500"></div>
@@ -80,14 +80,23 @@
         </div>
     </nav>
 
-    <main class="pt-56 pb-24 text-center">
+    <main class="pt-64 pb-24 text-center">
         <h2 class="text-6xl md:text-[100px] font-black uppercase tracking-tighter mb-8 leading-none">
             CRUSH THE <br><span class="text-cyan-500">COMPETITION</span>
         </h2>
+
+        <div class="mb-16">
+            <button onclick="pressGlobalButton()" class="group relative bg-zinc-950 border-2 border-cyan-500/20 px-12 py-6 rounded-3xl transition-all hover:scale-105 active:scale-95 hover:border-cyan-500 shadow-2xl shadow-cyan-500/5">
+                <span class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 group-hover:text-cyan-400 transition">Global Community Clicks</span>
+                <div class="mt-2 text-4xl font-black italic text-white" id="global-click-count">0</div>
+            </button>
+            <p class="text-[9px] font-bold text-zinc-600 uppercase tracking-[0.3em] mt-6">Clicks reset every 24hrs at 12AM EST</p>
+        </div>
+
         <div class="flex flex-wrap justify-center gap-5 mt-12 mb-32">
             <button onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})" class="bg-cyan-600 hover:bg-cyan-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Browse Shop</button>
             <button id="ip-display" onclick="copyIP(this)" class="bg-zinc-950 border border-cyan-500/20 px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all hover:border-cyan-500">PLAY NOW</button>
-            <button onclick="window.open('https://discord.gg/yourlink', '_blank')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-lg shadow-indigo-500/20">Discord</button>
+            <button onclick="window.open('https://discord.gg/yourlink', '_blank')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Discord</button>
         </div>
 
         <section id="categories" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center mb-10">
@@ -108,19 +117,15 @@
                 <h3 class="text-3xl font-black uppercase italic group-hover:text-cyan-500 transition tracking-widest">
                     Learn More <span class="text-cyan-500">About Us</span>
                 </h3>
-                <p class="text-zinc-500 mt-2 text-xs uppercase font-black tracking-[0.2em]">Our Story • Server Mechanics • Specs</p>
             </a>
         </section>
     </main>
 
-    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 no-select">
+    <footer class="py-20 border-t border-cyan-500/10 mt-20 no-select">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
-                &copy; 2026 EchoDupeLS. All Rights Reserved.
-            </p>
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-                Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
-            </p>
+            <h2 class="text-xl font-black italic text-cyan-500 tracking-tighter mb-6">ECHODUPE<span class="text-white">LS</span></h2>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">&copy; 2026 EchoDupeLS. All Rights Reserved.</p>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Designed & Developed by <span class="text-cyan-500">Skitxoe</span></p>
         </div>
     </footer>
 
@@ -140,23 +145,74 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
-    <script src="webhook.js"></script>
-
     <script>
-        const cfg = window.config || { serverIP: "play.echodupels.minehut.gg", cashAppTag: "$YourTagHere" };
-        let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
-        document.getElementById('ip-display').innerText = cfg.serverIP;
+        // --- GLOBAL COUNTER & COUNTDOWN LOGIC ---
+        function getESTInfo() {
+            const now = new Date();
+            const estDate = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/New_York',
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+            }).formatToParts(now);
 
+            const d = {};
+            estDate.forEach(({type, value}) => d[type] = value);
+            
+            // Create the Daily Key (e.g., "echodupe_clicks_2023-10-27")
+            const dateKey = `${d.year}-${d.month}-${d.day}`;
+            
+            // Calculate time until midnight EST
+            const midnight = new Date(now);
+            const estNow = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+            midnight.setHours(24, 0, 0, 0); 
+            // This is a simplified calculation for the countdown display
+            const diff = midnight - estNow;
+            
+            return { dateKey, diff };
+        }
+
+        async function updateGlobalDisplay() {
+            const info = getESTInfo();
+            const display = document.getElementById('global-click-count');
+            try {
+                // Using CountAPI (Namespace: echodupe_network)
+                const res = await fetch(`https://api.countapi.xyz/get/echodupe_network/${info.dateKey}`);
+                const data = await res.json();
+                display.innerText = (data.value || 0).toLocaleString();
+            } catch (err) {
+                display.innerText = "0";
+            }
+        }
+
+        async function pressGlobalButton() {
+            const info = getESTInfo();
+            const display = document.getElementById('global-click-count');
+            try {
+                const res = await fetch(`https://api.countapi.xyz/hit/echodupe_network/${info.dateKey}`);
+                const data = await res.json();
+                display.innerText = (data.value || 0).toLocaleString();
+            } catch (err) { console.error("API Error"); }
+        }
+
+        function runCountdown() {
+            const info = getESTInfo();
+            const hours = Math.floor((info.diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((info.diff / 1000 / 60) % 60);
+            const secs = Math.floor((info.diff / 1000) % 60);
+            document.getElementById('reset-countdown').innerText = 
+                `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // --- EXISTING SERVER LOGIC ---
+        const serverIP = "play.echodupels.minehut.gg";
+        
         async function fetchServerStatus() {
             const indicator = document.getElementById('status-indicator');
             const statusText = document.getElementById('status-text');
             const countDisplay = document.getElementById('player-count');
-
             try {
-                const response = await fetch(`https://api.mcsrvstat.us/2/${cfg.serverIP}`);
-                const data = await response.json();
-
+                const res = await fetch(`https://api.mcsrvstat.us/2/${serverIP}`);
+                const data = await res.json();
                 if (data.online) {
                     indicator.className = "w-2.5 h-2.5 bg-cyan-500 rounded-full pulse";
                     statusText.innerText = "Live";
@@ -168,14 +224,11 @@
                     statusText.className = "text-red-500";
                     countDisplay.innerText = "0";
                 }
-            } catch (err) {
-                console.error("Status fetch failed.");
-            }
+            } catch (err) { console.error("Status error"); }
         }
 
-        fetchServerStatus();
-        setInterval(fetchServerStatus, 30000);
-
+        // --- CART LOGIC ---
+        let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
 
@@ -185,9 +238,7 @@
             const countDisplay = document.getElementById('cart-count');
             const itemIds = Object.keys(cart);
             let total = 0; let qty = 0;
-            
             list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            
             itemIds.forEach(id => {
                 const item = cart[id];
                 total += (item.price * item.quantity); qty += item.quantity;
@@ -202,29 +253,19 @@
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
 
-        window.handleCheckout = async () => {
-            const user = document.getElementById('mc-username').value.trim();
-            const totalVal = parseFloat(document.getElementById('cart-total').innerText.replace('$',''));
-            if (!user) { alert("Username required!"); return; }
-            if (totalVal <= 0) return;
-
-            if (typeof sendPurchaseNotification === 'function') {
-                await sendPurchaseNotification(user, cart, totalVal);
-            }
-            
-            window.open(`https://cash.app/$${cfg.cashAppTag.replace('$','')}/${totalVal.toFixed(2)}`, '_blank');
-        };
-
         window.copyIP = (btn) => { 
-            navigator.clipboard.writeText(cfg.serverIP); 
+            navigator.clipboard.writeText(serverIP); 
             btn.innerText = "COPIED!"; 
             setTimeout(() => btn.innerText = "PLAY NOW", 2000); 
         };
 
+        // Initialize everything
+        setInterval(runCountdown, 1000);
+        setInterval(updateGlobalDisplay, 5000); // Sync clicks every 5s
+        setInterval(fetchServerStatus, 30000);
+        updateGlobalDisplay();
+        fetchServerStatus();
         updateCartUI();
-        if (new URLSearchParams(window.location.search).get('openCart') === 'true') {
-            toggleCart();
-        }
     </script>
 </body>
 </html>
