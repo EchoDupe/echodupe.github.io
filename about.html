@@ -11,7 +11,6 @@
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
         
-        /* Background Effects */
         .bg-grid {
             background-size: 50px 50px;
             background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px), 
@@ -24,7 +23,6 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* Heartbeat Animation */
         @keyframes heart-throb {
             0% { transform: scale(1); text-shadow: 0 0 0px rgba(6, 182, 212, 0); }
             15% { transform: scale(1.05); text-shadow: 0 0 20px rgba(6, 182, 212, 0.6); }
@@ -34,22 +32,16 @@
         }
         .motto-pulse { display: inline-block; animation: heart-throb 1.8s infinite; color: #06b6d4; }
 
-        /* Void Glitch Effect */
-        .glitch-text:hover {
-            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
-            color: #fff;
+        /* Seamless Infinite Marquee */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        @keyframes glitch {
-            0% { transform: translate(0); text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; }
-            25% { transform: translate(-2px, 2px); }
-            50% { transform: translate(2px, -2px); }
-            75% { transform: translate(-2px, -2px); }
-            100% { transform: translate(0); }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 6s linear infinite;
         }
-
-        /* Marquee Ticker */
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 30s linear infinite; }
 
         .info-card { 
             background: rgba(5, 5, 5, 0.6); 
@@ -62,20 +54,47 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
         .no-select { user-select: none; }
+
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #06b6d4;
+            color: #000;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
     </style>
 </head>
 <body>
+    <div id="toast">IP Copied to Clipboard!</div>
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
     <div class="fixed top-0 w-full bg-cyan-500/10 border-b border-cyan-500/20 py-2 overflow-hidden z-50 backdrop-blur-md">
-        <div class="flex whitespace-nowrap animate-marquee">
-            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">FOUNDED 2026</span>
-            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-white">SKITXOE FOUNDATION</span>
-            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">VOIDDUPES LEGACY</span>
-            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-white">GEAR IS INFINITE</span>
-            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">FOUNDED 2026</span>
-            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-white">SKITXOE FOUNDATION</span>
+        <div class="animate-marquee">
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">FOUNDED 2026</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">SKITXOE FOUNDATION</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">VOIDDUPES LEGACY</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">GEAR IS INFINITE</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">ESTABLISHED MCXXVI</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">FOUNDED 2026</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">SKITXOE FOUNDATION</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">VOIDDUPES LEGACY</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">GEAR IS INFINITE</span>
+            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">ESTABLISHED MCXXVI</span>
         </div>
     </div>
 
@@ -85,8 +104,8 @@
                 <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span>
                 <span class="text-[10px] font-black uppercase tracking-widest">Exit to Home</span>
             </a>
-            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2">
-                ECHO<span class="text-white">DOCS</span>
+            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 uppercase">
+                ECHO<span class="text-white">ABOUT</span>
             </h1>
             <div class="text-[10px] font-black text-zinc-700 tracking-[0.3em]">V2.0.4</div>
         </div>
@@ -107,15 +126,8 @@
                 <h3 class="text-zinc-600 font-black uppercase text-xs tracking-[0.5em] mb-4">The Evolution</h3>
                 <h4 class="text-5xl font-black uppercase italic mb-8 leading-tight">Born in the <span class="glitch-text text-cyan-500 cursor-help">Void</span>, Built for the Elite.</h4>
                 <div class="space-y-6 text-zinc-400 text-lg leading-relaxed">
-                    <p>
-                        EchoDupeLS was established in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span> as a response to the static state of survival multiplayer.
-                    </p>
-                    <p>
-                        Our story begins on the <span class="text-white font-bold">Minehut.gg</span> network, where we first gained notoriety as <span class="text-cyan-500 font-bold">VoidDupes</span>. We took the chaotic energy of a dupe economy and fused it with the brutal stakes of Lifesteal.
-                    </p>
-                    <p>
-                        The result is a server where you can lose everything in a heartbeat—or gain infinite power through strategy and combat.
-                    </p>
+                    <p>EchoDupeLS was established in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span>.</p>
+                    <p>Originally starting on <span class="text-white font-bold">Minehut</span> as <span class="text-cyan-500 font-bold">VoidDupes</span>, the network evolved into a high-stakes competitive environment.</p>
                 </div>
             </div>
             <div class="lg:col-span-5 grid grid-cols-2 gap-4">
@@ -134,62 +146,38 @@
             </div>
         </div>
 
-        <div class="mb-32">
-            <h3 class="text-center text-zinc-600 font-black uppercase text-xs tracking-[0.5em] mb-12">Network Ecosystem</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div class="info-card p-10 rounded-[40px]">
-                    <div class="text-3xl mb-4">♾️</div>
-                    <h5 class="text-xl font-black uppercase italic mb-4 text-white">Infinite Dupe</h5>
-                    <p class="text-zinc-500 text-sm leading-relaxed">A high-velocity economy where resources are meant to be used, lost, and gained at breakneck speeds.</p>
-                </div>
-                <div class="info-card p-10 rounded-[40px] border-b-4 border-b-cyan-500">
-                    <div class="text-3xl mb-4">💔</div>
-                    <h5 class="text-xl font-black uppercase italic mb-4 text-white">Lifesteal V2</h5>
-                    <p class="text-zinc-500 text-sm leading-relaxed">Dynamic heart-based combat. Each kill strengthens you; each failure costs you your humanity.</p>
-                </div>
-                <div class="info-card p-10 rounded-[40px]">
-                    <div class="text-3xl mb-4">⚡</div>
-                    <h5 class="text-xl font-black uppercase italic mb-4 text-white">Zero Latency</h5>
-                    <p class="text-zinc-500 text-sm leading-relaxed">Optimized Minehut integration ensuring smooth performance during the most intense wars.</p>
-                </div>
-            </div>
-        </div>
-
         <div class="info-card p-16 rounded-[50px] text-center bg-gradient-to-b from-cyan-500/5 to-transparent relative overflow-hidden">
             <div class="absolute inset-0 bg-grid opacity-20"></div>
             <h4 class="text-4xl font-black uppercase italic mb-8 relative z-10">Will you survive the <span class="text-cyan-500">Echo</span>?</h4>
             <div class="flex flex-wrap justify-center gap-6 relative z-10">
-                <a href="index.html" class="bg-cyan-600 hover:bg-cyan-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Play Now</a>
-                <a href="https://discord.gg/yourlink" class="bg-zinc-900 border border-zinc-700 hover:border-white text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Discord</a>
+                <button onclick="copyIP()" class="bg-cyan-600 hover:bg-cyan-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all cursor-pointer">Play Now</button>
+                <a href="https://discord.gg/yourlink" target="_blank" class="bg-zinc-900 border border-zinc-700 hover:border-white text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Discord</a>
             </div>
         </div>
     </main>
 
-    <footer id="main-footer" class="py-24 border-t border-cyan-500/10 mt-20 no-select bg-black/80">
+    <footer class="py-24 border-t border-cyan-500/10 mt-20 no-select bg-black/80">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            
-            <h2 class="text-xl font-black italic text-zinc-500 tracking-tighter mb-8">
-                ECHODUPE<span class="text-zinc-700">LS</span>
-            </h2>
-
-            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-500 mb-4">
-                &copy; 2026 <span class="text-white">EchoDupeLS Network</span>. All Rights Reserved.
-            </p>
-
+            <h2 class="text-xl font-black italic text-zinc-500 tracking-tighter mb-8">ECHODUPE<span class="text-zinc-700">LS</span></h2>
+            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-500 mb-4">&copy; 2026 <span class="text-white">EchoDupeLS Network</span>. All Rights Reserved.</p>
             <div class="max-w-3xl mx-auto mb-10">
-                <p class="text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-700 leading-relaxed">
-                    EchoDupeLS is in no way affiliated with, authorized, maintained, sponsored or endorsed by Mojang AB, Microsoft, or Minehut. 
-                    Minecraft is a copyright of Mojang AB. All trademarks are the property of their respective owners.
-                </p>
+                <p class="text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-700 leading-relaxed">EchoDupeLS is not affiliated with Mojang AB, Microsoft, or Minehut.</p>
             </div>
-
             <div class="pt-8 border-t border-zinc-900/30">
-                <p class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-600">
-                    Architected & Designed by <span class="text-cyan-500">Skitxoe</span>
-                </p>
+                <p class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-600">Architected & Designed by <span class="text-cyan-500">Skitxoe</span></p>
             </div>
-            
         </div>
     </footer>
+
+    <script>
+        function copyIP() {
+            const ip = "play.echodupels.minehut.gg";
+            navigator.clipboard.writeText(ip).then(() => {
+                const toast = document.getElementById("toast");
+                toast.className = "show";
+                setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+            });
+        }
+    </script>
 </body>
 </html>
