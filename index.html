@@ -45,18 +45,12 @@
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
-    <div class="fixed top-0 w-full z-50 bg-cyan-600 text-black py-1.5 px-4 text-center">
-        <p class="text-[10px] font-black uppercase tracking-[0.2em]">
-            Daily Clicks Reset In: <span id="reset-countdown">00:00:00</span> (EST)
-        </p>
-    </div>
-
-    <nav class="fixed top-8 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
+    <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
             <div class="flex items-center gap-4">
                 <div id="status-indicator" class="w-2.5 h-2.5 bg-zinc-500 rounded-full transition-all duration-500"></div>
                 <div class="hidden sm:block">
-                    <p class="text-[9px] font-black text-zinc-500 uppercase tracking-tighter leading-none mb-1">Network</p>
+                    <p class="text-[9px] font-black text-zinc-500 uppercase tracking-tighter leading-none mb-1">Network Status</p>
                     <p class="text-[11px] font-bold uppercase tracking-tight">
                         <span id="status-text" class="text-zinc-500">Connecting</span> 
                         <span class="text-zinc-700 mx-1">//</span> 
@@ -80,18 +74,22 @@
         </div>
     </nav>
 
-    <main class="pt-64 pb-24 text-center">
+    <main class="pt-56 pb-24 text-center">
+        <div class="mb-8 flex flex-col items-center">
+            <button onclick="pressGlobalButton()" class="group relative bg-zinc-950/80 backdrop-blur-md border border-cyan-500/30 px-10 py-5 rounded-2xl transition-all hover:scale-105 active:scale-95 hover:border-cyan-500 shadow-lg">
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-500 mb-1">Global Community Clicks</p>
+                <div class="text-4xl font-black italic text-white leading-none" id="global-click-count">0</div>
+                <div class="mt-3 pt-2 border-t border-white/10">
+                    <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-[0.2em]">
+                        Daily Reset In: <span id="reset-countdown" class="text-white">00:00:00</span>
+                    </p>
+                </div>
+            </button>
+        </div>
+
         <h2 class="text-6xl md:text-[100px] font-black uppercase tracking-tighter mb-8 leading-none">
             CRUSH THE <br><span class="text-cyan-500">COMPETITION</span>
         </h2>
-
-        <div class="mb-16">
-            <button onclick="pressGlobalButton()" class="group relative bg-zinc-950 border-2 border-cyan-500/20 px-12 py-6 rounded-3xl transition-all hover:scale-105 active:scale-95 hover:border-cyan-500 shadow-2xl shadow-cyan-500/5">
-                <span class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 group-hover:text-cyan-400 transition">Global Community Clicks</span>
-                <div class="mt-2 text-4xl font-black italic text-white" id="global-click-count">0</div>
-            </button>
-            <p class="text-[9px] font-bold text-zinc-600 uppercase tracking-[0.3em] mt-6">Clicks reset every 24hrs at 12AM EST</p>
-        </div>
 
         <div class="flex flex-wrap justify-center gap-5 mt-12 mb-32">
             <button onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})" class="bg-cyan-600 hover:bg-cyan-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Browse Shop</button>
@@ -111,19 +109,11 @@
                 <p class="text-zinc-500 mt-4 text-lg">Test your luck with legendary loot boxes.</p>
             </a>
         </section>
-
-        <section class="max-w-6xl mx-auto px-6 flex justify-center">
-            <a href="about.html" class="shop-card py-8 px-20 rounded-[35px] w-full md:w-auto text-center group border-dashed border-cyan-500/30">
-                <h3 class="text-3xl font-black uppercase italic group-hover:text-cyan-500 transition tracking-widest">
-                    Learn More <span class="text-cyan-500">About Us</span>
-                </h3>
-            </a>
-        </section>
     </main>
 
     <footer class="py-20 border-t border-cyan-500/10 mt-20 no-select">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-xl font-black italic text-cyan-500 tracking-tighter mb-6">ECHODUPE<span class="text-white">LS</span></h2>
+            <h2 class="text-xl font-black italic text-cyan-500 tracking-tighter mb-8 text-center uppercase">ECHODUPE<span class="text-white">LS</span></h2>
             <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">&copy; 2026 EchoDupeLS. All Rights Reserved.</p>
             <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Designed & Developed by <span class="text-cyan-500">Skitxoe</span></p>
         </div>
@@ -145,127 +135,6 @@
         </div>
     </div>
 
-    <script>
-        // --- GLOBAL COUNTER & COUNTDOWN LOGIC ---
-        function getESTInfo() {
-            const now = new Date();
-            const estDate = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'America/New_York',
-                year: 'numeric', month: '2-digit', day: '2-digit',
-                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-            }).formatToParts(now);
-
-            const d = {};
-            estDate.forEach(({type, value}) => d[type] = value);
-            
-            // Create the Daily Key (e.g., "echodupe_clicks_2023-10-27")
-            const dateKey = `${d.year}-${d.month}-${d.day}`;
-            
-            // Calculate time until midnight EST
-            const midnight = new Date(now);
-            const estNow = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-            midnight.setHours(24, 0, 0, 0); 
-            // This is a simplified calculation for the countdown display
-            const diff = midnight - estNow;
-            
-            return { dateKey, diff };
-        }
-
-        async function updateGlobalDisplay() {
-            const info = getESTInfo();
-            const display = document.getElementById('global-click-count');
-            try {
-                // Using CountAPI (Namespace: echodupe_network)
-                const res = await fetch(`https://api.countapi.xyz/get/echodupe_network/${info.dateKey}`);
-                const data = await res.json();
-                display.innerText = (data.value || 0).toLocaleString();
-            } catch (err) {
-                display.innerText = "0";
-            }
-        }
-
-        async function pressGlobalButton() {
-            const info = getESTInfo();
-            const display = document.getElementById('global-click-count');
-            try {
-                const res = await fetch(`https://api.countapi.xyz/hit/echodupe_network/${info.dateKey}`);
-                const data = await res.json();
-                display.innerText = (data.value || 0).toLocaleString();
-            } catch (err) { console.error("API Error"); }
-        }
-
-        function runCountdown() {
-            const info = getESTInfo();
-            const hours = Math.floor((info.diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((info.diff / 1000 / 60) % 60);
-            const secs = Math.floor((info.diff / 1000) % 60);
-            document.getElementById('reset-countdown').innerText = 
-                `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        }
-
-        // --- EXISTING SERVER LOGIC ---
-        const serverIP = "play.echodupels.minehut.gg";
-        
-        async function fetchServerStatus() {
-            const indicator = document.getElementById('status-indicator');
-            const statusText = document.getElementById('status-text');
-            const countDisplay = document.getElementById('player-count');
-            try {
-                const res = await fetch(`https://api.mcsrvstat.us/2/${serverIP}`);
-                const data = await res.json();
-                if (data.online) {
-                    indicator.className = "w-2.5 h-2.5 bg-cyan-500 rounded-full pulse";
-                    statusText.innerText = "Live";
-                    statusText.className = "text-cyan-500";
-                    countDisplay.innerText = data.players.online;
-                } else {
-                    indicator.className = "w-2.5 h-2.5 bg-red-500 rounded-full";
-                    statusText.innerText = "Offline";
-                    statusText.className = "text-red-500";
-                    countDisplay.innerText = "0";
-                }
-            } catch (err) { console.error("Status error"); }
-        }
-
-        // --- CART LOGIC ---
-        let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
-        window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
-        window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
-
-        function updateCartUI() {
-            const list = document.getElementById('cart-items');
-            const totalDisplay = document.getElementById('cart-total');
-            const countDisplay = document.getElementById('cart-count');
-            const itemIds = Object.keys(cart);
-            let total = 0; let qty = 0;
-            list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            itemIds.forEach(id => {
-                const item = cart[id];
-                total += (item.price * item.quantity); qty += item.quantity;
-                list.innerHTML += `
-                <div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between">
-                    <div><p class="font-black uppercase text-sm text-white">${item.name}</p><p class="text-cyan-500 text-[10px] font-black">QTY: ${item.quantity}</p></div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black">REMOVE</button>
-                </div>`;
-            });
-            totalDisplay.innerText = `$${total.toFixed(2)}`;
-            countDisplay.innerText = qty;
-            localStorage.setItem('echo_cart', JSON.stringify(cart));
-        }
-
-        window.copyIP = (btn) => { 
-            navigator.clipboard.writeText(serverIP); 
-            btn.innerText = "COPIED!"; 
-            setTimeout(() => btn.innerText = "PLAY NOW", 2000); 
-        };
-
-        // Initialize everything
-        setInterval(runCountdown, 1000);
-        setInterval(updateGlobalDisplay, 5000); // Sync clicks every 5s
-        setInterval(fetchServerStatus, 30000);
-        updateGlobalDisplay();
-        fetchServerStatus();
-        updateCartUI();
-    </script>
+    <script src="button.js"></script>
 </body>
 </html>
