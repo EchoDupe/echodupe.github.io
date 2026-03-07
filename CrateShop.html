@@ -23,20 +23,12 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* Heartbeat Animation */
-        @keyframes heart-throb {
-            0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(6, 182, 212, 0)); }
-            15% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.6)); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.12); filter: drop-shadow(0 0 25px rgba(6, 182, 212, 0.8)); }
-            100% { transform: scale(1); }
+        /* Animated Title Keyword ONLY */
+        @keyframes title-glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(6, 182, 212, 0.2); color: #06b6d4; }
+            50% { text-shadow: 0 0 30px rgba(6, 182, 212, 0.8); color: #fff; }
         }
-
-        .key-pulse { 
-            display: inline-block; 
-            animation: heart-throb 1.8s infinite;
-            color: #06b6d4;
-        }
+        .animate-word { animation: title-glow 3s infinite; }
 
         .crate-card { 
             background: rgba(5, 5, 5, 0.8); 
@@ -44,12 +36,12 @@
             border: 1px solid rgba(6, 182, 212, 0.1); 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
-            max-width: 320px;
+            max-width: 300px;
         }
         .crate-card:hover { 
             transform: translateY(-10px); 
             border-color: #06b6d4; 
-            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); 
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.15); 
         }
         
         .cart-active { transform: translateX(0) !important; }
@@ -67,7 +59,6 @@
             <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase">ECHODUPE<span class="text-white">LS</span></a>
             <div class="flex items-center gap-6">
                 <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-cyan-400 transition">← Hub</a>
-                <a href="staff.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Staff</a>
                 <button onclick="toggleCart()" class="relative group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
                 </button>
@@ -78,24 +69,13 @@
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
         <div class="text-center mb-24">
             <h1 class="text-7xl font-black italic uppercase tracking-tighter">
-                CRATE <span class="key-pulse">KEYS</span>
+                CRATE <span class="animate-word">KEYS</span>
             </h1>
         </div>
         
         <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
             </div>
     </main>
-
-    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
-        <div class="max-w-7xl mx-auto px-6">
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
-                &copy; 2026 EchoDupeLS. All Rights Reserved.
-            </p>
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-                Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
-            </p>
-        </div>
-    </footer>
 
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-500 border-l border-cyan-500/20 flex flex-col">
         <div class="flex justify-between items-center mb-12 text-white">
@@ -114,10 +94,10 @@
 
     <script type="module">
         const keyData = [
-            { id: 'key_rare', name: 'Rare Key', price: 1.50, description: 'Unlock the Rare Supply Crate' },
-            { id: 'key_epic', name: 'Epic Key', price: 3.00, description: 'Unlock the Epic Supply Crate' },
-            { id: 'key_mythic', name: 'Mythic Key', price: 5.50, description: 'Unlock the Mythic Supply Crate' },
-            { id: 'key_void', name: 'Void Key', price: 10.00, description: 'Unlock the Ultimate Void Crate' }
+            { id: 'key_echo', name: 'Echo Key', price: 4.00, color: '#06b6d4', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE ECHO CRATE' },
+            { id: 'key_warden', name: 'Warden Key', price: 3.00, color: '#1e40af', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE WARDEN CRATE' },
+            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, color: '#7dd3fc', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE SHRIEKER CRATE' },
+            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, color: '#0d9488', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE SCULK CRATE' }
         ];
 
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
@@ -127,14 +107,14 @@
             const card = document.createElement('div');
             card.className = "crate-card p-10 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
             card.innerHTML = `
-                <div class="key-pulse mb-8">
+                <div class="mb-8" style="color: ${item.color}; filter: drop-shadow(0 0 10px ${item.color}44)">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2"/>
                         <path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <h3 class="text-xl font-black uppercase italic text-white">${item.name}</h3>
-                <div class="text-3xl font-black text-cyan-500 mt-2 mb-6">$${item.price.toFixed(2)}</div>
+                <div class="text-3xl font-black mt-2 mb-6" style="color: ${item.color}">$${item.price.toFixed(2)}</div>
                 <p class="text-zinc-500 text-[10px] font-bold uppercase mb-8 leading-relaxed">${item.description}</p>
                 <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-600 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg shadow-cyan-500/20">Add to Cart</button>`;
             grid.appendChild(card);
@@ -174,7 +154,6 @@
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
         updateCartUI();
-        document.getElementById('main-footer').addEventListener('contextmenu', (e) => e.preventDefault());
     </script>
 </body>
 </html>
