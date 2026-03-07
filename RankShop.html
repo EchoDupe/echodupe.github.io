@@ -106,17 +106,14 @@
     </div>
 
     <script type="module">
-        // Precise Minecraft Prefix Parser
         function parsePrefix(raw) {
             let html = raw;
-            // 1. Convert Hex codes with Bold: &#123456&l -> <span style="color:#123456; font-weight:bold;">
+            // Handle hex colors with bold: &#123456&l -> span style
             html = html.replace(/&#([A-Fa-f0-9]{6})&l/g, '</span><span style="color:#$1; font-weight:900;">');
-            
-            // 2. Convert standard color codes with Bold: &8&l -> <span style="color:#555; font-weight:bold;">
+            // Handle standard &8&l grey bold
             html = html.replace(/&8&l/g, '</span><span style="color:#555555; font-weight:900;">');
-            
-            // 3. Clean up closing bracket specifically if needed
-            html = html.replace(/&8&l\]/g, '</span><span style="color:#555555; font-weight:900;">]</span>');
+            // Remove lingering bold tags
+            html = html.replace(/&l/g, '');
 
             return `<span>${html}</span>`;
         }
@@ -158,6 +155,7 @@
             
             const prefixHtml = item.prefixRaw ? `
                 <div class="mb-6">
+                    <p class="text-[8px] uppercase font-black text-zinc-500 tracking-widest mb-1 text-center">(NOT EXACT MATCH)</p>
                     <p class="text-[9px] uppercase font-bold text-zinc-600 tracking-widest mb-2 text-center">In-Game Preview</p>
                     <div class="mc-preview text-center">
                         ${parsePrefix(item.prefixRaw)} <span style="color: #fff">Player</span>
