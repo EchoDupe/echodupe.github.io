@@ -27,7 +27,7 @@
             border: 1px solid rgba(6, 182, 212, 0.1); 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             width: 100%; 
-            max-width: 350px;
+            max-width: 380px;
             display: flex;
             flex-direction: column;
         }
@@ -50,6 +50,16 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 14px;
             letter-spacing: 0.5px;
+        }
+
+        .perk-category {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            color: #06b6d4;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -120,12 +130,13 @@
                 name: 'Sensor',
                 price: 3.00,
                 prefixRaw: '&8&l[&#FFFFFF&lS&#DFDFDF&lE&#B0B0B0&lN&#818181&lS&#525252&lO&#2D2D2D&lR&8&l]',
-                perks: [
-                    'Exclusive Sensor Prefix',
-                    '3 Homes: Set up to 3 teleport locations.',
-                    'Fly in Spawn Access',
-                    'SENSOR KIT: FULL NETHERITE (P5|U3|Mending)',
-                    '3-Hour Kit Cooldown'
+                global: ['Exclusive Sensor Prefix', '3 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
+                armor: 'Full Netherite (P5|U3|Mend)',
+                trim: 'SENSOR | QUARTZ',
+                weapons: [
+                    'Sword (S5|U3|Mending)',
+                    'Axe (S5|U4|E3|Mending)',
+                    'Pickaxe (E5|U3|Mending)'
                 ]
             },
             {
@@ -133,12 +144,13 @@
                 name: 'Stalker',
                 price: 4.00,
                 prefixRaw: '&8&l[&#00FF88&lS&#00D572&lT&#00AB5C&lA&#008046&lL&#005531&lK&#003322&lE&#00110B&lR&8&l]',
-                perks: [
-                    'Exclusive Stalker Prefix',
-                    '4 Homes: Set up to 4 teleport locations.',
-                    'STALKER KIT: FULL NETHERITE (P5|U4|Mending)',
-                    'Fly in Spawn Access',
-                    '3-Hour Kit Cooldown'
+                global: ['Exclusive Stalker Prefix', '4 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
+                armor: 'Full Netherite (P5|U4|Mend)',
+                trim: 'SILENCE | EMERALD',
+                weapons: [
+                    'Sword (S5|U4|Mending)',
+                    'Axe (S5|U4|E6|Mending)',
+                    'Pickaxe (E5|U4|Mending)'
                 ]
             },
             {
@@ -146,12 +158,13 @@
                 name: 'Warden',
                 price: 5.00,
                 prefixRaw: '&8&l[&#55FFFF&lW&#3BEDED&lA&#22DBDB&lR&#08C9C9&lD&#008E8E&lE&#001A33&lN&8&l]',
-                perks: [
-                    'Exclusive Warden Prefix',
-                    '5 Homes Set-locations',
-                    'Fly in Spawn Access',
-                    'WARDEN KIT: FULL NETHERITE (P6|U4|Mending)',
-                    '3-Hour Kit Cooldown'
+                global: ['Exclusive Warden Prefix', '5 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
+                armor: 'Full Netherite (P6|U4|Mend)',
+                trim: 'WARD | DIAMOND',
+                weapons: [
+                    'Sword (S6|U4|Mending)',
+                    'Axe (S6|U4|E6|Mending)',
+                    'Pickaxe (E6|U4|Mending)'
                 ]
             }
         ];
@@ -161,12 +174,11 @@
         
         rankData.forEach(item => {
             const card = document.createElement('div');
-            card.className = "rank-card p-12 rounded-[45px]";
+            card.className = "rank-card p-10 rounded-[45px]";
             
             const prefixHtml = item.prefixRaw ? `
                 <div class="mb-6">
-                    <p class="text-[8px] uppercase font-black text-zinc-500 tracking-widest mb-1 text-center">(NOT EXACT MATCH)</p>
-                    <p class="text-[9px] uppercase font-bold text-zinc-600 tracking-widest mb-2 text-center">In-Game Preview</p>
+                    <p class="text-[8px] uppercase font-bold text-zinc-600 tracking-widest mb-2 text-center">In-Game Preview</p>
                     <div class="mc-preview text-center">
                         ${parsePrefix(item.prefixRaw)} <span style="color: #fff">Player</span>
                     </div>
@@ -174,20 +186,41 @@
             ` : '';
 
             card.innerHTML = `
-                <div class="mb-8">
+                <div class="mb-6">
                     <h3 class="text-2xl font-black uppercase italic text-white">${item.name}</h3>
-                    <div class="text-5xl font-black text-cyan-500 mt-3">$${item.price.toFixed(2)}</div>
+                    <div class="text-5xl font-black text-cyan-500 mt-2">$${item.price.toFixed(2)}</div>
                 </div>
+                
                 ${prefixHtml}
-                <div class="flex-grow space-y-4 mb-12">
-                    ${item.perks.map(p => `
-                        <div class="flex items-center gap-3">
-                            <span class="w-1.5 h-1.5 bg-cyan-500 rounded-full"></span>
-                            <p class="text-zinc-400 text-[11px] font-black uppercase tracking-wider">${p}</p>
-                        </div>
-                    `).join('')}
+
+                <div class="flex-grow">
+                    <div class="perk-category">Global Access</div>
+                    <div class="space-y-2 mb-4">
+                        ${item.global.map(p => `
+                            <div class="flex items-center gap-3">
+                                <span class="w-1 h-1 bg-cyan-500 rounded-full"></span>
+                                <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-wider">${p}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="perk-category">Kit Armor</div>
+                    <div class="bg-zinc-900/40 p-3 rounded-xl border border-white/5 mb-4">
+                        <p class="text-white text-[10px] font-black uppercase mb-1">${item.armor}</p>
+                        <p class="text-cyan-500 text-[9px] font-bold uppercase tracking-tighter">TRIM: ${item.trim}</p>
+                    </div>
+
+                    <div class="perk-category">Kit Weapons</div>
+                    <div class="space-y-1.5 mb-8">
+                        ${item.weapons.map(w => `
+                            <div class="flex items-center gap-3 bg-white/5 p-2 rounded-lg">
+                                <p class="text-zinc-300 text-[9px] font-bold uppercase tracking-wider">${w}</p>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-500 text-black py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Add To Cart</button>
+
+                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-500 text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Add To Cart</button>
             `;
             grid.appendChild(card);
         });
