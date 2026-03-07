@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
         .bg-grid {
             background-size: 50px 50px;
             background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
@@ -21,6 +22,20 @@
             background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
             z-index: -1; pointer-events: none;
         }
+
+        /* Heartbeat Animation */
+        @keyframes heart-throb {
+            0% { transform: scale(1); text-shadow: 0 0 0px rgba(6, 182, 212, 0); }
+            15% { transform: scale(1.02); text-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.04); text-shadow: 0 0 30px rgba(6, 182, 212, 0.6); }
+            100% { transform: scale(1); }
+        }
+        .rank-pulse { 
+            display: inline-block; 
+            animation: heart-throb 1.8s infinite; 
+        }
+
         .rank-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
@@ -33,14 +48,10 @@
         }
         .rank-card:hover { transform: translateY(-12px); border-color: #06b6d4; box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); }
         .cart-active { transform: translateX(0) !important; }
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
-
-        .no-select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
+        .no-select { user-select: none; }
 
         .mc-preview {
             background: rgba(0, 0, 0, 0.6);
@@ -82,8 +93,9 @@
 
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
         <div class="text-center mb-16">
-            <p class="text-cyan-500 font-black uppercase tracking-[0.5em] text-[10px] mb-4">Department 01</p>
-            <h1 class="text-7xl font-black italic uppercase tracking-tighter">GLOBAL <span class="text-cyan-500">RANKS</span></h1>
+            <h1 class="text-7xl font-black italic uppercase tracking-tighter rank-pulse">
+                GLOBAL <span class="text-cyan-500">RANKS</span>
+            </h1>
         </div>
 
         <div class="max-w-4xl mx-auto mb-16">
@@ -157,7 +169,7 @@
                 name: 'Sensor',
                 price: 3.00,
                 prefixRaw: '&8&l[&#FFFFFF&lS&#DFDFDF&lE&#B0B0B0&lN&#818181&lS&#525252&lO&#2D2D2D&lR&8&l]',
-                global: ['Exclusive Sensor Prefix', '3 Homes Access', 'Fly in Spawn', '3-Hour Kit Cooldown'],
+                global: ['Exclusive Sensor Prefix', '3 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
                 armor: 'Netherite Gear (P5|U3|M)',
                 trim: 'SENSOR | QUARTZ',
                 weapons: [
@@ -171,7 +183,7 @@
                 name: 'Stalker',
                 price: 4.00,
                 prefixRaw: '&8&l[&#00FF88&lS&#00D572&lT&#00AB5C&lA&#008046&lL&#005531&lK&#003322&lE&#00110B&lR&8&l]',
-                global: ['Exclusive Stalker Prefix', '4 Homes Access', 'Fly in Spawn', '3-Hour Kit Cooldown'],
+                global: ['Exclusive Stalker Prefix', '4 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
                 armor: 'Netherite Gear (P5|U4|M)',
                 trim: 'SILENCE | EMERALD',
                 weapons: [
@@ -185,7 +197,7 @@
                 name: 'Warden',
                 price: 5.00,
                 prefixRaw: '&8&l[&#55FFFF&lW&#3BEDED&lA&#22DBDB&lR&#08C9C9&lD&#008E8E&lE&#001A33&lN&8&l]',
-                global: ['Exclusive Warden Prefix', '5 Homes Access', 'Fly in Spawn', '3-Hour Kit Cooldown'],
+                global: ['Exclusive Warden Prefix', '5 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
                 armor: 'Netherite Gear (P6|U4|M)',
                 trim: 'WARD | DIAMOND',
                 weapons: [
