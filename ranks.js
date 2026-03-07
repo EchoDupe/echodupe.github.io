@@ -5,18 +5,23 @@ const rankData = [
         price: 4.00,
         prefixRaw: '&8&l[&#00FF88&lS&#00D572&lT&#00AB5C&lA&#008046&lL&#005531&lK&#003322&lE&#00110B&lR&8&l]',
         perks: [
+            'Exclusive Stalker Prefix',
             '4 Homes: Set up to 4 teleport locations.',
-            'Stalker Kit: Mid-tier gear featuring Full Diamond Armor.',
-            'Access to /Nick: Change your display name or color in chat.',
-            'Access to /Hat: Wear any block in the game as your helmet.',
-            'Exclusive Prefix'
+            'Stalker Kit: Full Diamond Armor (P5/U4).',
+            'Fly in Spawn Access',
+            '3-Hour Kit Cooldown'
         ]
     },
     {
         id: 'rank_vanguard',
         name: 'Vanguard',
         price: 10.00,
-        perks: ['Vanguard Tag', 'Access to /fly', '2x Home Limit', 'Priority Queue']
+        perks: [
+            'Vanguard Tag', 
+            'Access to /fly', 
+            '2x Home Limit', 
+            'Priority Queue'
+        ]
     },
     {
         id: 'rank_warden',
