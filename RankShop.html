@@ -108,28 +108,31 @@
     <script type="module">
         function parsePrefix(raw) {
             let html = raw;
-            // Handle hex colors with bold: &#123456&l -> span style
             html = html.replace(/&#([A-Fa-f0-9]{6})&l/g, '</span><span style="color:#$1; font-weight:900;">');
-            // Handle standard &8&l grey bold
             html = html.replace(/&8&l/g, '</span><span style="color:#555555; font-weight:900;">');
-            // Remove lingering bold tags
             html = html.replace(/&l/g, '');
-
             return `<span>${html}</span>`;
         }
 
         const rankData = [
             {
+                id: 'rank_stalker',
+                name: 'Stalker',
+                price: 4.00,
+                prefixRaw: '&8&l[&#00FF88&lS&#00D572&lT&#00AB5C&lA&#008046&lL&#005531&lK&#003322&lE&#00110B&lR&8&l]',
+                perks: [
+                    'Exclusive Stalker Prefix',
+                    '4 Homes: Set-locations',
+                    'Stalker Kit: Full Diamond (P5/U4)',
+                    'Fly in Spawn Access',
+                    '3-Hour Kit Cooldown'
+                ]
+            },
+            {
                 id: 'rank_vanguard',
                 name: 'Vanguard',
                 price: 10.00,
                 perks: ['Vanguard Tag', 'Access to /fly', '2x Home Limit', 'Priority Queue']
-            },
-            {
-                id: 'rank_elite',
-                name: 'Elite',
-                price: 25.00,
-                perks: ['Elite Tag', 'Access to /feed', '5x Home Limit', 'Colored Chat']
             },
             {
                 id: 'rank_warden',
