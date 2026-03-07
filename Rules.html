@@ -33,10 +33,11 @@
             display: flex;
             align-items: flex-start;
             gap: 1rem;
-            padding: 0.85rem 0;
+            padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         .rule-item:last-child { border-bottom: none; }
+        .no-select { user-select: none; }
     </style>
 </head>
 <body>
@@ -45,12 +46,12 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Back to Hub</a>
+            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Return to Hub</a>
             <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase absolute left-1/2 -translate-x-1/2">
-                ECHODUPE <span class="text-white">LAWS</span>
+                Network <span class="text-white">Statutes</span>
             </h1>
             <button onclick="window.open('https://discord.gg/yourlink', '_blank')" class="bg-cyan-500 hover:bg-white text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all">
-                Join Discord
+                Support Discord
             </button>
         </div>
     </nav>
@@ -61,49 +62,68 @@
             <div class="flex items-center gap-6 mb-8">
                 <img src="assets/minecraft.png" alt="Minecraft" class="w-14 h-14 object-contain">
                 <div>
-                    <h2 class="text-4xl font-black uppercase italic tracking-tighter">In-Game <span class="text-cyan-500">Protocol</span></h2>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Minecraft Server Rules</p>
+                    <h2 class="text-4xl font-black uppercase italic tracking-tighter">In-Game <span class="text-cyan-500">Directives</span></h2>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Global Gameplay Restrictions</p>
                 </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Hacking</b><p class="text-zinc-400 text-xs mt-1">Hacked clients, X-ray, or unfair mods result in a permanent ban.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Spawn Griefing</b><p class="text-zinc-400 text-xs mt-1">Do not break blocks or ruin the community spawn area.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Spawn Killing</b><p class="text-zinc-400 text-xs mt-1">Do not kill players at spawn or their set home/bed locations.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Alt-Account Killing</b><p class="text-zinc-400 text-xs mt-1">Do not use secondary accounts to farm kills or stats.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Slurs</b><p class="text-zinc-400 text-xs mt-1">Zero tolerance for racial, homophobic, or hateful slurs.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Combat Logging</b><p class="text-zinc-400 text-xs mt-1">Do not disconnect during a fight to save your items.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Lag Machines</b><p class="text-zinc-400 text-xs mt-1">No redstone clocks or entity pits designed to slow the server.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Exploiting</b><p class="text-zinc-400 text-xs mt-1">Do not use dupe glitches or game-breaking bugs.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Ban Evasion</b><p class="text-zinc-400 text-xs mt-1">Do not use alt accounts to bypass a ban.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Respect Staff</b><p class="text-zinc-400 text-xs mt-1">Follow moderator instructions immediately.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Integrity & Fair Play</b><p class="text-zinc-400 text-xs mt-1">Utilization of hacked clients, X-ray packs, or prohibited modifications will result in a permanent suspension.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Spawn Jurisdiction</b><p class="text-zinc-400 text-xs mt-1">Destruction of infrastructure or liquid placement within the community spawn perimeter is strictly forbidden.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Engagement Ethics</b><p class="text-zinc-400 text-xs mt-1">Targeting players at world spawn or designated respawn points (Beds/Homes) is prohibited.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Stat Manipulation</b><p class="text-zinc-400 text-xs mt-1">The use of secondary accounts to artificially inflate kill counts or network statistics is disallowed.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Communication Standards</b><p class="text-zinc-400 text-xs mt-1">Zero tolerance for racial, homophobic, or derogatory slurs within public or private channels.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Combat Continuity</b><p class="text-zinc-400 text-xs mt-1">Disconnecting during active engagement to circumvent item loss (Combat Logging) is an enforceable offense.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Technical Stability</b><p class="text-zinc-400 text-xs mt-1">Construction of redstone clocks or entity-dense structures designed to degrade server performance is prohibited.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Exploitation Policy</b><p class="text-zinc-400 text-xs mt-1">intentional use of game-breaking bugs or unauthorized duplication glitches is strictly forbidden.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Sanction Evasion</b><p class="text-zinc-400 text-xs mt-1">Attempting to bypass active bans via alternative accounts will result in a permanent network blacklisting.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Staff Authority</b><p class="text-zinc-400 text-xs mt-1">Official directives issued by the Administrative team must be followed without exception.</p></div></div>
             </div>
+            
+            <p class="mt-8 pt-6 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-red-500/80 italic">
+                Notice: Failure to comply with these statutes will result in immediate disciplinary action, including permanent account suspension.
+            </p>
         </div>
 
         <div class="rules-section">
             <div class="flex items-center gap-6 mb-8">
                 <img src="assets/discordlogo.png" alt="Discord" class="w-14 h-14 object-contain">
                 <div>
-                    <h2 class="text-4xl font-black uppercase italic tracking-tighter">Discord <span class="text-cyan-500">Conduct</span></h2>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Community Server Rules</p>
+                    <h2 class="text-4xl font-black uppercase italic tracking-tighter">Community <span class="text-cyan-500">Conduct</span></h2>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Digital Communication Guidelines</p>
                 </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Slurs or Hate Speech</b><p class="text-zinc-400 text-xs mt-1">Harassment results in an immediate and permanent ban.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Doxxing</b><p class="text-zinc-400 text-xs mt-1">Sharing real-life info is strictly prohibited.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Excessive Spam</b><p class="text-zinc-400 text-xs mt-1">No flooding channels with messages, emojis, or walls of text.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Keep it Organized</b><p class="text-zinc-400 text-xs mt-1">Use the correct channels for their intended purpose.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Unauthorized Ads</b><p class="text-zinc-400 text-xs mt-1">Do not DM members or post links to other servers.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">SFW Content Only</b><p class="text-zinc-400 text-xs mt-1">No NSFW images, links, or suggestive profiles.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Malicious Links</b><p class="text-zinc-400 text-xs mt-1">No IP loggers, grabbers, or suspicious files.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">No Ghost Pinging</b><p class="text-zinc-400 text-xs mt-1">Do not ping users and then delete the message.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Respect Privacy</b><p class="text-zinc-400 text-xs mt-1">No recording voice chats or sharing private DMs.</p></div></div>
-                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Account Security</b><p class="text-zinc-400 text-xs mt-1">You are responsible for your account at all times.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Harassment Policy</b><p class="text-zinc-400 text-xs mt-1">Any form of hate speech or targeted harassment will result in an immediate and final removal.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Privacy Protection</b><p class="text-zinc-400 text-xs mt-1">The distribution or threat of sharing PII (Personally Identifiable Information) is strictly prohibited.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Channel Discipline</b><p class="text-zinc-400 text-xs mt-1">Avoid excessive spamming, emoji flooding, or repetitive messaging within community channels.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Content Organization</b><p class="text-zinc-400 text-xs mt-1">Ensure all media and dialogue are localized to their designated thematic channels.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Solicitation Policy</b><p class="text-zinc-400 text-xs mt-1">Unauthorized advertising via DMs or public links is prohibited without prior Admin approval.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Media Standards</b><p class="text-zinc-400 text-xs mt-1">Only SFW content is permitted. This includes avatars, nicknames, and shared media.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Cyber Security</b><p class="text-zinc-400 text-xs mt-1">Distribution of malicious software, IP loggers, or suspicious URLs is a blacklisting offense.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Engagement Protocol</b><p class="text-zinc-400 text-xs mt-1">Ghost pinging (tagging and deleting) is considered disruptive behavior and is subject to mute.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Confidentiality</b><p class="text-zinc-400 text-xs mt-1">Unauthorized recording of voice channels or leaking private correspondences is forbidden.</p></div></div>
+                <div class="rule-item"><div><b class="text-white block text-sm uppercase italic">Account Liability</b><p class="text-zinc-400 text-xs mt-1">Users are solely responsible for all actions taken on their account. Negligence is not an excuse.</p></div></div>
             </div>
+
+            <p class="mt-8 pt-6 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-red-500/80 italic">
+                Notice: Violations of this conduct agreement may lead to permanent removal from the Discord network.
+            </p>
         </div>
 
     </main>
+
+    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 no-select">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
+                &copy; 2026 EchoDupeLS. All Rights Reserved.
+            </p>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
+                Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
+            </p>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
