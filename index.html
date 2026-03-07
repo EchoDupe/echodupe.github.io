@@ -29,15 +29,17 @@
         }
         .shop-card:hover { border-color: #06b6d4; box-shadow: 0 0 40px rgba(6, 182, 212, 0.2); transform: translateY(-8px); }
         .cart-active { transform: translateX(0) !important; }
-        .pulse { animation: pulse-animation 2.2s infinite; }
+        
+        /* Dynamic Status Pulse */
+        .pulse { animation: pulse-animation 2s infinite; }
         @keyframes pulse-animation {
             0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
             100% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
         }
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
 
-        /* Prevents users from highlighting your footer text */
         .no-select {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -53,10 +55,14 @@
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
             <div class="flex items-center gap-4">
-                <div class="w-2.5 h-2.5 bg-cyan-500 rounded-full pulse"></div>
+                <div id="status-indicator" class="w-2.5 h-2.5 bg-zinc-500 rounded-full transition-all duration-500"></div>
                 <div class="hidden sm:block">
-                    <p class="text-[10px] font-black text-zinc-500 uppercase tracking-tighter">Status</p>
-                    <p class="text-xs font-bold uppercase"><span id="player-count">0</span> Online</p>
+                    <p class="text-[9px] font-black text-zinc-500 uppercase tracking-tighter leading-none mb-1">Network</p>
+                    <p class="text-[11px] font-bold uppercase tracking-tight">
+                        <span id="status-text" class="text-zinc-500">Connecting</span> 
+                        <span class="text-zinc-700 mx-1">//</span> 
+                        <span id="player-count" class="text-white">0</span> <span class="text-zinc-500 text-[9px]">Online</span>
+                    </p>
                 </div>
             </div>
 
@@ -115,7 +121,7 @@
             <h3 class="text-3xl font-black uppercase italic tracking-tighter">Your <span class="text-cyan-500">Cart</span></h3>
             <button onclick="toggleCart()" class="text-3xl">&times;</button>
         </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8"></div>
+        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8 pr-2"></div>
         <div class="border-t border-cyan-500/10 pt-10 space-y-8">
             <input type="text" id="mc-username" placeholder="Minecraft Username" class="w-full bg-zinc-900 border border-cyan-500/10 rounded-2xl p-5 text-white focus:outline-none focus:border-cyan-500">
             <div class="flex justify-between items-end">
@@ -131,20 +137,41 @@
         import { sendPurchaseNotification } from './webhook.js';
         
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
-        document.getElementById('ip-display').innerText = config.serverIP;
+        document.getElementById('ip-display').innerText = config.serverIP || "play.echodupels.minehut.gg";
 
-        // Anti-Right-Click for Footer
+        // --- REAL SERVER STATUS LOGIC ---
+        async function fetchServerStatus() {
+            const indicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+            const countDisplay = document.getElementById('player-count');
+            const ip = config.serverIP || "play.echodupels.minehut.gg";
+
+            try {
+                const response = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
+                const data = await response.json();
+
+                if (data.online) {
+                    indicator.className = "w-2.5 h-2.5 bg-cyan-500 rounded-full pulse";
+                    statusText.innerText = "Live";
+                    statusText.className = "text-cyan-500";
+                    countDisplay.innerText = data.players.online;
+                } else {
+                    indicator.className = "w-2.5 h-2.5 bg-red-500 rounded-full";
+                    statusText.innerText = "Offline";
+                    statusText.className = "text-red-500";
+                    countDisplay.innerText = "0";
+                }
+            } catch (err) {
+                console.error("Status fetch failed.");
+            }
+        }
+
+        fetchServerStatus();
+        setInterval(fetchServerStatus, 30000); // Update every 30s
+
+        // --- CART LOGIC ---
         const footer = document.getElementById('main-footer');
         footer.addEventListener('contextmenu', (e) => e.preventDefault());
-
-        function updatePlayerCount() {
-            const base = config.status.initialPlayers || 0;
-            const fluctuation = config.status.mockFluctuation ? Math.floor(Math.random() * 3) : 0;
-            const display = document.getElementById('player-count');
-            if(display) display.innerText = base + fluctuation;
-        }
-        updatePlayerCount();
-        setInterval(updatePlayerCount, 60000);
 
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
@@ -183,10 +210,15 @@
 
         updateCartUI();
         window.copyIP = (btn) => { 
-            navigator.clipboard.writeText(config.serverIP); 
+            navigator.clipboard.writeText(config.serverIP || "play.echodupels.minehut.gg"); 
             btn.innerText = "COPIED!"; 
             setTimeout(() => btn.innerText = "PLAY NOW", 2000); 
         };
+
+        // Auto-open cart if redirected from Rank/Crate shop
+        if (new URLSearchParams(window.location.search).get('openCart') === 'true') {
+            toggleCart();
+        }
     </script>
 </body>
 </html>
