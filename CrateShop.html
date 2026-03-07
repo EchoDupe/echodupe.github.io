@@ -21,9 +21,9 @@
         /* Heartbeat Animation - EXCLUSIVELY for the word "KEYS" */
         @keyframes title-heartbeat {
             0% { transform: scale(1); text-shadow: 0 0 10px rgba(6, 182, 212, 0.3); }
-            15% { transform: scale(1.1); text-shadow: 0 0 30px rgba(6, 182, 212, 0.8); }
+            15% { transform: scale(1.08); text-shadow: 0 0 30px rgba(6, 182, 212, 0.8); }
             30% { transform: scale(1); }
-            45% { transform: scale(1.15); text-shadow: 0 0 40px rgba(6, 182, 212, 1); }
+            45% { transform: scale(1.1); text-shadow: 0 0 40px rgba(6, 182, 212, 1); }
             100% { transform: scale(1); }
         }
         .animate-word { 
@@ -33,12 +33,17 @@
         }
 
         .crate-card { 
-            background: linear-gradient(180deg, rgba(15,15,15,0.8) 0%, rgba(5,5,5,0.9) 100%);
+            background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(6, 182, 212, 0.1); 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
             max-width: 280px;
+        }
+        .crate-card:hover { 
+            transform: translateY(-10px); 
+            border-color: #06b6d4;
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.1);
         }
         
         .cart-active { transform: translateX(0) !important; }
@@ -83,17 +88,16 @@
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg shadow-cyan-500/10">Proceed to Checkout</button>
+            <button class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
         </div>
     </div>
 
     <script type="module">
-        // Cheap -> Expensive | High Visual Distinction
         const keyData = [
-            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, color: '#10b981', description: 'UNLOCK THE SCULK SUPPLY CRATE' },
-            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, color: '#bae6fd', description: 'UNLOCK THE SHRIEKER SUPPLY CRATE' },
-            { id: 'key_warden', name: 'Warden Key', price: 3.00, color: '#2563eb', description: 'UNLOCK THE WARDEN SUPPLY CRATE' },
-            { id: 'key_echo', name: 'Echo Key', price: 4.00, color: '#22d3ee', description: 'UNLOCK THE ELITE ECHO CRATE' }
+            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, iconColor: '#10b981', description: 'UNLOCK THE SCULK SUPPLY CRATE' },
+            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', description: 'UNLOCK THE SHRIEKER SUPPLY CRATE' },
+            { id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', description: 'UNLOCK THE WARDEN SUPPLY CRATE' },
+            { id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', description: 'UNLOCK THE ELITE ECHO CRATE' }
         ];
 
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
@@ -103,29 +107,17 @@
             const card = document.createElement('div');
             card.className = "crate-card p-10 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
             
-            // Hover logic for distinct glow
-            card.onmouseover = () => { 
-                card.style.borderColor = item.color; 
-                card.style.boxShadow = `0 10px 40px ${item.color}22`;
-                card.style.transform = "translateY(-10px)";
-            };
-            card.onmouseout = () => { 
-                card.style.borderColor = 'rgba(255,255,255,0.03)'; 
-                card.style.boxShadow = 'none'; 
-                card.style.transform = "translateY(0)";
-            };
-
             card.innerHTML = `
-                <div class="mb-8" style="color: ${item.color}; filter: drop-shadow(0 0 15px ${item.color}88)">
+                <div class="mb-8" style="color: ${item.iconColor}; filter: drop-shadow(0 0 12px ${item.iconColor}aa)">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2.5"/>
                         <path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <h3 class="text-xl font-black uppercase italic text-white tracking-tight">${item.name}</h3>
-                <div class="text-4xl font-black mt-2 mb-6" style="color: ${item.color}">$${item.price.toFixed(2)}</div>
+                <div class="text-4xl font-black mt-2 mb-6 text-cyan-500">$${item.price.toFixed(2)}</div>
                 <p class="text-zinc-500 text-[9px] font-bold uppercase mb-8 tracking-widest leading-relaxed">${item.description}</p>
-                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full py-4 rounded-xl font-black uppercase transition-all shadow-lg" style="background-color: ${item.color}; color: #000;">Add to Cart</button>`;
+                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-600 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg shadow-cyan-500/20">Add to Cart</button>`;
             grid.appendChild(card);
         });
 
