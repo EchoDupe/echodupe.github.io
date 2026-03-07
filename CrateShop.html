@@ -23,25 +23,31 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* Animated Title Keyword ONLY */
-        @keyframes title-glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(6, 182, 212, 0.2); color: #06b6d4; }
-            50% { text-shadow: 0 0 30px rgba(6, 182, 212, 0.8); color: #fff; }
+        /* Heartbeat Animation - ONLY for the Title Word */
+        @keyframes title-heartbeat {
+            0% { transform: scale(1); text-shadow: 0 0 10px rgba(6, 182, 212, 0.2); }
+            14% { transform: scale(1.05); text-shadow: 0 0 25px rgba(6, 182, 212, 0.6); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.05); text-shadow: 0 0 25px rgba(6, 182, 212, 0.6); }
+            70% { transform: scale(1); }
         }
-        .animate-word { animation: title-glow 3s infinite; }
+        .animate-word { 
+            display: inline-block;
+            animation: title-heartbeat 2s infinite; 
+            color: #06b6d4;
+        }
 
         .crate-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
-            border: 1px solid rgba(6, 182, 212, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
         }
         .crate-card:hover { 
             transform: translateY(-10px); 
-            border-color: #06b6d4; 
-            box-shadow: 0 0 40px rgba(6, 182, 212, 0.15); 
+            background: rgba(10, 10, 10, 0.9);
         }
         
         .cart-active { transform: translateX(0) !important; }
@@ -73,7 +79,7 @@
             </h1>
         </div>
         
-        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
             </div>
     </main>
 
@@ -94,10 +100,10 @@
 
     <script type="module">
         const keyData = [
-            { id: 'key_echo', name: 'Echo Key', price: 4.00, color: '#06b6d4', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE ECHO CRATE' },
-            { id: 'key_warden', name: 'Warden Key', price: 3.00, color: '#1e40af', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE WARDEN CRATE' },
+            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, color: '#0d9488', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE SCULK CRATE' },
             { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, color: '#7dd3fc', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE SHRIEKER CRATE' },
-            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, color: '#0d9488', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE SCULK CRATE' }
+            { id: 'key_warden', name: 'Warden Key', price: 3.00, color: '#1e40af', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE WARDEN CRATE' },
+            { id: 'key_echo', name: 'Echo Key', price: 4.00, color: '#06b6d4', description: 'BE ABLE TO UNLOCK THE ABILITY TO OPEN THE ECHO CRATE' }
         ];
 
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
@@ -106,8 +112,19 @@
         keyData.forEach(item => {
             const card = document.createElement('div');
             card.className = "crate-card p-10 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
+            
+            // Interaction: Unique Hover Glow
+            card.onmouseover = () => { 
+                card.style.borderColor = item.color; 
+                card.style.boxShadow = `0 0 40px ${item.color}33`; 
+            };
+            card.onmouseout = () => { 
+                card.style.borderColor = 'rgba(255,255,255,0.05)'; 
+                card.style.boxShadow = 'none'; 
+            };
+
             card.innerHTML = `
-                <div class="mb-8" style="color: ${item.color}; filter: drop-shadow(0 0 10px ${item.color}44)">
+                <div class="mb-8" style="color: ${item.color}; filter: drop-shadow(0 0 10px ${item.color}66)">
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2"/>
                         <path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
