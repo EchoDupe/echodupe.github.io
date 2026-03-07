@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoDupe | Rules</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.07) 1px, transparent 1px);
+            position: fixed; inset: 0; z-index: -1;
+        }
+        .bg-glow {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
+        }
+        .rule-card {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            transition: all 0.3s ease;
+        }
+        .rule-card:hover {
+            border-color: #06b6d4;
+            transform: scale(1.02);
+            background: rgba(6, 182, 212, 0.03);
+        }
+        .no-select { user-select: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
+            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Back</a>
+            
+            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase absolute left-1/2 -translate-x-1/2">
+                Protocol <span class="text-white">Rules</span>
+            </h1>
+
+            <button onclick="window.open('https://discord.gg/yourlink', '_blank')" class="bg-cyan-500 hover:bg-white text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all">
+                Support Discord
+            </button>
+        </div>
+    </nav>
+
+    <main class="pt-40 pb-20 px-6 max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-6xl font-black uppercase tracking-tighter mb-4">Server <span class="text-cyan-500">Conduct</span></h2>
+            <p class="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.4em]">Ignorance of rules is not an excuse for a ban.</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
+                <span class="text-cyan-500 font-black text-2xl italic">01</span>
+                <div>
+                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Fair Play & Cheating</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">The use of hacked clients, unfair scripts, or automated macros that provide a competitive advantage is strictly prohibited. This is a dupe server, but play fair with your movements.</p>
+                </div>
+            </div>
+
+            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
+                <span class="text-cyan-500 font-black text-2xl italic">02</span>
+                <div>
+                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Communication & Respect</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Toxic behavior, excessive spam, or any form of discrimination will result in an immediate mute or ban. Keep the banter competitive but clean.</p>
+                </div>
+            </div>
+
+            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
+                <span class="text-cyan-500 font-black text-2xl italic">03</span>
+                <div>
+                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Exploitation</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">While duplication is the heart of the server, exploiting server-breaking bugs that crash the network or lag out other players is a permanent ban offense.</p>
+                </div>
+            </div>
+
+            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
+                <span class="text-cyan-500 font-black text-2xl italic">04</span>
+                <div>
+                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Staff Authority</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Staff decisions are final. If you feel a punishment was unjust, use the proper channels on the Discord to file an appeal rather than arguing in-game.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-20 text-center">
+            <p class="text-[9px] font-black uppercase tracking-[0.5em] text-zinc-700">Last Updated: March 2026</p>
+        </footer>
+    </main>
+
+    <script>
+        // Optional: Simple protection
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>
