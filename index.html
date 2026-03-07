@@ -70,6 +70,7 @@
             </h1>
 
             <div class="flex items-center gap-6">
+                <a href="suggestions.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Suggest</a>
                 <a href="staff.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Staff</a>
                 <button onclick="toggleCart()" class="group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
@@ -85,6 +86,7 @@
         <div class="flex flex-wrap justify-center gap-5 mt-12 mb-32">
             <button onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})" class="bg-cyan-600 hover:bg-cyan-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Browse Shop</button>
             <button id="ip-display" onclick="copyIP(this)" class="bg-zinc-950 border border-cyan-500/20 px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all hover:border-cyan-500">PLAY NOW</button>
+            <button onclick="window.open('https://discord.gg/yourlink', '_blank')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-lg shadow-indigo-500/20">Discord</button>
         </div>
 
         <section id="categories" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 justify-items-center">
@@ -132,13 +134,10 @@
     <script src="webhook.js"></script>
 
     <script>
-        // Use window.config because we aren't using modules
         const cfg = window.config || { serverIP: "play.echodupels.minehut.gg", cashAppTag: "$YourTagHere" };
-        
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
         document.getElementById('ip-display').innerText = cfg.serverIP;
 
-        // --- SERVER STATUS ---
         async function fetchServerStatus() {
             const indicator = document.getElementById('status-indicator');
             const statusText = document.getElementById('status-text');
@@ -167,7 +166,6 @@
         fetchServerStatus();
         setInterval(fetchServerStatus, 30000);
 
-        // --- CART LOGIC ---
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
 
@@ -200,7 +198,6 @@
             if (!user) { alert("Username required!"); return; }
             if (totalVal <= 0) return;
 
-            // Calls the function inside webhook.js
             if (typeof sendPurchaseNotification === 'function') {
                 await sendPurchaseNotification(user, cart, totalVal);
             }
