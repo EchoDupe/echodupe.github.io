@@ -42,6 +42,17 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+        /* Minecraft Chat Styling */
+        .mc-preview {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -98,7 +109,48 @@
     </div>
 
     <script type="module">
-        import { rankData } from './ranks.js';
+        // Helper to turn MC codes into HTML
+        function parseMinecraftColors(text) {
+            if (!text) return '';
+            // Handle &8 and similar basic codes (simplified)
+            let parsed = text.replace(/&8/g, '<span style="color: #555555">');
+            // Handle Hex codes &#000000
+            parsed = parsed.replace(/&#([A-Fa-f0-9]{6})/g, (match, hex) => {
+                return `</span><span style="color: #${hex}">`;
+            });
+            // Clean up bold &l (optional)
+            parsed = parsed.replace(/&l/g, '<b>').replace(/&r/g, '</b>');
+            return `<span>${parsed}</span>`;
+        }
+
+        // --- UPDATED RANK DATA ---
+        const rankData = [
+            {
+                id: 'rank_vanguard',
+                name: 'Vanguard',
+                price: 10.00,
+                perks: ['Vanguard Tag', 'Access to /fly', '2x Home Limit', 'Priority Queue']
+            },
+            {
+                id: 'rank_elite',
+                name: 'Elite',
+                price: 25.00,
+                perks: ['Elite Tag', 'Access to /feed', '5x Home Limit', 'Colored Chat']
+            },
+            {
+                id: 'rank_warden',
+                name: 'Warden',
+                price: 5.00,
+                prefixRaw: '&8&l[&#55FFFF&lW&#3BEDED&lA&#22DBDB&lR&#08C9C9&lD&#008E8E&lE&#001A33&lN&8&l]',
+                perks: [
+                    'Exclusive Warden Prefix',
+                    '5 Homes Set-locations',
+                    'Fly in Spawn Access',
+                    'Warden Kit (P6/U4)',
+                    '3-Hour Kit Cooldown'
+                ]
+            }
+        ];
         
         // Initialize Cart
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
@@ -109,11 +161,25 @@
         rankData.forEach(item => {
             const card = document.createElement('div');
             card.className = "rank-card p-12 rounded-[45px]";
+            
+            // Build Prefix Preview if it exists
+            const prefixHtml = item.prefixRaw ? `
+                <div class="mb-6">
+                    <p class="text-[9px] uppercase font-bold text-zinc-600 tracking-widest mb-2">Prefix Preview</p>
+                    <div class="mc-preview">
+                        ${parseMinecraftColors(item.prefixRaw)} <span style="color: #aaa">Player:</span> <span style="color: #fff">Hi!</span>
+                    </div>
+                </div>
+            ` : '';
+
             card.innerHTML = `
                 <div class="mb-8">
                     <h3 class="text-2xl font-black uppercase italic text-white">${item.name}</h3>
                     <div class="text-5xl font-black text-cyan-500 mt-3">$${item.price.toFixed(2)}</div>
                 </div>
+
+                ${prefixHtml}
+
                 <div class="flex-grow space-y-4 mb-12">
                     ${item.perks.map(p => `
                         <div class="flex items-center gap-3">
@@ -127,7 +193,7 @@
             grid.appendChild(card);
         });
 
-        // Global functions (Attached to window so HTML can see them)
+        // Global functions
         window.toggleCart = () => {
             document.getElementById('cart-sidebar').classList.toggle('cart-active');
             updateCartUI();
@@ -140,7 +206,6 @@
                 cart[item.id] = { ...item, quantity: 1 };
             }
             updateCartUI();
-            // Optional: Automatically open cart when adding
             document.getElementById('cart-sidebar').classList.add('cart-active');
         };
 
@@ -180,10 +245,7 @@
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
 
-        // Initial UI Update
         updateCartUI();
-
-        // Footer protection
         document.getElementById('main-footer').addEventListener('contextmenu', (e) => e.preventDefault());
     </script>
 </body>
