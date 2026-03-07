@@ -1,35 +1,43 @@
 <div align="center">
 
-# 🛒 <span style="color:#06b6d4">EchoDupe Store</span> `v1.1.0`
-**The official storefront for the EchoDupeLS Network.**
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Shopping%20Cart.png" alt="Cart" width="40" /> <span style="color:#0ea5e9">EchoDupe</span><span style="color:#ffffff">Store</span> `v1.1.0`
+**The official digital gateway for the EchoDupeLS Network.**
 
-![Stars](https://img.shields.io/github/stars/EchoDupe/echodupe.github.io?style=for-the-badge&color=06b6d4&labelColor=010816)
-![License](https://img.shields.io/badge/Status-Live-green?style=for-the-badge&color=06b6d4&labelColor=010816)
-![Framework](https://img.shields.io/badge/Framework-Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwind-css&labelColor=010816)
-
----
-
-### 🚀 <span style="color:#06b6d4">Premium Features</span>
-* 💎 **Dynamic Cart** | Stacking items with quantity management.
-* ⚡ **Real-time Status** | Live player count and network indicator.
-* 📱 **Fully Responsive** | Optimized for Mobile, Tablet, and Desktop.
-* 🛠️ **Modular Data** | Instant updates via dedicated JS files.
+[![Stars](https://img.shields.io/github/stars/EchoDupe/echodupe.github.io?style=for-the-badge&color=0ea5e9&labelColor=0f172a)](https://github.com/EchoDupe/echodupe.github.io)
+[![Status](https://img.shields.io/badge/Status-Operational-22c55e?style=for-the-badge&labelColor=0f172a)](https://echodupe.github.io)
+[![Tech](https://img.shields.io/badge/Powered_By-Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwind-css&labelColor=0f172a)](https://tailwindcss.com)
 
 ---
 
-### 🔗 <span style="color:#06b6d4">Quick Navigation</span>
+### 💎 <span style="color:#38bdf8">The Premium Experience</span>
 
-| [🌐 Live Store](https://echodupe.github.io) | [💬 Discord](https://discord.gg/yourlink) | [🎮 Server IP](#) |
-| :---: | :---: | :---: |
-
-`IP: play.echodupels.minehut.gg`
+| Feature | Description |
+| :--- | :--- |
+| ⚡ **Quantum Cart** | Lightning-fast item stacking and real-time total calculations. |
+| 🛰️ **Live Sync** | Real-time player statistics and server latency monitoring. |
+| 📱 **Adaptive UI** | Pixel-perfect responsiveness from 4K monitors to handhelds. |
+| 🧩 **Modular Engine** | Decoupled JSON/JS data structures for instant inventory updates. |
 
 ---
 
-### 🛠️ <span style="color:#06b6d4">Development Credits</span>
+### 🔗 <span style="color:#38bdf8">Network Access</span>
 
-**Lead Developer:** [**Skitxoe**](https://github.com/Skitxoe)
+<a href="https://echodupe.github.io">
+  <img src="https://img.shields.io/badge/Launch_Store-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white" />
+</a>
+<a href="https://discord.gg/yourlink">
+  <img src="https://img.shields.io/badge/Join_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" />
+</a>
 <br>
-*Built using the Skitxoe-Store-UI Framework*
+
+`⚡ play.echodupels.minehut.gg`
+
+---
+
+### 🛠️ <span style="color:#38bdf8">Engineering Credits</span>
+
+> **Architected by:** [**Skitxoe**](https://github.com/Skitxoe)
+> <br>
+> *Powered by the **Skitxoe-Store-UI** High-Performance Framework*
 
 </div>
