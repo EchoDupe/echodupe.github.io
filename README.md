@@ -10,7 +10,7 @@ Built using the **Skitxoe** store framework, this site provides a seamless, high
 * **Modular Data:** Easily update ranks and crates via dedicated JS files.
 
 ## 🔗 Quick Links
-* **Live Store:** [Click here to visit](https://tbasebc-jpg.github.io/EchoDupeLS/)
+* **Live Store:** [Click here to visit]([(https://echodupe.github.io))
 * **Discord:** [Join our Community](https://discord.gg/yourlink) 
 * **Server IP:** `play.echodupels.minehut.gg`
 
