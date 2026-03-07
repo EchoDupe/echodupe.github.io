@@ -49,12 +49,17 @@
                     <p class="text-xs font-bold uppercase"><span id="player-count">0</span> Online</p>
                 </div>
             </div>
+
             <h1 class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 select-none cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                 ECHODUPE<span class="text-white">LS</span>
             </h1>
-            <button onclick="toggleCart()" class="group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
-                CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
-            </button>
+
+            <div class="flex items-center gap-6">
+                <a href="staff.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Staff</a>
+                <button onclick="toggleCart()" class="group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
+                    CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -106,8 +111,19 @@
     <script type="module">
         import config from './config.js';
         import { sendPurchaseNotification } from './webhook.js';
+        
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
         document.getElementById('ip-display').innerText = config.serverIP;
+
+        // Player count logic
+        function updatePlayerCount() {
+            const base = config.status.initialPlayers || 0;
+            const fluctuation = config.status.mockFluctuation ? Math.floor(Math.random() * 3) : 0;
+            const display = document.getElementById('player-count');
+            if(display) display.innerText = base + fluctuation;
+        }
+        updatePlayerCount();
+        setInterval(updatePlayerCount, 60000);
 
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
@@ -118,11 +134,14 @@
             const countDisplay = document.getElementById('cart-count');
             const itemIds = Object.keys(cart);
             let total = 0; let qty = 0;
+            
             list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            
             itemIds.forEach(id => {
                 const item = cart[id];
                 total += (item.price * item.quantity); qty += item.quantity;
-                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between">
+                list.innerHTML += `
+                <div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between">
                     <div><p class="font-black uppercase text-sm text-white">${item.name}</p><p class="text-cyan-500 text-[10px] font-black">QTY: ${item.quantity}</p></div>
                     <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black">REMOVE</button>
                 </div>`;
@@ -142,7 +161,11 @@
         };
 
         updateCartUI();
-        window.copyIP = (btn) => { navigator.clipboard.writeText(config.serverIP); btn.innerText = "COPIED!"; setTimeout(() => btn.innerText = "PLAY NOW", 2000); };
+        window.copyIP = (btn) => { 
+            navigator.clipboard.writeText(config.serverIP); 
+            btn.innerText = "COPIED!"; 
+            setTimeout(() => btn.innerText = "PLAY NOW", 2000); 
+        };
     </script>
 </body>
 </html>
