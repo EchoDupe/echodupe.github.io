@@ -22,14 +22,15 @@ export const rankData = [
         ]
     },
     {
-        id: 'rank_legend',
-        name: 'Legend',
-        price: 50.00,
+        id: 'rank_warden',
+        name: 'Warden',
+        price: 5.00,
         perks: [
-            'Legendary Tag',
-            'Access to /fix all',
-            '10x Home Limit',
-            'Nicknaming Rights'
+            'Exclusive Warden Prefix',
+            '5 Homes (/sethome)',
+            'Fly in Spawn Access',
+            'Warden Kit (Prot 6 | Unbreaking 4)',
+            '3-Hour Kit Cooldown'
         ]
     }
 ];
