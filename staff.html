@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EchoDupe | Staff Team</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -63,6 +65,14 @@
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
+
+        /* Anti-Theft selection prevention */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -134,18 +144,28 @@
             </div>
         </section>
 
-        <footer class="py-20 border-t border-cyan-500/10 mt-20 text-center">
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4 text-zinc-700">
-                EchoDupeLS Official Staff Directory
-            </p>
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500">
-                Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
-            </p>
+        <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
+            <div class="max-w-7xl mx-auto px-6">
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4 text-zinc-700">
+                    EchoDupeLS Official Staff Directory
+                </p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
+                    &copy; 2026 EchoDupeLS. All Rights Reserved.
+                </p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
+                    Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
+                </p>
+            </div>
         </footer>
     </div>
 
     <script type="module">
         import config from './config.js';
+
+        // Anti-Right-Click for Footer
+        const footer = document.getElementById('main-footer');
+        footer.addEventListener('contextmenu', (e) => e.preventDefault());
+
         function updatePlayerCount() {
             const base = config.status.initialPlayers || 0;
             const fluctuation = config.status.mockFluctuation ? Math.floor(Math.random() * 3) : 0;
