@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Shopping%20Cart.png" alt="Cart" width="40" /> <span style="color:#0ea5e9">EchoDupe</span><span style="color:#ffffff">Store</span> `v1.1.0`
+# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Shopping%20Cart.png" alt="Cart" width="40" /> <span style="color:#0ea5e9">EchoDupe</span><span style="color:#ffffff">Store</span> `v1.2.0`
 **The official digital gateway for the EchoDupeLS Network.**
 
 [![Stars](https://img.shields.io/github/stars/EchoDupe/echodupe.github.io?style=for-the-badge&color=0ea5e9&labelColor=0f172a)](https://github.com/EchoDupe/echodupe.github.io)
