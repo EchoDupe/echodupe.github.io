@@ -3,100 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | About</title>
+    <title>About | EchoDupeLS</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        
+        /* Background Effects */
         .bg-grid {
             background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
-                              linear-gradient(to bottom, rgba(6, 182, 212, 0.07) 1px, transparent 1px);
-            position: fixed; inset: 0; z-index: -1;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            position: fixed; inset: 0; z-index: -2;
         }
         .bg-glow {
             position: fixed; inset: 0;
             background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
             z-index: -1; pointer-events: none;
         }
-        .info-card { 
-            background: rgba(5, 5, 5, 0.8); 
-            backdrop-filter: blur(16px); 
-            border: 1px solid rgba(6, 182, 212, 0.1);
+
+        /* Heartbeat Animation */
+        @keyframes heart-throb {
+            0% { transform: scale(1); text-shadow: 0 0 0px rgba(6, 182, 212, 0); }
+            15% { transform: scale(1.05); text-shadow: 0 0 20px rgba(6, 182, 212, 0.6); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.08); text-shadow: 0 0 30px rgba(6, 182, 212, 0.8); }
+            100% { transform: scale(1); }
         }
+        .motto-pulse { display: inline-block; animation: heart-throb 1.8s infinite; color: #06b6d4; }
+
+        /* Void Glitch Effect */
+        .glitch-text:hover {
+            animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+            color: #fff;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Marquee Ticker */
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { animation: marquee 30s linear infinite; }
+
+        .info-card { 
+            background: rgba(5, 5, 5, 0.6); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            transition: all 0.4s ease;
+        }
+        .info-card:hover { border-color: #06b6d4; transform: translateY(-5px); }
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
+        .no-select { user-select: none; }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
 
-    <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
-        <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <a href="index.html" class="text-zinc-400 hover:text-cyan-500 font-black uppercase text-[10px] tracking-widest transition">← Return Home</a>
+    <div class="fixed top-0 w-full bg-cyan-500/10 border-b border-cyan-500/20 py-2 overflow-hidden z-50 backdrop-blur-md">
+        <div class="flex whitespace-nowrap animate-marquee">
+            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">FOUNDED 2026</span>
+            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-white">SKITXOE FOUNDATION</span>
+            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">VOIDDUPES LEGACY</span>
+            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-white">GEAR IS INFINITE</span>
+            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">FOUNDED 2026</span>
+            <span class="mx-8 text-[10px] font-black uppercase tracking-[0.3em] text-white">SKITXOE FOUNDATION</span>
+        </div>
+    </div>
+
+    <nav class="pt-16 pb-6 w-full z-40">
+        <div class="max-w-7xl mx-auto flex justify-between items-center px-8">
+            <a href="index.html" class="group flex items-center gap-2 text-zinc-500 hover:text-white transition-all">
+                <span class="text-lg group-hover:-translate-x-1 transition-transform">←</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Exit to Home</span>
+            </a>
             <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2">
-                ORIGIN<span class="text-white">STORY</span>
+                ECHO<span class="text-white">DOCS</span>
             </h1>
-            <div class="flex items-center gap-6">
-                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-600">v2.0</span>
-            </div>
+            <div class="text-[10px] font-black text-zinc-700 tracking-[0.3em]">V2.0.4</div>
         </div>
     </nav>
 
-    <main class="pt-48 pb-24 max-w-4xl mx-auto px-6">
-        <div class="text-center mb-24">
-            <p class="text-cyan-500 font-black uppercase tracking-[0.3em] text-xs mb-4">Official Server Motto</p>
-            <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-tight">
-                "Gear is <span class="text-white">infinite</span>, but your <br>
-                <span class="text-cyan-500">heartbeat</span> is on the line."
+    <main class="max-w-6xl mx-auto px-8 py-20">
+        <div class="text-center mb-32">
+            <h2 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter leading-none mb-6">
+                Gear is <span class="text-white">infinite</span>,<br>
+                but your <span class="motto-pulse">heartbeat</span> is on the line.
             </h2>
+            <div class="h-1 w-24 bg-cyan-500 mx-auto rounded-full mb-6"></div>
+            <p class="text-zinc-500 font-bold uppercase tracking-[0.4em] text-xs">The Official EchoDupeLS Creed</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-12">
-            <section class="info-card p-12 rounded-[40px] relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-8 opacity-10">
-                    <h4 class="text-8xl font-black italic">2026</h4>
-                </div>
-                
-                <h3 class="text-3xl font-black uppercase italic text-white mb-6">The Evolution</h3>
-                <div class="space-y-6 text-zinc-400 leading-relaxed text-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-32">
+            <div class="lg:col-span-7">
+                <h3 class="text-zinc-600 font-black uppercase text-xs tracking-[0.5em] mb-4">The Evolution</h3>
+                <h4 class="text-5xl font-black uppercase italic mb-8 leading-tight">Born in the <span class="glitch-text text-cyan-500 cursor-help">Void</span>, Built for the Elite.</h4>
+                <div class="space-y-6 text-zinc-400 text-lg leading-relaxed">
                     <p>
-                        Founded in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span>, EchoDupeLS represents the next generation of competitive Minecraft.
+                        EchoDupeLS was established in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span> as a response to the static state of survival multiplayer.
                     </p>
                     <p>
-                        Our roots trace back to the Minehut community, where we were originally known as <span class="text-white font-bold">VoidDupes</span>. While the name has changed, our core philosophy remains: providing a high-octane environment where strategy and skill dictate your survival.
+                        Our story begins on the <span class="text-white font-bold">Minehut.gg</span> network, where we first gained notoriety as <span class="text-cyan-500 font-bold">VoidDupes</span>. We took the chaotic energy of a dupe economy and fused it with the brutal stakes of Lifesteal.
                     </p>
                     <p>
-                        We have evolved from a simple dupe server into a complex <span class="text-white font-bold">Lifesteal</span> experience. Every heart you take is a step toward dominance; every heart you lose brings you closer to the void.
+                        The result is a server where you can lose everything in a heartbeat—or gain infinite power through strategy and combat.
                     </p>
                 </div>
-            </section>
+            </div>
+            <div class="lg:col-span-5 grid grid-cols-2 gap-4">
+                <div class="info-card p-8 rounded-3xl text-center">
+                    <p class="text-4xl font-black text-white mb-2">2026</p>
+                    <p class="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Established</p>
+                </div>
+                <div class="info-card p-8 rounded-3xl text-center">
+                    <p class="text-4xl font-black text-white mb-2">V-DUPES</p>
+                    <p class="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Heritage</p>
+                </div>
+                <div class="info-card p-8 rounded-3xl text-center col-span-2 border-cyan-500/20">
+                    <p class="text-2xl font-black text-white mb-1 uppercase tracking-tighter">SKITXOE</p>
+                    <p class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Founder & Lead Architect</p>
+                </div>
+            </div>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="info-card p-8 rounded-[30px] text-center">
-                    <p class="text-zinc-500 font-black uppercase text-[10px] tracking-widest mb-2">Founder</p>
-                    <p class="text-xl font-black text-white">SKITXOE</p>
+        <div class="mb-32">
+            <h3 class="text-center text-zinc-600 font-black uppercase text-xs tracking-[0.5em] mb-12">Network Ecosystem</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="info-card p-10 rounded-[40px]">
+                    <div class="text-3xl mb-4">♾️</div>
+                    <h5 class="text-xl font-black uppercase italic mb-4 text-white">Infinite Dupe</h5>
+                    <p class="text-zinc-500 text-sm leading-relaxed">A high-velocity economy where resources are meant to be used, lost, and gained at breakneck speeds.</p>
                 </div>
-                <div class="info-card p-8 rounded-[30px] text-center border-cyan-500/30">
-                    <p class="text-zinc-500 font-black uppercase text-[10px] tracking-widest mb-2">Legacy Name</p>
-                    <p class="text-xl font-black text-cyan-500 uppercase">VoidDupes</p>
+                <div class="info-card p-10 rounded-[40px] border-b-4 border-b-cyan-500">
+                    <div class="text-3xl mb-4">💔</div>
+                    <h5 class="text-xl font-black uppercase italic mb-4 text-white">Lifesteal V2</h5>
+                    <p class="text-zinc-500 text-sm leading-relaxed">Dynamic heart-based combat. Each kill strengthens you; each failure costs you your humanity.</p>
                 </div>
-                <div class="info-card p-8 rounded-[30px] text-center">
-                    <p class="text-zinc-500 font-black uppercase text-[10px] tracking-widest mb-2">Platform</p>
-                    <p class="text-xl font-black text-white">MINEHUT.GG</p>
+                <div class="info-card p-10 rounded-[40px]">
+                    <div class="text-3xl mb-4">⚡</div>
+                    <h5 class="text-xl font-black uppercase italic mb-4 text-white">Zero Latency</h5>
+                    <p class="text-zinc-500 text-sm leading-relaxed">Optimized Minehut integration ensuring smooth performance during the most intense wars.</p>
                 </div>
+            </div>
+        </div>
+
+        <div class="info-card p-16 rounded-[50px] text-center bg-gradient-to-b from-cyan-500/5 to-transparent relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid opacity-20"></div>
+            <h4 class="text-4xl font-black uppercase italic mb-8 relative z-10">Will you survive the <span class="text-cyan-500">Echo</span>?</h4>
+            <div class="flex flex-wrap justify-center gap-6 relative z-10">
+                <a href="index.html" class="bg-cyan-600 hover:bg-cyan-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Play Now</a>
+                <a href="https://discord.gg/yourlink" class="bg-zinc-900 border border-zinc-700 hover:border-white text-white px-12 py-5 rounded-2xl font-black uppercase tracking-widest transition-all">Discord</a>
             </div>
         </div>
     </main>
 
-    <footer class="py-12 border-t border-cyan-500/10 text-center">
-        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-            Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
-        </p>
+    <footer id="main-footer" class="py-24 border-t border-cyan-500/10 mt-20 no-select bg-black/80">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            
+            <h2 class="text-xl font-black italic text-zinc-500 tracking-tighter mb-8">
+                ECHODUPE<span class="text-zinc-700">LS</span>
+            </h2>
+
+            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-500 mb-4">
+                &copy; 2026 <span class="text-white">EchoDupeLS Network</span>. All Rights Reserved.
+            </p>
+
+            <div class="max-w-3xl mx-auto mb-10">
+                <p class="text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-700 leading-relaxed">
+                    EchoDupeLS is in no way affiliated with, authorized, maintained, sponsored or endorsed by Mojang AB, Microsoft, or Minehut. 
+                    Minecraft is a copyright of Mojang AB. All trademarks are the property of their respective owners.
+                </p>
+            </div>
+
+            <div class="pt-8 border-t border-zinc-900/30">
+                <p class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-600">
+                    Architected & Designed by <span class="text-cyan-500">Skitxoe</span>
+                </p>
+            </div>
+            
+        </div>
     </footer>
 </body>
 </html>
