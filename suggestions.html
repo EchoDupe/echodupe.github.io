@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EchoDupe | Suggestions</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -45,7 +47,12 @@
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
             <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Back</a>
-            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter">SUGGESTIONS</h1>
+            
+            <div class="flex items-center gap-3 absolute left-1/2 -translate-x-1/2 select-none">
+                <img src="logo.png" alt="" class="h-8 w-auto">
+                <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter">SUGGESTIONS</h1>
+            </div>
+
             <div class="w-10"></div>
         </div>
     </nav>
@@ -103,10 +110,9 @@
             btn.disabled = true;
             btn.innerText = "TRANSMITTING...";
 
-            // Determine color based on type
-            let embedColor = 0x06b6d4; // Default Cyan
-            if (type === "Bug Report") embedColor = 0xef4444; // Red
-            if (type === "Store") embedColor = 0x22c55e; // Green
+            let embedColor = 0x06b6d4; 
+            if (type === "Bug Report") embedColor = 0xef4444; 
+            if (type === "Store") embedColor = 0x22c55e; 
 
             const payload = {
                 username: "EchoDupe Feedback Bot",
