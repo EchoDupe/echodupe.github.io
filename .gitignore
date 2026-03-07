@@ -1,36 +1,7 @@
-# --- EchoDupeLS Official Store Template ---
+# Ignore everything
+/*
 
-# Logs
-logs
-*.log
-npm-debug.log*
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Web Development Junk
-node_modules/
-dist/
-build/
-.env
-.env.local
-
-# Editor folders
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Minecraft / Server accidental uploads
-*.jar
-/cache/
-/plugins/
-world/
+# Do NOT ignore these specific files
+!/README.md
+!/.gitignore
+!/src/
