@@ -21,18 +21,22 @@
             background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
             z-index: -1; pointer-events: none;
         }
-        .rule-card {
-            background: rgba(10, 10, 10, 0.6);
+        .rules-section {
+            background: rgba(5, 5, 5, 0.6);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(6, 182, 212, 0.1);
-            transition: all 0.3s ease;
+            border-radius: 40px;
+            padding: 3rem;
+            margin-bottom: 3rem;
         }
-        .rule-card:hover {
-            border-color: #06b6d4;
-            transform: scale(1.02);
-            background: rgba(6, 182, 212, 0.03);
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .no-select { user-select: none; }
+        .rule-item:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
@@ -41,65 +45,71 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Back</a>
-            
+            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">← Back to Hub</a>
             <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase absolute left-1/2 -translate-x-1/2">
-                Protocol <span class="text-white">Rules</span>
+                ECHODUPE <span class="text-white">LAWS</span>
             </h1>
-
             <button onclick="window.open('https://discord.gg/yourlink', '_blank')" class="bg-cyan-500 hover:bg-white text-black px-6 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all">
-                Support Discord
+                Join Discord
             </button>
         </div>
     </nav>
 
-    <main class="pt-40 pb-20 px-6 max-w-4xl mx-auto">
-        <div class="text-center mb-16">
-            <h2 class="text-6xl font-black uppercase tracking-tighter mb-4">Server <span class="text-cyan-500">Conduct</span></h2>
-            <p class="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.4em]">Ignorance of rules is not an excuse for a ban.</p>
-        </div>
-
-        <div class="grid grid-cols-1 gap-4">
-            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
-                <span class="text-cyan-500 font-black text-2xl italic">01</span>
+    <main class="pt-40 pb-20 px-6 max-w-5xl mx-auto">
+        
+        <div class="rules-section">
+            <div class="flex items-center gap-6 mb-10">
+                <img src="assets/discord.png" alt="Discord" class="w-16 h-16 object-contain">
                 <div>
-                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Fair Play & Cheating</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">The use of hacked clients, unfair scripts, or automated macros that provide a competitive advantage is strictly prohibited. This is a dupe server, but play fair with your movements.</p>
+                    <h2 class="text-4xl font-black uppercase italic tracking-tighter">Discord <span class="text-cyan-500">Server Rules</span></h2>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Community Protocol</p>
                 </div>
             </div>
-
-            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
-                <span class="text-cyan-500 font-black text-2xl italic">02</span>
-                <div>
-                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Communication & Respect</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">Toxic behavior, excessive spam, or any form of discrimination will result in an immediate mute or ban. Keep the banter competitive but clean.</p>
+            
+            <div class="space-y-2">
+                <div class="rule-item">
+                    <span class="text-cyan-500 font-black">01</span>
+                    <p class="text-zinc-400 text-sm">No unnecessary tagging of staff members or mass pings.</p>
                 </div>
-            </div>
-
-            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
-                <span class="text-cyan-500 font-black text-2xl italic">03</span>
-                <div>
-                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Exploitation</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">While duplication is the heart of the server, exploiting server-breaking bugs that crash the network or lag out other players is a permanent ban offense.</p>
+                <div class="rule-item">
+                    <span class="text-cyan-500 font-black">02</span>
+                    <p class="text-zinc-400 text-sm">Keep chat topics in their designated channels (No trade talk in General).</p>
                 </div>
-            </div>
-
-            <div class="rule-card p-8 rounded-[32px] flex items-start gap-6">
-                <span class="text-cyan-500 font-black text-2xl italic">04</span>
-                <div>
-                    <h3 class="text-xl font-black uppercase tracking-tight text-white mb-2">Staff Authority</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">Staff decisions are final. If you feel a punishment was unjust, use the proper channels on the Discord to file an appeal rather than arguing in-game.</p>
+                <div class="rule-item">
+                    <span class="text-cyan-500 font-black">03</span>
+                    <p class="text-zinc-400 text-sm">No NSFW content, offensive slurs, or toxicity in voice or text channels.</p>
                 </div>
             </div>
         </div>
 
-        <footer class="mt-20 text-center">
-            <p class="text-[9px] font-black uppercase tracking-[0.5em] text-zinc-700">Last Updated: March 2026</p>
-        </footer>
+        <div class="rules-section">
+            <div class="flex items-center gap-6 mb-10">
+                <img src="assets/minecraft.png" alt="Minecraft" class="w-16 h-16 object-contain">
+                <div>
+                    <h2 class="text-4xl font-black uppercase italic tracking-tighter">In-Game <span class="text-cyan-500">Global Rules</span></h2>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Gameplay Protocol</p>
+                </div>
+            </div>
+            
+            <div class="space-y-2">
+                <div class="rule-item">
+                    <span class="text-cyan-500 font-black">01</span>
+                    <p class="text-zinc-400 text-sm">No illegal clients or auto-clickers (Standard dupe clients allowed).</p>
+                </div>
+                <div class="rule-item">
+                    <span class="text-cyan-500 font-black">02</span>
+                    <p class="text-zinc-400 text-sm">Do not attempt to crash the server or create massive lag machines.</p>
+                </div>
+                <div class="rule-item">
+                    <span class="text-cyan-500 font-black">03</span>
+                    <p class="text-zinc-400 text-sm">Respect the economy; do not exploit shop bugs or payment glitches.</p>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
-        // Optional: Simple protection
         document.addEventListener('contextmenu', event => event.preventDefault());
     </script>
 </body>
