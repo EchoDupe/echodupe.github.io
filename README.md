@@ -1,19 +1,35 @@
-# 🛒 EchoDupeLS Store v1.1.0
+<div align="center">
+
+# 🛒 <span style="color:#06b6d4">EchoDupe Store</span> `v1.1.0`
 **The official storefront for the EchoDupeLS Network.**
 
-Built using the **Skitxoe** store framework, this site provides a seamless, high-performance experience for players to support the server and unlock premium features.
+![Stars](https://img.shields.io/github/stars/EchoDupe/echodupe.github.io?style=for-the-badge&color=06b6d4&labelColor=010816)
+![License](https://img.shields.io/badge/Status-Live-green?style=for-the-badge&color=06b6d4&labelColor=010816)
+![Framework](https://img.shields.io/badge/Framework-Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwind-css&labelColor=010816)
 
-## 🚀 Features
-* **Dynamic Cart:** Stacking items with quantity management.
-* **Real-time Status:** Live player count and network status indicator.
-* **Responsive Design:** Fully optimized for mobile and desktop via Tailwind CSS.
-* **Modular Data:** Easily update ranks and crates via dedicated JS files.
+---
 
-## 🔗 Quick Links
-* **Live Store:** [Click here to visit]([(https://echodupe.github.io))
-* **Discord:** [Join our Community](https://discord.gg/yourlink) 
-* **Server IP:** `play.echodupels.minehut.gg`
+### 🚀 <span style="color:#06b6d4">Premium Features</span>
+* 💎 **Dynamic Cart** | Stacking items with quantity management.
+* ⚡ **Real-time Status** | Live player count and network indicator.
+* 📱 **Fully Responsive** | Optimized for Mobile, Tablet, and Desktop.
+* 🛠️ **Modular Data** | Instant updates via dedicated JS files.
 
-## 🛠️ Credits
-* **Developer:** [Skitxoe](https://github.com/Skitxoe)
-* **Framework:** Skitxoe-Store-UI
+---
+
+### 🔗 <span style="color:#06b6d4">Quick Navigation</span>
+
+| [🌐 Live Store](https://echodupe.github.io) | [💬 Discord](https://discord.gg/yourlink) | [🎮 Server IP](#) |
+| :---: | :---: | :---: |
+
+`IP: play.echodupels.minehut.gg`
+
+---
+
+### 🛠️ <span style="color:#06b6d4">Development Credits</span>
+
+**Lead Developer:** [**Skitxoe**](https://github.com/Skitxoe)
+<br>
+*Built using the Skitxoe-Store-UI Framework*
+
+</div>
