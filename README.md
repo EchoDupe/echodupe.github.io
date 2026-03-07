@@ -5,7 +5,7 @@
 
 [![Stars](https://img.shields.io/github/stars/EchoDupe/echodupe.github.io?style=for-the-badge&color=0ea5e9&labelColor=0f172a)](https://github.com/EchoDupe/echodupe.github.io)
 [![Status](https://img.shields.io/badge/Status-Operational-22c55e?style=for-the-badge&labelColor=0f172a)](https://echodupe.github.io)
-[![Tech](https://img.shields.io/badge/Powered_By-Tailwind_CSS-38bdf8?style=for-the-badge&logo=tailwind-css&labelColor=0f172a)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-Proprietary-f43f5e?style=for-the-badge&labelColor=0f172a)](https://github.com/Skitxoe)
 
 ---
 
@@ -39,5 +39,7 @@
 > **Architected by:** [**Skitxoe**](https://github.com/Skitxoe)
 > <br>
 > *Powered by the **Skitxoe-Store-UI** High-Performance Framework*
+
+<sub>&copy; 2026 EchoDupeLS. Unauthorized duplication of this repository's layout or assets is strictly prohibited.</sub>
 
 </div>
