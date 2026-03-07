@@ -36,7 +36,7 @@
 
 ### 🛠️ <span style="color:#38bdf8">Engineering Credits</span>
 
-> **Architected by:** [**Skitxoe**](https://github.com/Skitxoe)
+> **Architected by:** [**Skitxoe**](https://github.com/tbasebc-jpg)
 > <br>
 > *Powered by the **Skitxoe-Store-UI** High-Performance Framework*
 
