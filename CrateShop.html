@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | Crates</title>
+    <title>EchoDupe | Crate Keys</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
         .bg-grid {
             background-size: 50px 50px;
             background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
@@ -21,6 +22,22 @@
             background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
             z-index: -1; pointer-events: none;
         }
+
+        /* Heartbeat Animation */
+        @keyframes heart-throb {
+            0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(6, 182, 212, 0)); }
+            15% { transform: scale(1.08); filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.6)); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.12); filter: drop-shadow(0 0 25px rgba(6, 182, 212, 0.8)); }
+            100% { transform: scale(1); }
+        }
+
+        .key-pulse { 
+            display: inline-block; 
+            animation: heart-throb 1.8s infinite;
+            color: #06b6d4;
+        }
+
         .crate-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
@@ -29,18 +46,16 @@
             width: 100%;
             max-width: 320px;
         }
-        .crate-card:hover { transform: translateY(-10px); border-color: #06b6d4; box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); }
+        .crate-card:hover { 
+            transform: translateY(-10px); 
+            border-color: #06b6d4; 
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); 
+        }
+        
         .cart-active { transform: translateX(0) !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
-        
-        /* Anti-Theft selection prevention */
-        .no-select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+        .no-select { user-select: none; }
     </style>
 </head>
 <body>
@@ -49,12 +64,10 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter">ECHODUPE<span class="text-white">LS</span></a>
-            
+            <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase">ECHODUPE<span class="text-white">LS</span></a>
             <div class="flex items-center gap-6">
                 <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-cyan-400 transition">← Hub</a>
                 <a href="staff.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Staff</a>
-                
                 <button onclick="toggleCart()" class="relative group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
                 </button>
@@ -64,8 +77,9 @@
 
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
         <div class="text-center mb-24">
-            <p class="text-cyan-500 font-black uppercase tracking-[0.5em] text-[10px] mb-4">Department 02</p>
-            <h1 class="text-7xl font-black italic uppercase tracking-tighter">SUPPLY <span class="text-cyan-500">CRATES</span></h1>
+            <h1 class="text-7xl font-black italic uppercase tracking-tighter">
+                CRATE <span class="key-pulse">KEYS</span>
+            </h1>
         </div>
         
         <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
@@ -99,23 +113,30 @@
     </div>
 
     <script type="module">
-        import { crateData } from './crates.js';
+        const keyData = [
+            { id: 'key_rare', name: 'Rare Key', price: 1.50, description: 'Unlock the Rare Supply Crate' },
+            { id: 'key_epic', name: 'Epic Key', price: 3.00, description: 'Unlock the Epic Supply Crate' },
+            { id: 'key_mythic', name: 'Mythic Key', price: 5.50, description: 'Unlock the Mythic Supply Crate' },
+            { id: 'key_void', name: 'Void Key', price: 10.00, description: 'Unlock the Ultimate Void Crate' }
+        ];
+
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
-        // Anti-Right-Click for Footer
-        const footer = document.getElementById('main-footer');
-        footer.addEventListener('contextmenu', (e) => e.preventDefault());
-
         const grid = document.getElementById('crate-grid');
-        crateData.forEach(item => {
+        keyData.forEach(item => {
             const card = document.createElement('div');
             card.className = "crate-card p-10 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
             card.innerHTML = `
-                <div class="text-5xl mb-6">📦</div>
+                <div class="key-pulse mb-8">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
                 <h3 class="text-xl font-black uppercase italic text-white">${item.name}</h3>
                 <div class="text-3xl font-black text-cyan-500 mt-2 mb-6">$${item.price.toFixed(2)}</div>
                 <p class="text-zinc-500 text-[10px] font-bold uppercase mb-8 leading-relaxed">${item.description}</p>
-                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-zinc-900 border border-cyan-500/20 text-white py-4 rounded-xl font-black uppercase hover:bg-cyan-500 hover:text-black transition-all">Add to Cart</button>`;
+                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-600 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg shadow-cyan-500/20">Add to Cart</button>`;
             grid.appendChild(card);
         });
 
@@ -125,27 +146,35 @@
             if (cart[item.id]) cart[item.id].quantity += 1; 
             else cart[item.id] = { ...item, quantity: 1 }; 
             updateCartUI(); 
-            toggleCart(); 
+            document.getElementById('cart-sidebar').classList.add('cart-active');
         };
 
         window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
 
         function updateCartUI() {
             const list = document.getElementById('cart-items');
+            const totalDisplay = document.getElementById('cart-total');
+            const countDisplay = document.getElementById('cart-count');
             const itemIds = Object.keys(cart);
-            let total = 0; let qty = 0;
+            let total = 0, qty = 0;
+
             list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            
             itemIds.forEach(id => {
-                const item = cart[id]; total += (item.price * item.quantity); qty += item.quantity;
+                const item = cart[id];
+                total += (item.price * item.quantity);
+                qty += item.quantity;
                 list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center">
                     <div><p class="font-black uppercase text-sm text-white">${item.name}</p><p class="text-cyan-500 text-[9px] font-black">QTY: ${item.quantity}</p></div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black">REMOVE</button></div>`;
+                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button></div>`;
             });
-            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
-            document.getElementById('cart-count').innerText = qty;
+
+            totalDisplay.innerText = `$${total.toFixed(2)}`;
+            countDisplay.innerText = qty;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
         updateCartUI();
+        document.getElementById('main-footer').addEventListener('contextmenu', (e) => e.preventDefault());
     </script>
 </body>
 </html>
