@@ -32,15 +32,15 @@
         }
         .motto-pulse { display: inline-block; animation: heart-throb 1.8s infinite; color: #06b6d4; }
 
-        /* Seamless Infinite Marquee */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        /* Full Travel Marquee */
+        @keyframes marquee-full {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
         }
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 6s linear infinite;
+        .animate-marquee-full {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee-full 15s linear infinite;
         }
 
         .info-card { 
@@ -84,17 +84,11 @@
     <div class="bg-glow"></div>
 
     <div class="fixed top-0 w-full bg-cyan-500/10 border-b border-cyan-500/20 py-2 overflow-hidden z-50 backdrop-blur-md">
-        <div class="animate-marquee">
+        <div class="animate-marquee-full">
             <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">FOUNDED 2026</span>
             <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">SKITXOE FOUNDATION</span>
             <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">VOIDDUPES LEGACY</span>
             <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">GEAR IS INFINITE</span>
-            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">ESTABLISHED MCXXVI</span>
-            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">FOUNDED 2026</span>
-            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">SKITXOE FOUNDATION</span>
-            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">VOIDDUPES LEGACY</span>
-            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-white">GEAR IS INFINITE</span>
-            <span class="mx-12 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">ESTABLISHED MCXXVI</span>
         </div>
     </div>
 
@@ -123,12 +117,11 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mb-32">
             <div class="lg:col-span-7">
-                <h3 class="text-zinc-600 font-black uppercase text-xs tracking-[0.5em] mb-4">The Evolution</h3>
-                <h4 class="text-5xl font-black uppercase italic mb-8 leading-tight">Born in the <span class="glitch-text text-cyan-500 cursor-help">Void</span>, Built for the Elite.</h4>
-                <div class="space-y-6 text-zinc-400 text-lg leading-relaxed">
-                    <p>EchoDupeLS was established in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span>.</p>
-                    <p>Originally starting on <span class="text-white font-bold">Minehut</span> as <span class="text-cyan-500 font-bold">VoidDupes</span>, the network evolved into a high-stakes competitive environment.</p>
-                </div>
+                <h4 class="text-5xl font-black uppercase italic mb-8 leading-tight">Born in the <span class="text-cyan-500">Void</span>, Built for the Elite.</h4>
+                <p class="text-zinc-400 text-lg leading-relaxed">
+                    EchoDupeLS was established in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span>. 
+                    Fusing the chaos of a dupe economy with the brutal stakes of Lifesteal, we created a network where power is earned and hearts are currency.
+                </p>
             </div>
             <div class="lg:col-span-5 grid grid-cols-2 gap-4">
                 <div class="info-card p-8 rounded-3xl text-center">
@@ -136,12 +129,8 @@
                     <p class="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Established</p>
                 </div>
                 <div class="info-card p-8 rounded-3xl text-center">
-                    <p class="text-4xl font-black text-white mb-2">V-DUPES</p>
-                    <p class="text-[10px] font-black text-cyan-500 uppercase tracking-widest">Heritage</p>
-                </div>
-                <div class="info-card p-8 rounded-3xl text-center col-span-2 border-cyan-500/20">
-                    <p class="text-2xl font-black text-white mb-1 uppercase tracking-tighter">SKITXOE</p>
-                    <p class="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Founder & Lead Architect</p>
+                    <p class="text-4xl font-black text-white mb-2 leading-none">VOID<br>DUPES</p>
+                    <p class="text-[10px] font-black text-cyan-500 uppercase tracking-widest mt-2">Heritage</p>
                 </div>
             </div>
         </div>
@@ -155,19 +144,6 @@
             </div>
         </div>
     </main>
-
-    <footer class="py-24 border-t border-cyan-500/10 mt-20 no-select bg-black/80">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-xl font-black italic text-zinc-500 tracking-tighter mb-8">ECHODUPE<span class="text-zinc-700">LS</span></h2>
-            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-zinc-500 mb-4">&copy; 2026 <span class="text-white">EchoDupeLS Network</span>. All Rights Reserved.</p>
-            <div class="max-w-3xl mx-auto mb-10">
-                <p class="text-[8px] font-bold uppercase tracking-[0.2em] text-zinc-700 leading-relaxed">EchoDupeLS is not affiliated with Mojang AB, Microsoft, or Minehut.</p>
-            </div>
-            <div class="pt-8 border-t border-zinc-900/30">
-                <p class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-600">Architected & Designed by <span class="text-cyan-500">Skitxoe</span></p>
-            </div>
-        </div>
-    </footer>
 
     <script>
         function copyIP() {
