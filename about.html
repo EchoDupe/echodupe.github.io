@@ -25,9 +25,7 @@
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
             border: 1px solid rgba(6, 182, 212, 0.1);
-            transition: all 0.3s ease;
         }
-        .info-card:hover { border-color: #06b6d4; }
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
@@ -39,57 +37,65 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <a href="index.html" class="text-zinc-400 hover:text-cyan-500 font-black uppercase text-[10px] tracking-widest transition">← Back to Home</a>
-            
-            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter select-none">
-                ABOUT<span class="text-white">US</span>
+            <a href="index.html" class="text-zinc-400 hover:text-cyan-500 font-black uppercase text-[10px] tracking-widest transition">← Return Home</a>
+            <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2">
+                ORIGIN<span class="text-white">STORY</span>
             </h1>
-
             <div class="flex items-center gap-6">
-                <a href="https://discord.gg/yourlink" target="_blank" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Discord</a>
+                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-600">v2.0</span>
             </div>
         </div>
     </nav>
 
-    <main class="pt-40 pb-24 max-w-4xl mx-auto px-6">
-        <div class="text-center mb-20">
-            <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-4 leading-none">
-                THE <span class="text-cyan-500 italic">MISSION</span>
+    <main class="pt-48 pb-24 max-w-4xl mx-auto px-6">
+        <div class="text-center mb-24">
+            <p class="text-cyan-500 font-black uppercase tracking-[0.3em] text-xs mb-4">Official Server Motto</p>
+            <h2 class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-tight">
+                "Gear is <span class="text-white">infinite</span>, but your <br>
+                <span class="text-cyan-500">heartbeat</span> is on the line."
             </h2>
-            <p class="text-zinc-500 font-bold uppercase tracking-[0.3em] text-sm">Founded 2026 // Built for the Elite</p>
         </div>
 
-        <div class="space-y-12">
-            <section class="info-card p-10 rounded-[40px]">
-                <h3 class="text-3xl font-black uppercase italic text-white mb-4">What is EchoDupeLS?</h3>
-                <p class="text-zinc-400 leading-relaxed text-lg">
-                    EchoDupe is more than just a Minecraft server; it’s a high-stakes competitive ecosystem. We specialize in <span class="text-white font-bold">Lifesteal</span> mechanics fused with controlled <span class="text-white font-bold">Dupe</span> capabilities. Our goal was to create a server where the grind is rewarding, the fights are frequent, and the community is unbreakable.
-                </p>
+        <div class="grid grid-cols-1 gap-12">
+            <section class="info-card p-12 rounded-[40px] relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10">
+                    <h4 class="text-8xl font-black italic">2026</h4>
+                </div>
+                
+                <h3 class="text-3xl font-black uppercase italic text-white mb-6">The Evolution</h3>
+                <div class="space-y-6 text-zinc-400 leading-relaxed text-lg">
+                    <p>
+                        Founded in <span class="text-white font-bold">2026</span> by <span class="text-cyan-500 font-bold underline decoration-white/20">Skitxoe</span>, EchoDupeLS represents the next generation of competitive Minecraft.
+                    </p>
+                    <p>
+                        Our roots trace back to the Minehut community, where we were originally known as <span class="text-white font-bold">VoidDupes</span>. While the name has changed, our core philosophy remains: providing a high-octane environment where strategy and skill dictate your survival.
+                    </p>
+                    <p>
+                        We have evolved from a simple dupe server into a complex <span class="text-white font-bold">Lifesteal</span> experience. Every heart you take is a step toward dominance; every heart you lose brings you closer to the void.
+                    </p>
+                </div>
             </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="info-card p-8 rounded-[35px]">
-                    <span class="text-3xl mb-4 block">⚡</span>
-                    <h4 class="text-xl font-black uppercase text-cyan-500 mb-2">High Performance</h4>
-                    <p class="text-zinc-500 text-sm leading-relaxed">Dedicated hardware ensures 20 TPS even during massive faction wars. Lag is not an option.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="info-card p-8 rounded-[30px] text-center">
+                    <p class="text-zinc-500 font-black uppercase text-[10px] tracking-widest mb-2">Founder</p>
+                    <p class="text-xl font-black text-white">SKITXOE</p>
                 </div>
-                <div class="info-card p-8 rounded-[35px]">
-                    <span class="text-3xl mb-4 block">🛡️</span>
-                    <h4 class="text-xl font-black uppercase text-cyan-500 mb-2">Fair Play</h4>
-                    <p class="text-zinc-500 text-sm leading-relaxed">Our custom anti-cheat and active staff team ensure that "duping" stays within the intended mechanics.</p>
+                <div class="info-card p-8 rounded-[30px] text-center border-cyan-500/30">
+                    <p class="text-zinc-500 font-black uppercase text-[10px] tracking-widest mb-2">Legacy Name</p>
+                    <p class="text-xl font-black text-cyan-500 uppercase">VoidDupes</p>
+                </div>
+                <div class="info-card p-8 rounded-[30px] text-center">
+                    <p class="text-zinc-500 font-black uppercase text-[10px] tracking-widest mb-2">Platform</p>
+                    <p class="text-xl font-black text-white">MINEHUT.GG</p>
                 </div>
             </div>
-
-            <section class="text-center py-10">
-                <h3 class="text-2xl font-black uppercase mb-6">Ready to join the chaos?</h3>
-                <a href="index.html" class="inline-block bg-white text-black px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-cyan-500 transition-colors">Start Your Journey</a>
-            </section>
         </div>
     </main>
 
     <footer class="py-12 border-t border-cyan-500/10 text-center">
         <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-            &copy; 2026 EchoDupeLS. All Rights Reserved.
+            Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
         </p>
     </footer>
 </body>
