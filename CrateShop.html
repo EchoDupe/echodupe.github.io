@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoDupeLS | Crates</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.07) 1px, transparent 1px);
+            position: fixed; inset: 0; z-index: -1;
+        }
+        .bg-glow {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
+        }
+        .crate-card { 
+            background: rgba(5, 5, 5, 0.8); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(6, 182, 212, 0.1); 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 320px; /* Ensures symmetry */
+        }
+        .crate-card:hover { transform: translateY(-10px); border-color: #06b6d4; box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); }
+        .cart-active { transform: translateX(0) !important; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
+            <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter">ECHODUPE<span class="text-white">LS</span></a>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-cyan-400 transition">← Hub</a>
+                <button onclick="toggleCart()" class="relative group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
+                    CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
+        <div class="text-center mb-24">
+            <p class="text-cyan-500 font-black uppercase tracking-[0.5em] text-[10px] mb-4">Department 02</p>
+            <h1 class="text-7xl font-black italic uppercase tracking-tighter">SUPPLY <span class="text-cyan-500">CRATES</span></h1>
+        </div>
+        
+        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+            </div>
+    </main>
+
+    <footer class="py-20 border-t border-cyan-500/10 mt-20 text-center">
+        <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500">
+            Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
+        </p>
+    </footer>
+
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-500 border-l border-cyan-500/20 flex flex-col">
+        <div class="flex justify-between items-center mb-12 text-white">
+            <h3 class="text-3xl font-black uppercase italic tracking-tighter">Your <span class="text-cyan-500">Cart</span></h3>
+            <button onclick="toggleCart()" class="text-3xl">&times;</button>
+        </div>
+        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8"></div>
+        <div class="border-t border-cyan-500/10 pt-10 mt-auto">
+            <div class="flex justify-between items-end mb-8">
+                <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
+                <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
+            </div>
+            <a href="index.html" class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg shadow-cyan-500/10">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { crateData } from './crates.js';
+        let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
+
+        const grid = document.getElementById('crate-grid');
+        crateData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = "crate-card p-10 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
+            card.innerHTML = `
+                <div class="text-5xl mb-6">📦</div>
+                <h3 class="text-xl font-black uppercase italic text-white">${item.name}</h3>
+                <div class="text-3xl font-black text-cyan-500 mt-2 mb-6">$${item.price.toFixed(2)}</div>
+                <p class="text-zinc-500 text-[10px] font-bold uppercase mb-8 leading-relaxed">${item.description}</p>
+                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-zinc-900 border border-cyan-500/20 text-white py-4 rounded-xl font-black uppercase hover:bg-cyan-500 hover:text-black transition-all">Add to Cart</button>`;
+            grid.appendChild(card);
+        });
+
+        window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
+        window.addToCart = (item) => { if (cart[item.id]) cart[item.id].quantity += 1; else cart[item.id] = { ...item, quantity: 1 }; updateCartUI(); toggleCart(); };
+        window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
+
+        function updateCartUI() {
+            const list = document.getElementById('cart-items');
+            const itemIds = Object.keys(cart);
+            let total = 0; let qty = 0;
+            list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            itemIds.forEach(id => {
+                const item = cart[id]; total += (item.price * item.quantity); qty += item.quantity;
+                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center">
+                    <div><p class="font-black uppercase text-sm text-white">${item.name}</p><p class="text-cyan-500 text-[9px] font-black">QTY: ${item.quantity}</p></div>
+                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black">REMOVE</button></div>`;
+            });
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('cart-count').innerText = qty;
+            localStorage.setItem('echo_cart', JSON.stringify(cart));
+        }
+        updateCartUI();
+    </script>
+</body>
+</html>
