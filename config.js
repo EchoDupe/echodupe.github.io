@@ -1,4 +1,5 @@
-const config = {
+// config.js
+window.config = {
     serverName: "EchoDupeLS",
     serverIP: "play.echodupels.minehut.gg",
     serverPort: 25565,
@@ -18,5 +19,3 @@ const config = {
     developedBy: "Skitxoe",
     version: "1.2.0"
 };
-
-export default config;
