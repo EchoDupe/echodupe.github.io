@@ -11,6 +11,7 @@
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
+        /* Upgraded Background */
         .bg-grid {
             background-size: 50px 50px;
             background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
@@ -23,6 +24,7 @@
             z-index: -1; pointer-events: none;
         }
 
+        /* Unified Staff Cards */
         .staff-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
@@ -118,40 +120,49 @@
 
         <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
             <div class="max-w-7xl mx-auto px-6">
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4 text-zinc-700">EchoDupeLS Official Staff Directory</p>
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">© 2026 EchoDupeLS. All Rights Reserved.</p>
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Designed & Developed by <span class="text-cyan-500">Skitxoe</span></p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4 text-zinc-700">
+                    EchoDupeLS Official Staff Directory
+                </p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
+                    &copy; 2026 EchoDupeLS. All Rights Reserved.
+                </p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
+                    Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
+                </p>
             </div>
         </footer>
     </div>
 
-    <script>
-        // --- ADD PEOPLE HERE ---
-        // Categories: "high", "staff", or "builders"
-        const staffData = [
-            { name: "Skitxoe", role: "Owner", category: "high", isHighStaff: true },
-            { name: "Vexify__", role: "Manager", category: "high", isHighStaff: true },
-            { name: "SedneZ", role: "Developer", category: "high", isHighStaff: true },
-            
-            { name: "Moderator", role: "Team Member", category: "staff", isHighStaff: false },
-            
-            { name: "Builder", role: "Creative Team", category: "builders", isHighStaff: false }
-        ];
+    <script src="Staff.js"></script>
 
+    <script>
         function renderStaff() {
+            // Safety check for the array
+            if (typeof staffData === 'undefined') {
+                console.error("Staff.js not found or staffData not defined!");
+                return;
+            }
+
+            // Clear current content
+            document.getElementById('high-staff-container').innerHTML = '';
+            document.getElementById('staff-container').innerHTML = '';
+            document.getElementById('builders-container').innerHTML = '';
+
             staffData.forEach(person => {
                 const firstLetter = person.name.charAt(0).toUpperCase();
-                let html = '';
+                let cardHtml = '';
 
                 if (person.isHighStaff) {
-                    html = `
+                    // High Staff Style (Cyan Glow)
+                    cardHtml = `
                     <div class="staff-card p-12 rounded-[45px] text-center border-t-2 border-cyan-500">
                         <div class="w-24 h-24 bg-zinc-950 border border-cyan-500/20 rounded-[30px] mx-auto mb-8 flex items-center justify-center text-4xl font-black italic text-cyan-500 shadow-2xl">${firstLetter}</div>
                         <h3 class="text-2xl font-black uppercase italic text-white">${person.name}</h3>
                         <p class="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">${person.role}</p>
                     </div>`;
                 } else {
-                    html = `
+                    // Regular Staff Style (Subtle Zinc)
+                    cardHtml = `
                     <div class="staff-card p-8 rounded-[35px] text-center border-t border-zinc-800">
                         <div class="w-16 h-16 bg-zinc-950 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-white/50">${firstLetter}</div>
                         <h3 class="text-lg font-black uppercase italic text-white">${person.name}</h3>
@@ -159,23 +170,28 @@
                     </div>`;
                 }
 
-                // Place in correct section
-                if (person.category === "high") document.getElementById('high-staff-container').innerHTML += html;
-                else if (person.category === "staff") document.getElementById('staff-container').innerHTML += html;
-                else if (person.category === "builders") document.getElementById('builders-container').innerHTML += html;
+                // Place in the correct container
+                if (person.category === "high") {
+                    document.getElementById('high-staff-container').innerHTML += cardHtml;
+                } else if (person.category === "staff") {
+                    document.getElementById('staff-container').innerHTML += cardHtml;
+                } else if (person.category === "builders") {
+                    document.getElementById('builders-container').innerHTML += cardHtml;
+                }
             });
         }
 
-        // Run the render
-        renderStaff();
+        // Run render on load
+        window.onload = renderStaff;
 
-        // Footer Anti-Right Click
-        document.getElementById('main-footer').addEventListener('contextmenu', (e) => e.preventDefault());
+        // Anti-Right-Click for Footer
+        const footer = document.getElementById('main-footer');
+        if(footer) footer.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        // Player Count (Mock)
+        // Simple Player Count Fluctuation
         function updatePlayerCount() {
             const display = document.getElementById('player-count');
-            if(display) display.innerText = 12 + Math.floor(Math.random() * 5); 
+            if(display) display.innerText = 15 + Math.floor(Math.random() * 5);
         }
         updatePlayerCount();
         setInterval(updatePlayerCount, 60000);
