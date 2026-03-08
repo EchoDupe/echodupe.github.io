@@ -1,13 +1,3 @@
-/* =========================================
-   ECHODUPE STAFF TEMPLATES (Copy & Paste)
-   =========================================
-   { name: "User", role: "Owner", category: "high", isHighStaff: true },
-   { name: "User", role: "Admin", category: "high", isHighStaff: true },
-   { name: "User", role: "Mod", category: "staff", isHighStaff: false },
-   { name: "User", role: "Builder", category: "builders", isHighStaff: false },
-   =========================================
-*/
-
 window.staffData = [
     // HIGH STAFF MEMBERS
     { name: "Skitxoe", role: "Owner", category: "high", isHighStaff: true },
@@ -18,6 +8,6 @@ window.staffData = [
     { name: "Test", role: "Helper", category: "staff", isHighStaff: false },
     
     // BUILDERS
-    { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false }, // <-- COMMA WAS ADDED HERE
-    { name: "Skitxoe", role: "Head Builder", category: "builders", isHighStaff: false }
+    { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false },
+    { name: "Skitxoe_", role: "Head Builder", category: "builders", isHighStaff: false }
 ];
