@@ -11,7 +11,7 @@
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* Background Effects */
+        /* Background Grid and Glow */
         .bg-grid {
             background-size: 50px 50px;
             background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
@@ -24,7 +24,7 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* Staff Cards */
+        /* Staff Card Styling */
         .staff-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
@@ -102,20 +102,17 @@
         
         <section class="mb-32">
             <h2 class="section-title">High Staff Members</h2>
-            <div id="high-staff-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
-                </div>
+            <div id="high-staff-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center"></div>
         </section>
 
         <section class="mb-32">
             <h2 class="section-title text-zinc-500">Staff Members</h2>
-            <div id="staff-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
-                </div>
+            <div id="staff-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center"></div>
         </section>
 
         <section class="mb-24">
             <h2 class="section-title text-zinc-500">Builders</h2>
-            <div id="builders-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
-                </div>
+            <div id="builders-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center"></div>
         </section>
 
         <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
@@ -131,36 +128,38 @@
 
     <script>
         function renderStaff() {
-            // Check if staffData has been loaded from staff.js
-            if (typeof staffData === 'undefined') {
-                return; // Wait for the retry interval
+            // Looking specifically for the window property
+            const data = window.staffData;
+
+            if (!data) {
+                console.log("Waiting for staff.js data...");
+                return;
             }
 
-            // Once found, stop checking
-            clearInterval(loadChecker);
+            // Data found, stop the interval
+            clearInterval(githubRetry);
 
             const highCont = document.getElementById('high-staff-container');
             const staffCont = document.getElementById('staff-container');
             const buildCont = document.getElementById('builders-container');
 
-            // Clear placeholders
             highCont.innerHTML = '';
             staffCont.innerHTML = '';
             buildCont.innerHTML = '';
 
-            staffData.forEach(person => {
+            data.forEach(person => {
                 const firstLetter = person.name.charAt(0).toUpperCase();
-                let cardHtml = '';
+                let html = '';
 
                 if (person.isHighStaff) {
-                    cardHtml = `
+                    html = `
                     <div class="staff-card p-12 rounded-[45px] text-center border-t-2 border-cyan-500">
                         <div class="w-24 h-24 bg-zinc-950 border border-cyan-500/20 rounded-[30px] mx-auto mb-8 flex items-center justify-center text-4xl font-black italic text-cyan-500 shadow-2xl">${firstLetter}</div>
                         <h3 class="text-2xl font-black uppercase italic text-white">${person.name}</h3>
                         <p class="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">${person.role}</p>
                     </div>`;
                 } else {
-                    cardHtml = `
+                    html = `
                     <div class="staff-card p-8 rounded-[35px] text-center border-t border-zinc-800">
                         <div class="w-16 h-16 bg-zinc-950 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-white/50">${firstLetter}</div>
                         <h3 class="text-lg font-black uppercase italic text-white">${person.name}</h3>
@@ -168,26 +167,26 @@
                     </div>`;
                 }
 
-                // Append to correct section
-                if (person.category === "high") highCont.innerHTML += cardHtml;
-                else if (person.category === "staff") staffCont.innerHTML += cardHtml;
-                else if (person.category === "builders") buildCont.innerHTML += cardHtml;
+                if (person.category === "high") highCont.innerHTML += html;
+                else if (person.category === "staff") staffCont.innerHTML += html;
+                else if (person.category === "builders") buildCont.innerHTML += html;
             });
+            console.log("Staff successfully rendered on GitHub Pages.");
         }
 
-        // GitHub Pages Fix: Check every 100ms if the script loaded
-        const loadChecker = setInterval(renderStaff, 100);
+        // Check for data every 200ms
+        var githubRetry = setInterval(renderStaff, 200);
 
-        // Player Count Mock
-        function updatePlayerCount() {
-            const display = document.getElementById('player-count');
-            if(display) display.innerText = 12 + Math.floor(Math.random() * 8);
-        }
-        updatePlayerCount();
-        setInterval(updatePlayerCount, 60000);
-
-        // Footer Lock
+        // Footer Anti-Right Click
         document.getElementById('main-footer').addEventListener('contextmenu', e => e.preventDefault());
+
+        // Player Count Update
+        function updateCount() { 
+            const el = document.getElementById('player-count');
+            if(el) el.innerText = 15 + Math.floor(Math.random() * 5); 
+        }
+        updateCount();
+        setInterval(updateCount, 60000);
     </script>
 </body>
 </html>
