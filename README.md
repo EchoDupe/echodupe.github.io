@@ -6,9 +6,9 @@
 
 <br>
 
-<img src="https://img.shields.io/badge/Version-2.0.0_Stable-0ea5e9?style=for-the-badge&labelColor=0a0a0a" width="220" style="pointer-events: none;" />
-<img src="https://img.shields.io/badge/Engine-Skitxoe_UI-white?style=for-the-badge&labelColor=0ea5e9" width="200" style="pointer-events: none;" />
-<img src="https://img.shields.io/badge/Status-Available-22c55e?style=for-the-badge&labelColor=0a0a0a" width="200" style="pointer-events: none;" />
+<img src="https://img.shields.io/badge/Version-2.0.0_Stable-0ea5e9?style=for-the-badge&labelColor=0a0a0a" width="220" />
+<img src="https://img.shields.io/badge/Engine-Skitxoe_UI-white?style=for-the-badge&labelColor=0ea5e9" width="200" />
+<img src="https://img.shields.io/badge/Status-Online-22c55e?style=for-the-badge&labelColor=0a0a0a" width="200" />
 
 ---
 
@@ -28,15 +28,16 @@
 
 | Terminal | Purpose | Access |
 | :--- | :--- | :--- |
-| **Main Site** | Access the Network | `echodupe.github.io` |
-| **Discord** | Community & Support | `discord.gg/yourlink` |
-| **Server IP** | Direct Connection | `play.echodupels.minehut.gg` |
+| **Main Site** | Web Interface | `echodupe.github.io` |
+| **Official Store** | Digital Shop | `echodupe.github.io/store` |
+| **Discord** | Community Hub | `discord.gg/yourlink` |
+| **Server IP** | Direct Uplink | `play.echodupels.minehut.gg` |
 
 <br>
 
-<img src="https://img.shields.io/badge/INTERFACE_LOCKED-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white" width="280" style="pointer-events: none;" />
+<img src="https://img.shields.io/badge/LAUNCH_INTERFACE-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white" width="280" />
 <br>
-<img src="https://img.shields.io/badge/COMMUNICATION_OFFLINE-5865F2?style=for-the-badge&logo=discord&logoColor=white" width="320" style="pointer-events: none;" />
+<img src="https://img.shields.io/badge/COMMUNICATION_HUB-5865F2?style=for-the-badge&logo=discord&logoColor=white" width="320" />
 
 ---
 
@@ -48,6 +49,6 @@
 
 ---
 
-<sub>**&copy; 2026 EchoDupeLS.**<br>V 2.0.0 Deployment. All elements are static and non-interactive.</sub>
+<sub>&copy; 2026 **EchoDupeLS**. All Rights Reserved.</sub>
 
 </div>
