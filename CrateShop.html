@@ -18,11 +18,19 @@
             position: fixed; inset: 0; z-index: -1;
         }
 
-        /* Branding */
-        .logo-link { transition: color 0.2s; }
-        .logo-link:hover { color: #06b6d4; }
+        /* HEADER & TITLE GLOW */
+        .title-container { position: relative; display: inline-block; isolation: isolate; }
+        .matched-glow {
+            position: absolute; inset: -15px -30%; 
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(130, 235, 255, 0.5) 50%, rgba(6, 182, 212, 0.35) 65%, rgba(6, 182, 212, 0) 100%);
+            filter: blur(50px); mix-blend-mode: screen; z-index: -1; pointer-events: none;
+            animation: glow-pulse 6s ease-in-out infinite;
+        }
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1, 1.15); }
+        }
 
-        /* Crate Cards */
         .crate-card { 
             background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); 
             border: 1px solid rgba(6, 182, 212, 0.1); 
@@ -32,42 +40,35 @@
         .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
         .qty-btn.active { background: #06b6d4; color: #000; border-color: #06b6d4; }
 
-        /* Modern Modal Styling */
+        /* MODAL STYLING */
         #modal-overlay { backdrop-filter: blur(12px); display: none; background: rgba(0,0,0,0.85); z-index: 100; }
-        
         .modal-content { 
             background: #0a0a0a; 
             border: 1px solid rgba(255, 255, 255, 0.1); 
-            width: 95%; max-width: 420px;
+            width: 95%; max-width: 400px;
             padding: 1.5rem !important;
-            border-radius: 24px;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
         }
 
         .item-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 8px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 12px;
-            margin-bottom: 8px;
+            border-radius: 10px;
+            margin-bottom: 6px;
         }
 
         .chest-footer-img {
             width: 100%;
             margin-top: 15px;
-            border-radius: 12px;
+            border-radius: 10px;
             image-rendering: pixelated;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .cart-active { transform: translateX(0) !important; }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -75,12 +76,19 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto grid grid-cols-3 items-center p-6">
-            <div></div>
-            <div class="flex justify-center">
-                <a href="index.html" class="logo-link text-2xl font-black italic text-cyan-500 tracking-tighter uppercase">
-                    ECHODUPE<span class="text-white">LS</span>
-                </a>
+            <div>
+                <a href="ranks.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-500 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)] hover:text-white transition">Global Ranks</a>
             </div>
+            
+            <div class="flex justify-center">
+                <div class="title-container">
+                    <div class="matched-glow"></div>
+                    <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase relative z-10">
+                        ECHODUPE<span class="text-white">LS</span>
+                    </a>
+                </div>
+            </div>
+
             <div class="flex justify-end">
                 <button onclick="toggleCart()" class="bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-cyan-500 hover:text-black transition-all">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
@@ -89,28 +97,29 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
+    <main class="max-w-7xl mx-auto pt-44 pb-24 px-6">
+        <div class="text-center mb-16">
+            <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8 justify-center mb-8">
+                <span class="text-white">CRATE</span>
+                <span class="text-cyan-500">KEYS</span>
+            </h1>
+            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-cyan-400/80 animate-pulse">Click the Keys to view Contents</p>
+        </div>
+
         <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"></div>
     </main>
 
     <div id="modal-overlay" class="fixed inset-0 flex items-center justify-center p-4" onclick="if(event.target === this) closeModal()">
         <div class="modal-content">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h2 id="modal-title" class="text-xl font-black italic text-white uppercase tracking-tighter"></h2>
-                    <p class="text-emerald-500 text-[9px] font-black tracking-widest uppercase mt-1">Select (1) Reward on Unlock</p>
-                </div>
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="modal-title" class="text-xl font-black italic text-white uppercase tracking-tighter"></h2>
                 <button onclick="closeModal()" class="text-zinc-600 hover:text-white text-2xl">&times;</button>
             </div>
 
-            <div id="modal-list" class="flex flex-col max-h-[350px] overflow-y-auto pr-1">
+            <div id="modal-list" class="flex flex-col max-h-[320px] overflow-y-auto pr-1">
                 </div>
 
             <img src="assets/ChestGUI.png" class="chest-footer-img" alt="GUI Footer">
-
-            <div class="mt-4 text-center">
-                <p class="text-red-500 text-[8px] font-black uppercase tracking-tighter">Items are non-dupeable in-game</p>
-            </div>
         </div>
     </div>
 
@@ -128,6 +137,10 @@
             <button class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
         </div>
     </div>
+
+    <footer class="w-full py-12 text-center border-t border-white/5">
+        <p class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-600">Created by <span class="text-cyan-500">Skitxoe</span></p>
+    </footer>
 
     <script type="module">
         const keyData = [
@@ -159,7 +172,7 @@
                 </div>
                 <h3 class="text-lg font-black uppercase italic text-white">${item.name}</h3>
                 <div class="mt-1 mb-4 flex flex-col h-10 items-center">
-                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0">$0.00</span>
+                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0 leading-none">$0.00</span>
                     <span id="price-display-${item.id}" class="text-3xl font-black text-cyan-500">$${item.price.toFixed(2)}</span>
                 </div>
                 <div class="flex gap-1 mb-6">${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">${amt}x</button>`).join('')}</div>
@@ -174,10 +187,9 @@
             listContainer.innerHTML = item.contents.map(c => `
                 <div class="item-box">
                     <div class="text-left">
-                        <p class="text-white text-[10px] font-black uppercase leading-none mb-1">${c.name}</p>
+                        <p class="text-white text-[9px] font-black uppercase leading-none mb-1">${c.name}</p>
                         <p class="text-zinc-500 text-[8px] font-bold uppercase">${c.detail}</p>
                     </div>
-                    <div class="w-2 h-2 rounded-full bg-emerald-500/20 border border-emerald-500/40"></div>
                 </div>`).join('');
             document.getElementById('modal-overlay').style.display = 'flex';
         };
@@ -189,11 +201,9 @@
             card.dataset.selectedQty = qty;
             card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${itemId}-${qty}`).classList.add('active');
-            
             const oldPriceEl = document.getElementById(`old-price-${itemId}`);
             const newPriceEl = document.getElementById(`price-display-${itemId}`);
             let total = basePrice * qty;
-            
             if (qty >= 5) {
                 oldPriceEl.innerText = `$${total.toFixed(2)}`;
                 oldPriceEl.classList.remove('opacity-0');
@@ -222,7 +232,6 @@
             const countDisplay = document.getElementById('cart-count');
             let grandTotal = 0, totalItems = 0;
             list.innerHTML = Object.keys(cart).length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            
             Object.keys(cart).forEach(id => {
                 const entry = cart[id];
                 let price = entry.price * entry.totalQty;
