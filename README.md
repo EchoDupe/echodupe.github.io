@@ -28,16 +28,21 @@
 
 | Terminal | Purpose | Access |
 | :--- | :--- | :--- |
-| **Main Site** | Web Interface | `echodupe.github.io` |
-| **Official Store** | Digital Shop | `echodupe.github.io/store` |
-| **Discord** | Community Hub | `discord.gg/yourlink` |
+| **Main Site** | Web Interface | [**Visit Site**](https://echodupe.github.io) |
+| **Official Store** | Digital Shop | [**Open Store**](https://echodupe.github.io/store) |
+| **Discord** | Community Hub | [**Join Server**](https://discord.gg/yourlink) |
 | **Server IP** | Direct Uplink | `play.echodupels.minehut.gg` |
 
 <br>
 
-<img src="https://img.shields.io/badge/LAUNCH_INTERFACE-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white" width="280" />
+<a href="https://echodupe.github.io">
+  <img src="https://img.shields.io/badge/LAUNCH_INTERFACE-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white" width="280" />
+</a>
 <br>
-<img src="https://img.shields.io/badge/COMMUNICATION_HUB-5865F2?style=for-the-badge&logo=discord&logoColor=white" width="320" />
+<br>
+<a href="https://discord.gg/yourlink">
+  <img src="https://img.shields.io/badge/COMMUNICATION_HUB-5865F2?style=for-the-badge&logo=discord&logoColor=white" width="320" />
+</a>
 
 ---
 
