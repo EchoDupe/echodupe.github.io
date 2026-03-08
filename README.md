@@ -6,9 +6,9 @@
 
 <br>
 
-<img src="https://img.shields.io/badge/Version-2.0.0_Stable-0ea5e9?style=for-the-badge&labelColor=0a0a0a" width="220" />
-<img src="https://img.shields.io/badge/Engine-Skitxoe_UI-white?style=for-the-badge&labelColor=0ea5e9" width="200" />
-<img src="https://img.shields.io/badge/Status-Available-22c55e?style=for-the-badge&labelColor=0a0a0a" width="200" />
+<img src="https://img.shields.io/badge/Version-2.0.0_Stable-0ea5e9?style=for-the-badge&labelColor=0a0a0a" width="220" alt="Version 2.0.0" />
+<img src="https://img.shields.io/badge/Engine-Skitxoe_UI-white?style=for-the-badge&labelColor=0ea5e9" width="200" alt="Engine Skitxoe UI" />
+<img src="https://img.shields.io/badge/Status-Available-22c55e?style=for-the-badge&labelColor=0a0a0a" width="200" alt="Status Available" />
 
 ---
 
