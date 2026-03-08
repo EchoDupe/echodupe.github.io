@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Shopping%20Cart.png" width="80" /><br><span style="color:#0ea5e9">ECHODUPE</span><span style="color:#ffffff">WEBSITE</span> `V 2.0.0`
+# <img src="assets/serverlogo.png" width="120" alt="EchoDupe Logo" /><br><span style="color:#0ea5e9">ECHODUPE</span><span style="color:#ffffff">WEBSITE</span> `V 2.0.0`
 
 **The official high-performance digital gateway for the EchoDupeLS Network.**
 
