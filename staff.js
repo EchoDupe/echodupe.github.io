@@ -1,5 +1,5 @@
 // Staff.js
-staffData = [
+var staffData = [
     // HIGH STAFF MEMBERS
     { name: "Skitxoe", role: "Owner", category: "high", isHighStaff: true },
     { name: "Vexify__", role: "Manager", category: "high", isHighStaff: true },
