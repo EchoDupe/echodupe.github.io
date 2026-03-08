@@ -44,6 +44,11 @@
             -ms-user-select: none;
             user-select: none;
         }
+        .pulse { animation: pulse-animation 2.2s infinite; }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
+            100% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
+        }
     </style>
 </head>
 <body class="no-select">
@@ -52,20 +57,31 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6 relative">
-            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition z-50">← Back</a>
-            
-            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <h1 class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase pointer-events-auto">Suggestions</h1>
+            <div class="flex items-center gap-4">
+                <div class="w-2.5 h-2.5 bg-cyan-500 rounded-full pulse"></div>
+                <div class="hidden sm:block">
+                    <p class="text-[10px] font-black text-zinc-500 uppercase tracking-tighter">Status</p>
+                    <p class="text-xs font-bold uppercase"><span id="player-count">0</span> Online</p>
+                </div>
             </div>
 
-            <div class="w-10"></div>
+            <a href="index.html" class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 hover:opacity-80 transition-opacity">
+                ECHODUPE<span class="text-white">LS</span>
+            </a>
+
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Store</a>
+            </div>
         </div>
     </nav>
 
-    <main class="pt-40 pb-20 px-6 max-w-2xl mx-auto">
+    <main class="pt-44 pb-20 px-6 max-w-2xl mx-auto">
         <div class="text-center mb-12">
-            <h2 class="text-5xl font-black uppercase tracking-tighter mb-4">Improve <span class="text-cyan-500">EchoDupe</span></h2>
-            <p class="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.3em]">Direct line to Skitxoe & Staff</p>
+            <h2 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8 justify-center">
+                <span class="text-white">SUGGEST</span>
+                <span class="text-cyan-500">IONS</span>
+            </h2>
+            <p class="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-8">Improve EchoDupe, By Suggesting Ideas, Reporting Bugs!</p>
         </div>
 
         <div class="bg-zinc-900/30 p-8 rounded-[32px] border border-cyan-500/10 backdrop-blur-md">
@@ -98,8 +114,8 @@
         </div>
     </main>
 
-    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 no-select">
-        <div class="max-w-7xl mx-auto px-6 text-center">
+    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 no-select text-center">
+        <div class="max-w-7xl mx-auto px-6">
             <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
                 &copy; 2026 EchoDupeLS. All Rights Reserved.
             </p>
@@ -111,6 +127,13 @@
 
     <script src="config.js"></script>
     <script>
+        function updateCount() { 
+            const el = document.getElementById('player-count');
+            if(el) el.innerText = 15 + Math.floor(Math.random() * 5); 
+        }
+        updateCount();
+        setInterval(updateCount, 60000);
+
         async function submitSuggestion() {
             const user = document.getElementById('suggest-user').value.trim();
             const type = document.getElementById('suggest-type').value;
@@ -119,12 +142,12 @@
             const msg = document.getElementById('response-msg');
 
             if (!user || !text) {
-                alert("Please fill in your name and the suggestion!");
+                alert("Please provide your username and details.");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "TRANSMITTING...";
+            btn.innerText = "PROCESSING...";
 
             let embedColor = 0x06b6d4; 
             if (type === "Bug Report") embedColor = 0xef4444; 
@@ -133,14 +156,14 @@
             const payload = {
                 username: "EchoDupe Feedback Bot",
                 embeds: [{
-                    title: `💡 NEW ${type.toUpperCase()}`,
+                    title: `NEW ${type.toUpperCase()} SUBMISSION`,
                     color: embedColor,
                     fields: [
-                        { name: "👤 Player", value: `\`${user}\``, inline: true },
-                        { name: "📁 Category", value: `\`${type}\``, inline: true },
-                        { name: "📝 Details", value: text }
+                        { name: "Player", value: `\`${user}\``, inline: true },
+                        { name: "Category", value: `\`${type}\``, inline: true },
+                        { name: "Details", value: text }
                     ],
-                    footer: { text: "EchoDupeLS | Suggestions System" },
+                    footer: { text: "EchoDupeLS Management System" },
                     timestamp: new Date().toISOString()
                 }]
             };
@@ -153,7 +176,7 @@
                 });
 
                 if (response.ok) {
-                    msg.innerText = "Suggestion received. Thanks, gang.";
+                    msg.innerText = "Submission successful. Thank you for your feedback.";
                     msg.className = "text-center text-[10px] font-black uppercase text-cyan-500 mt-6 block";
                     document.getElementById('suggest-text').value = "";
                     document.getElementById('suggest-user').value = "";
@@ -161,7 +184,7 @@
                     throw new Error();
                 }
             } catch (err) {
-                msg.innerText = "Failed to send. Check config.js webhook URL.";
+                msg.innerText = "Submission failed. Please verify the configuration.";
                 msg.className = "text-center text-[10px] font-black uppercase text-red-500 mt-6 block";
             } finally {
                 btn.disabled = false;
