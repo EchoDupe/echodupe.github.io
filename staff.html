@@ -1,80 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | Staff Team</title>
-    <link rel="icon" type="image/png" href="assets/logo.png">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        /* Upgraded Background */
-        .bg-grid {
-            background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
-                              linear-gradient(to bottom, rgba(6, 182, 212, 0.07) 1px, transparent 1px);
-            position: fixed; inset: 0; z-index: -1;
-        }
-        .bg-glow {
-            position: fixed; inset: 0;
-            background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
-            z-index: -1; pointer-events: none;
-        }
-
-        /* Unified Staff Cards */
-        .staff-card { 
-            background: rgba(5, 5, 5, 0.8); 
-            backdrop-filter: blur(16px); 
-            border: 1px solid rgba(6, 182, 212, 0.1); 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            width: 100%;
-        }
-        .staff-card:hover { 
-            transform: translateY(-10px); 
-            border-color: #06b6d4; 
-            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); 
-        }
-
-        .pulse { animation: pulse-animation 2.2s infinite; }
-        @keyframes pulse-animation {
-            0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
-            100% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
-        }
-
-        .section-title {
-            letter-spacing: 0.5em;
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            color: #06b6d4;
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-        .section-title::before, .section-title::after {
-            content: "";
-            height: 1px;
-            width: 50px;
-            background: rgba(6, 182, 212, 0.2);
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
-
-        /* Anti-Theft selection prevention */
-        .no-select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-    </style>
-</head>
 <body>
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
@@ -88,11 +11,9 @@
                     <p class="text-xs font-bold uppercase"><span id="player-count">0</span> Online</p>
                 </div>
             </div>
-
             <a href="index.html" class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 select-none">
                 ECHODUPE<span class="text-white">LS</span>
             </a>
-            
             <div class="flex items-center gap-6">
                 <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Store</a>
             </div>
@@ -103,64 +24,69 @@
         
         <section class="mb-32">
             <h2 class="section-title">High Staff Members</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
-                <div class="staff-card p-12 rounded-[45px] text-center border-t-2 border-cyan-500">
-                    <div class="w-24 h-24 bg-zinc-950 border border-cyan-500/20 rounded-[30px] mx-auto mb-8 flex items-center justify-center text-4xl font-black italic text-cyan-500 shadow-2xl">S</div>
-                    <h3 class="text-2xl font-black uppercase italic text-white">Skitxoe</h3>
-                    <p class="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">Owner</p>
+            <div id="high-staff-list" class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
                 </div>
-                <div class="staff-card p-12 rounded-[45px] text-center border-t-2 border-cyan-500">
-                    <div class="w-24 h-24 bg-zinc-950 border border-cyan-500/20 rounded-[30px] mx-auto mb-8 flex items-center justify-center text-4xl font-black italic text-cyan-500 shadow-2xl">V</div>
-                    <h3 class="text-2xl font-black uppercase italic text-white">Vexify__</h3>
-                    <p class="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">Manager</p>
-                </div>
-                <div class="staff-card p-12 rounded-[45px] text-center border-t-2 border-cyan-500">
-                    <div class="w-24 h-24 bg-zinc-950 border border-cyan-500/20 rounded-[30px] mx-auto mb-8 flex items-center justify-center text-4xl font-black italic text-cyan-500 shadow-2xl">S</div>
-                    <h3 class="text-2xl font-black uppercase italic text-white">SedneZ</h3>
-                    <p class="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">Developer</p>
-                </div>
-            </div>
         </section>
 
         <section class="mb-32">
             <h2 class="section-title text-zinc-500">Staff Members</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
-                <div class="staff-card p-8 rounded-[35px] text-center border-t border-zinc-800">
-                    <div class="w-16 h-16 bg-zinc-950 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-white/50">M</div>
-                    <h3 class="text-lg font-black uppercase italic text-white">Moderator</h3>
-                    <p class="text-zinc-500 text-[9px] font-black uppercase tracking-widest mt-2">Team Member</p>
+            <div id="staff-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
                 </div>
-            </div>
         </section>
 
         <section class="mb-24">
             <h2 class="section-title text-zinc-500">Builders</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
-                <div class="staff-card p-8 rounded-[35px] text-center border-t border-zinc-800">
-                    <div class="w-16 h-16 bg-zinc-950 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-white/50">B</div>
-                    <h3 class="text-lg font-black uppercase italic text-white">Builder</h3>
-                    <p class="text-zinc-500 text-[9px] font-black uppercase tracking-widest mt-2">Creative Team</p>
+            <div id="builders-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
                 </div>
-            </div>
         </section>
 
         <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
             <div class="max-w-7xl mx-auto px-6">
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4 text-zinc-700">
-                    EchoDupeLS Official Staff Directory
-                </p>
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
-                    &copy; 2026 EchoDupeLS. All Rights Reserved.
-                </p>
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-                    Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
-                </p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] mb-4 text-zinc-700">EchoDupeLS Official Staff Directory</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">&copy; 2026 EchoDupeLS. All Rights Reserved.</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Designed & Developed by <span class="text-cyan-500">Skitxoe</span></p>
             </div>
         </footer>
     </div>
 
     <script type="module">
         import config from './config.js';
+        import { staffData } from './staff.js';
+
+        // Function to render the cards
+        function renderStaff() {
+            staffData.forEach(person => {
+                let containerId = "";
+                if (person.category === "high") containerId = "high-staff-list";
+                else if (person.category === "staff") containerId = "staff-list";
+                else if (person.category === "builders") containerId = "builders-list";
+
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const firstLetter = person.name.charAt(0).toUpperCase();
+
+                if (person.isHighStaff) {
+                    // EXACT Original High Staff Card HTML
+                    container.innerHTML += `
+                        <div class="staff-card p-12 rounded-[45px] text-center border-t-2 border-cyan-500">
+                            <div class="w-24 h-24 bg-zinc-950 border border-cyan-500/20 rounded-[30px] mx-auto mb-8 flex items-center justify-center text-4xl font-black italic text-cyan-500 shadow-2xl">${firstLetter}</div>
+                            <h3 class="text-2xl font-black uppercase italic text-white">${person.name}</h3>
+                            <p class="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em] mt-3">${person.role}</p>
+                        </div>`;
+                } else {
+                    // EXACT Original Normal/Builder Card HTML
+                    container.innerHTML += `
+                        <div class="staff-card p-8 rounded-[35px] text-center border-t border-zinc-800">
+                            <div class="w-16 h-16 bg-zinc-950 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-white/50">${firstLetter}</div>
+                            <h3 class="text-lg font-black uppercase italic text-white">${person.name}</h3>
+                            <p class="text-zinc-500 text-[9px] font-black uppercase tracking-widest mt-2">${person.role}</p>
+                        </div>`;
+                }
+            });
+        }
+
+        renderStaff();
 
         // Anti-Right-Click for Footer
         const footer = document.getElementById('main-footer');
@@ -176,4 +102,3 @@
         setInterval(updatePlayerCount, 60000);
     </script>
 </body>
-</html>
