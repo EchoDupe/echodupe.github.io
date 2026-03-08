@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
@@ -23,7 +23,7 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* --- Updated Matched Backglow --- */
+        /* --- THE COMBINED MIDDLE GLOW --- */
         .title-container {
             position: relative;
             display: inline-block;
@@ -32,30 +32,29 @@
 
         .matched-glow {
             position: absolute;
-            inset: 0;
-            /* Matches White -> Cyan transition exactly behind the words */
+            inset: -15px -30%; 
             background: linear-gradient(to right, 
-                rgba(255, 255, 255, 0.3) 20%, 
-                rgba(255, 255, 255, 0.1) 45%,
-                rgba(6, 182, 212, 0.1) 55%,
-                rgba(6, 182, 212, 0.4) 80%);
-            filter: blur(35px);
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.35) 35%,   
+                rgba(130, 235, 255, 0.5) 50%,  
+                rgba(6, 182, 212, 0.35) 65%,    
+                rgba(6, 182, 212, 0) 100%
+            );
+            filter: blur(50px);
+            mix-blend-mode: screen; 
             z-index: -1;
-            transform: scale(1.2, 1.5); /* Makes it slightly taller/wider than text */
             pointer-events: none;
+            animation: glow-pulse 6s ease-in-out infinite;
         }
 
-        .global-text { color: #ffffff; }
-        .ranks-text { color: #06b6d4; }
-
-        /* Subtle Shimmer */
-        @keyframes soft-pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1, 1.15); }
         }
-        .matched-glow { animation: soft-pulse 4s ease-in-out infinite; }
 
-        /* --- Rest of Styles --- */
+        .global-text { color: #ffffff; position: relative; }
+        .ranks-text { color: #06b6d4; position: relative; }
+
         .rank-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
@@ -69,29 +68,27 @@
         .rank-card:hover { transform: translateY(-12px); border-color: #06b6d4; box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); }
         .cart-active { transform: translateX(0) !important; }
         
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
-        .no-select { user-select: none; }
-
         .mc-preview {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 14px;
             border-radius: 14px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            letter-spacing: 0.5px;
         }
 
         .perk-category {
             font-size: 9px;
             font-weight: 900;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.25em;
             color: #06b6d4;
             margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             text-transform: uppercase;
         }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
+        .no-select { user-select: none; }
     </style>
 </head>
 <body>
@@ -103,7 +100,6 @@
             <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase">ECHODUPE<span class="text-white">LS</span></a>
             <div class="flex items-center gap-6">
                 <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-cyan-400 transition">← Hub</a>
-                <a href="staff.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Staff</a>
                 <button onclick="toggleCart()" class="relative group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
                 </button>
@@ -112,10 +108,10 @@
     </nav>
 
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
-        <div class="text-center mb-16">
+        <div class="text-center mb-24">
             <div class="title-container">
                 <div class="matched-glow"></div>
-                <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-4">
+                <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8">
                     <span class="global-text">GLOBAL</span>
                     <span class="ranks-text">RANKS</span>
                 </h1>
@@ -125,26 +121,11 @@
         <div class="max-w-4xl mx-auto mb-16">
             <div class="bg-cyan-500/5 border border-cyan-500/10 rounded-2xl p-6 backdrop-blur-md">
                 <div class="flex flex-wrap justify-center gap-6 md:gap-12">
-                    <div class="flex items-center gap-2">
-                        <span class="text-cyan-500 font-black text-xs">P:</span>
-                        <span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Protection</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-cyan-500 font-black text-xs">U:</span>
-                        <span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Unbreaking</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-cyan-500 font-black text-xs">S:</span>
-                        <span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Sharpness</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-cyan-500 font-black text-xs">E:</span>
-                        <span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Efficiency</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-cyan-500 font-black text-xs">M:</span>
-                        <span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Mending</span>
-                    </div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">P:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Protection</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">U:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Unbreaking</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">S:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Sharpness</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">E:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Efficiency</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">M:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Mending</span></div>
                 </div>
             </div>
         </div>
@@ -154,12 +135,8 @@
 
     <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
         <div class="max-w-7xl mx-auto px-6">
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
-                &copy; 2026 EchoDupeLS. All Rights Reserved.
-            </p>
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-                Designed & Developed by <span class="text-cyan-500">Skitxoe</span>
-            </p>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">&copy; 2026 EchoDupeLS. All Rights Reserved.</p>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Designed & Developed by <span class="text-cyan-500">Skitxoe</span></p>
         </div>
     </footer>
 
@@ -174,12 +151,11 @@
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button onclick="window.location.href='index.html?openCart=true'" class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg shadow-cyan-500/10">Go to Checkout</button>
+            <button onclick="window.location.href='index.html?openCart=true'" class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Go to Checkout</button>
         </div>
     </div>
 
     <script type="module">
-        /* Script logic remains identical to your previous version */
         function parsePrefix(raw) {
             let html = raw;
             html = html.replace(/&#([A-Fa-f0-9]{6})&l/g, '</span><span style="color:#$1; font-weight:900;">');
@@ -252,11 +228,13 @@
                             </div>
                         `).join('')}
                     </div>
+                    
                     <div class="perk-category">Kit Armor</div>
-                    <div class="bg-zinc-900/40 p-3 rounded-xl border border-white/5 mb-4">
-                        <p class="text-white text-[10px] font-black uppercase mb-1">${item.armor}</p>
+                    <div class="bg-zinc-900/40 p-4 rounded-xl border border-white/5 mb-4">
+                        <p class="text-white text-[10px] font-medium uppercase tracking-widest mb-1.5">${item.armor}</p>
                         <p class="text-cyan-500 text-[9px] font-bold uppercase tracking-tighter">TRIM: ${item.trim}</p>
                     </div>
+
                     <div class="perk-category">Kit Weapons</div>
                     <div class="space-y-1.5 mb-8">
                         ${item.weapons.map(w => `
@@ -271,22 +249,9 @@
             grid.appendChild(card);
         });
 
-        window.toggleCart = () => {
-            document.getElementById('cart-sidebar').classList.toggle('cart-active');
-            updateCartUI();
-        };
-
-        window.addToCart = (item) => {
-            if (cart[item.id]) cart[item.id].quantity += 1;
-            else cart[item.id] = { ...item, quantity: 1 };
-            updateCartUI();
-            document.getElementById('cart-sidebar').classList.add('cart-active');
-        };
-
-        window.removeFromCart = (id) => {
-            delete cart[id];
-            updateCartUI();
-        };
+        window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
+        window.addToCart = (item) => { if (cart[item.id]) cart[item.id].quantity += 1; else cart[item.id] = { ...item, quantity: 1 }; updateCartUI(); document.getElementById('cart-sidebar').classList.add('cart-active'); };
+        window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
 
         function updateCartUI() {
             const list = document.getElementById('cart-items');
@@ -300,7 +265,7 @@
                 total += (item.price * item.quantity);
                 qty += item.quantity;
                 const row = document.createElement('div');
-                row.className = "bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center";
+                row.className = "bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4";
                 row.innerHTML = `<div><p class="font-black uppercase text-xs text-white">${item.name}</p><p class="text-cyan-500 text-[9px] font-black">QTY: ${item.quantity}</p></div><button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button>`;
                 list.appendChild(row);
             });
