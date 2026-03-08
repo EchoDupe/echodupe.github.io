@@ -19,4 +19,5 @@ window.staffData = [
     
     // BUILDERS
     { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false }
+    { name: "Skitxoe", role: "Head Builder", category: "builders", isHighStaff: false },
 ];
