@@ -1,5 +1,5 @@
-// staff.js
-export const staffData = [
+// Staff.js
+staffData = [
     // HIGH STAFF MEMBERS
     { name: "Skitxoe", role: "Owner", category: "high", isHighStaff: true },
     { name: "Vexify__", role: "Manager", category: "high", isHighStaff: true },
