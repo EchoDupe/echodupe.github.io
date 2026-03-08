@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | Suggestions</title>
+    <title>EchoDupe | Feedback</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <a href="index.html" class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 hover:opacity-80 transition-opacity">
+            <a href="index.html" class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 hover:opacity-70 transition-all">
                 ECHODUPE<span class="text-white">LS</span>
             </a>
 
@@ -78,17 +78,17 @@
     <main class="pt-44 pb-20 px-6 max-w-2xl mx-auto">
         <div class="text-center mb-12">
             <h2 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8 justify-center">
-                <span class="text-white">SUGGEST</span>
-                <span class="text-cyan-500">IONS</span>
+                <span class="text-white">FEEDBACK</span>
+                <span class="text-cyan-500">HUB</span>
             </h2>
             <p class="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-8">Improve EchoDupe, By Suggesting Ideas, Reporting Bugs!</p>
         </div>
 
-        <div class="bg-zinc-900/30 p-8 rounded-[32px] border border-cyan-500/10 backdrop-blur-md">
+        <div class="bg-zinc-900/30 p-8 rounded-[32px] border border-cyan-500/10 backdrop-blur-md shadow-2xl">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                     <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Username</label>
-                    <input type="text" id="suggest-user" placeholder="Your Name" class="input-field w-full p-4 rounded-2xl text-white">
+                    <input type="text" id="suggest-user" placeholder="Minecraft Name" class="input-field w-full p-4 rounded-2xl text-white">
                 </div>
                 <div>
                     <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Category</label>
@@ -103,12 +103,12 @@
             </div>
 
             <div class="mb-8">
-                <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Your Idea / Report</label>
-                <textarea id="suggest-text" rows="5" placeholder="Be descriptive..." class="input-field w-full p-4 rounded-2xl text-white resize-none"></textarea>
+                <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Submission Details</label>
+                <textarea id="suggest-text" rows="5" placeholder="Describe your idea or report in detail..." class="input-field w-full p-4 rounded-2xl text-white resize-none"></textarea>
             </div>
 
-            <button onclick="submitSuggestion()" id="submit-btn" class="w-full bg-cyan-600 hover:bg-cyan-500 text-black py-5 rounded-2xl font-black uppercase tracking-widest transition-all">
-                Submit Feedback
+            <button onclick="submitSuggestion()" id="submit-btn" class="w-full bg-cyan-600 hover:bg-white hover:text-black text-black py-5 rounded-2xl font-black uppercase tracking-widest transition-all">
+                Submit To Management
             </button>
             <p id="response-msg" class="text-center text-[10px] font-black uppercase hidden mt-6"></p>
         </div>
@@ -142,12 +142,12 @@
             const msg = document.getElementById('response-msg');
 
             if (!user || !text) {
-                alert("Please provide your username and details.");
+                alert("Submission incomplete. Please provide all required details.");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "PROCESSING...";
+            btn.innerText = "TRANSMITTING...";
 
             let embedColor = 0x06b6d4; 
             if (type === "Bug Report") embedColor = 0xef4444; 
@@ -156,14 +156,14 @@
             const payload = {
                 username: "EchoDupe Feedback Bot",
                 embeds: [{
-                    title: `NEW ${type.toUpperCase()} SUBMISSION`,
+                    title: `OFFICIAL ${type.toUpperCase()} SUBMISSION`,
                     color: embedColor,
                     fields: [
-                        { name: "Player", value: `\`${user}\``, inline: true },
+                        { name: "User", value: `\`${user}\``, inline: true },
                         { name: "Category", value: `\`${type}\``, inline: true },
-                        { name: "Details", value: text }
+                        { name: "Message", value: text }
                     ],
-                    footer: { text: "EchoDupeLS Management System" },
+                    footer: { text: "EchoDupeLS Official Management System" },
                     timestamp: new Date().toISOString()
                 }]
             };
@@ -176,7 +176,7 @@
                 });
 
                 if (response.ok) {
-                    msg.innerText = "Submission successful. Thank you for your feedback.";
+                    msg.innerText = "Submission successful. Your feedback has been recorded.";
                     msg.className = "text-center text-[10px] font-black uppercase text-cyan-500 mt-6 block";
                     document.getElementById('suggest-text').value = "";
                     document.getElementById('suggest-user').value = "";
@@ -184,11 +184,11 @@
                     throw new Error();
                 }
             } catch (err) {
-                msg.innerText = "Submission failed. Please verify the configuration.";
+                msg.innerText = "Transmission error. Please verify the configuration.";
                 msg.className = "text-center text-[10px] font-black uppercase text-red-500 mt-6 block";
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Submit Feedback";
+                btn.innerText = "Submit To Management";
             }
         }
     </script>
