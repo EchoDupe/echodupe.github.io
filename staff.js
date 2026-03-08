@@ -6,7 +6,7 @@ export const staffData = [
     { name: "SedneZ", role: "Developer", category: "high", isHighStaff: true },
 
     // REGULAR STAFF MEMBERS
-    { name: "Moderator", role: "Team Member", category: "staff", isHighStaff: false },
+    { name: "Test", role: "Helper", category: "staff", isHighStaff: false },
     
     // BUILDERS
     { name: "Builder", role: "Creative Team", category: "builders", isHighStaff: false },
