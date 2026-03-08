@@ -18,56 +18,63 @@
             position: fixed; inset: 0; z-index: -1;
         }
 
-        .title-container { position: relative; display: inline-block; isolation: isolate; }
-        .matched-glow {
-            position: absolute; inset: -15px -30%; 
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(130, 235, 255, 0.5) 50%, rgba(6, 182, 212, 0.35) 65%, rgba(6, 182, 212, 0) 100%);
-            filter: blur(50px); mix-blend-mode: screen; z-index: -1; pointer-events: none;
-            animation: glow-pulse 6s ease-in-out infinite;
-        }
+        /* Static Logo - No Animations */
+        .logo-link { text-shadow: none; transition: none; }
+        .logo-link:hover { color: #06b6d4; }
 
-        @keyframes glow-pulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1, 1.15); }
-        }
-
+        /* Crate Card Styling */
         .crate-card { 
             background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); 
             border: 1px solid rgba(6, 182, 212, 0.1); 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 100%; max-width: 280px;
+            transition: transform 0.2s ease;
         }
-        .crate-card:hover { transform: translateY(-10px); border-color: #06b6d4; box-shadow: 0 10px 40px rgba(6, 182, 212, 0.1); }
+        .crate-card:hover { transform: translateY(-5px); border-color: #06b6d4; }
         
-        .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; cursor: pointer; }
+        .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
         .qty-btn.active { background: #06b6d4; color: #000; border-color: #06b6d4; }
 
-        .cart-active { transform: translateX(0) !important; }
-        
+        /* Modal / Chest GUI - Static */
         #modal-overlay { backdrop-filter: blur(12px); display: none; background: rgba(0,0,0,0.85); z-index: 100; }
+        
         .modal-content { 
-            background: #080808; 
-            border: 1px solid rgba(6, 182, 212, 0.2); 
-            box-shadow: 0 0 40px rgba(0,0,0,1);
-            width: 95%; max-width: 500px;
-            padding: 1.5rem !important;
-            border-radius: 24px;
+            background: #c6c6c6; 
+            border: 4px solid #373737; 
+            box-shadow: inset 4px 4px 0px #ffffff, inset -4px -4px 0px #555555;
+            width: 95%; max-width: 420px;
+            padding: 0 !important;
+            border-radius: 0; 
+        }
+
+        .chest-header {
+            width: 100%;
+            display: block;
+            image-rendering: pixelated;
+        }
+
+        .item-list-container {
+            padding: 10px 15px 20px 15px;
+            background: #c6c6c6;
+            max-height: 380px;
+            overflow-y: auto;
         }
 
         .item-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 10px 5px;
-            border-radius: 12px;
-            text-align: center;
+            background: #8b8b8b;
+            border: 2px solid #373737;
+            box-shadow: inset 2px 2px 0px #ffffff, inset -2px -2px 0px #555555;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
         }
 
-        .key-icon-container { position: relative; cursor: pointer; transition: transform 0.3s ease; }
-        .key-icon-container:hover { transform: scale(1.1); }
+        .cart-active { transform: translateX(0) !important; }
 
-        ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        .item-list-container::-webkit-scrollbar { width: 8px; }
+        .item-list-container::-webkit-scrollbar-track { background: #373737; }
+        .item-list-container::-webkit-scrollbar-thumb { background: #8b8b8b; border: 2px solid #373737; }
     </style>
 </head>
 <body>
@@ -76,15 +83,13 @@
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto grid grid-cols-3 items-center p-6">
             <div></div>
-            
             <div class="flex justify-center">
-                <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase hover:scale-105 transition-transform">
+                <a href="index.html" class="logo-link text-2xl font-black italic text-cyan-500 tracking-tighter uppercase">
                     ECHODUPE<span class="text-white">LS</span>
                 </a>
             </div>
-
             <div class="flex justify-end">
-                <button onclick="toggleCart()" class="relative group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
+                <button onclick="toggleCart()" class="bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-cyan-500 hover:text-black">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
                 </button>
             </div>
@@ -92,40 +97,28 @@
     </nav>
 
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
-        <div class="text-center mb-16">
-            <div class="title-container mb-8">
-                <div class="matched-glow"></div>
-                <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8 justify-center">
-                    <span class="crate-text">CRATE</span>
-                    <span class="keys-text">KEYS</span>
-                </h1>
-            </div>
-            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-cyan-400/80 animate-pulse">Click the Keys to view Contents</p>
-        </div>
-
         <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"></div>
     </main>
 
     <div id="modal-overlay" class="fixed inset-0 flex items-center justify-center p-4" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content relative flex flex-col">
-            <div class="absolute top-0 left-0 w-full h-1 bg-emerald-500"></div>
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <h2 id="modal-title" class="text-xl font-black italic text-white uppercase tracking-tighter leading-none"></h2>
-                    <p class="text-emerald-500 text-[9px] font-black tracking-[0.2em] mt-1 uppercase">PICK ANY (1) REWARD BELOW</p>
-                </div>
-                <button onclick="closeModal()" class="text-zinc-600 hover:text-white text-2xl transition">&times;</button>
+        <div class="modal-content">
+            <img src="assets/ChestGUI.png" class="chest-header" alt="Menu Header">
+            
+            <div class="flex justify-between items-center px-4 py-2 bg-[#c6c6c6]">
+                <h2 id="modal-title" class="text-zinc-800 font-bold uppercase text-sm"></h2>
+                <button onclick="closeModal()" class="text-zinc-600 hover:text-black font-black text-xl leading-none">&times;</button>
             </div>
 
-            <div id="modal-list" class="grid grid-cols-3 gap-2 mb-4"></div>
+            <div id="modal-list" class="item-list-container">
+                </div>
 
-            <div class="bg-zinc-900/50 border border-white/5 p-2 rounded-lg">
-                <p class="text-zinc-500 text-[8px] font-bold text-center uppercase tracking-widest">Guaranteed selection upon opening crate</p>
+            <div class="p-4 bg-[#c6c6c6] border-t border-zinc-400 text-center">
+                <p class="text-zinc-600 text-[9px] font-bold uppercase">All items are non-dupeable</p>
             </div>
         </div>
     </div>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-500 border-l border-cyan-500/20 flex flex-col">
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-300 border-l border-cyan-500/20 flex flex-col">
         <div class="flex justify-between items-center mb-12 text-white">
             <h3 class="text-3xl font-black uppercase italic tracking-tighter">Your <span class="text-cyan-500">Cart</span></h3>
             <button onclick="toggleCart()" class="text-3xl">&times;</button>
@@ -136,41 +129,40 @@
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg">Proceed to Checkout</button>
+            <button class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
         </div>
     </div>
 
     <script type="module">
         const keyData = [
-            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, iconColor: '#10b981', description: 'CHOOSE 1 ENCHANTED NETHERITE PIECE', contents: [
+            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, iconColor: '#10b981', contents: [
                 { name: 'Helmet', detail: 'P1 | U1' }, { name: 'Chestplate', detail: 'P1 | U1' }, { name: 'Leggings', detail: 'P1 | U1' },
                 { name: 'Boots', detail: 'P1 | U1' }, { name: 'Sword', detail: 'S1 | U1' }, { name: 'Axe', detail: 'S1 | U1' }, { name: 'Pickaxe', detail: 'E1 | U1' }
             ]},
-            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', description: 'UNLOCK THE SHRIEKER SUPPLY CRATE', contents: [{ name: 'Coming Soon', detail: '...' }] },
-            { id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', description: 'UNLOCK THE WARDEN SUPPLY CRATE', contents: [{ name: 'Coming Soon', detail: '...' }] },
-            { id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', description: 'UNLOCK THE ELITE ECHO CRATE', contents: [{ name: 'Coming Soon', detail: '...' }] }
+            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', contents: [{ name: 'Coming Soon', detail: '...' }] },
+            { id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', contents: [{ name: 'Coming Soon', detail: '...' }] },
+            { id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', contents: [{ name: 'Coming Soon', detail: '...' }] }
         ];
 
-        const DISCOUNT_RATE = 0.1424; 
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
+        const DISCOUNT_RATE = 0.1424;
 
         const grid = document.getElementById('crate-grid');
         keyData.forEach(item => {
             const card = document.createElement('div');
-            card.className = "crate-card p-8 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
+            card.className = "crate-card p-8 rounded-[35px] flex flex-col text-center items-center";
             card.dataset.selectedQty = 1;
             card.innerHTML = `
-                <div class="key-icon-container mb-6" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; filter: drop-shadow(0 0 12px ${item.iconColor}aa)">
+                <div class="mb-6" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; cursor: pointer;">
                     <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2.5"/><path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
                 </div>
-                <h3 class="text-lg font-black uppercase italic text-white tracking-tight">${item.name}</h3>
-                <div class="mt-1 mb-4 flex flex-col items-center justify-center h-10">
-                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0 leading-none"></span>
+                <h3 class="text-lg font-black uppercase italic text-white">${item.name}</h3>
+                <div class="mt-1 mb-4 flex flex-col h-10">
+                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0">$0.00</span>
                     <span id="price-display-${item.id}" class="text-3xl font-black text-cyan-500">$${item.price.toFixed(2)}</span>
                 </div>
-                <div class="flex gap-1 mb-6">${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">${amt}x</button>`).join('')}</div>
-                <p class="text-zinc-500 text-[8px] font-bold uppercase mb-6 tracking-widest h-8">${item.description}</p>
-                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg">Add to Cart</button>`;
+                <div class="flex gap-1 mb-6">${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase">${amt}x</button>`).join('')}</div>
+                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-colors">Add to Cart</button>`;
             grid.appendChild(card);
         });
 
@@ -179,9 +171,9 @@
             document.getElementById('modal-title').innerText = item.name;
             const listContainer = document.getElementById('modal-list');
             listContainer.innerHTML = item.contents.map(c => `
-                <div class="item-box border border-white/5">
-                    <p class="text-white text-[9px] font-black uppercase leading-tight">${c.name}</p>
-                    <p class="text-zinc-600 text-[7px] font-bold uppercase mt-1">${c.detail}</p>
+                <div class="item-box">
+                    <p class="text-white text-xs font-bold uppercase">${c.name}</p>
+                    <p class="text-zinc-300 text-[10px] font-bold">${c.detail}</p>
                 </div>`).join('');
             document.getElementById('modal-overlay').style.display = 'flex';
         };
@@ -193,11 +185,19 @@
             card.dataset.selectedQty = qty;
             card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${itemId}-${qty}`).classList.add('active');
+            
             const oldPriceEl = document.getElementById(`old-price-${itemId}`);
             const newPriceEl = document.getElementById(`price-display-${itemId}`);
             let total = basePrice * qty;
-            if (qty > 1) { oldPriceEl.innerText = `$${total.toFixed(2)}`; oldPriceEl.classList.remove('opacity-0'); newPriceEl.innerText = `$${(total * (1-DISCOUNT_RATE)).toFixed(2)}`; }
-            else { oldPriceEl.classList.add('opacity-0'); newPriceEl.innerText = `$${total.toFixed(2)}`; }
+            
+            if (qty >= 5) {
+                oldPriceEl.innerText = `$${total.toFixed(2)}`;
+                oldPriceEl.classList.remove('opacity-0');
+                newPriceEl.innerText = `$${(total * (1 - DISCOUNT_RATE)).toFixed(2)}`;
+            } else {
+                oldPriceEl.classList.add('opacity-0');
+                newPriceEl.innerText = `$${total.toFixed(2)}`;
+            }
         };
 
         window.handleAddToCart = (itemId) => {
@@ -225,7 +225,10 @@
                 if (entry.totalQty >= 5) price *= (1 - DISCOUNT_RATE);
                 grandTotal += price;
                 totalItems += entry.totalQty;
-                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4"><div><p class="font-black uppercase text-sm text-white">${entry.name}</p><p class="text-cyan-500 text-[9px] font-black uppercase">QTY: ${entry.totalQty} | $${price.toFixed(2)}</p></div><button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase hover:text-white transition">Remove</button></div>`;
+                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
+                    <div><p class="font-black uppercase text-sm text-white">${entry.name}</p>
+                    <p class="text-cyan-500 text-[9px] font-black uppercase">QTY: ${entry.totalQty} | $${price.toFixed(2)}</p></div>
+                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase hover:text-white transition">Remove</button></div>`;
             });
             totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
             countDisplay.innerText = totalItems;
