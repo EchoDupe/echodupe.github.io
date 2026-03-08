@@ -23,41 +23,51 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* --- New Glow Effect Styles --- */
-        .glow-title {
-            display: flex;
+        /* --- Ambient Backglow Effect --- */
+        .title-wrapper {
+            position: relative;
+            display: inline-flex;
             justify-content: center;
-            gap: 0.25em;
-            filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.2));
+            gap: 0.3em;
+            isolation: isolate; /* Keeps glow behind text */
+        }
+
+        /* The actual blur behind the words */
+        .title-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -20px -60px;
+            /* Creates the combination effect: White on left, Cyan on right */
+            background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.15) 30%, 
+                rgba(6, 182, 212, 0.25) 70%, 
+                rgba(6, 182, 212, 0) 100%);
+            filter: blur(40px);
+            z-index: -1;
+            border-radius: 50%;
         }
 
         .global-text {
-            color: #fff;
-            /* White glow that slightly bleeds cyan at the end */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 
-                         0 0 40px rgba(255, 255, 255, 0.2);
-            background: linear-gradient(to right, #ffffff 80%, #06b6d4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+            position: relative;
         }
 
         .ranks-text {
             color: #06b6d4;
-            /* Strong Cyan Glow */
-            text-shadow: 0 0 20px rgba(6, 182, 212, 0.7), 
-                         0 0 40px rgba(6, 182, 212, 0.3);
+            position: relative;
         }
 
-        /* Subtle shimmering effect */
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.85; }
+        /* Subtle ambient pulse of the backglow only */
+        @keyframes ambient-shimmer {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
-        .glow-title span {
-            animation: shimmer 3s ease-in-out infinite;
+        .title-wrapper::after {
+            animation: ambient-shimmer 4s ease-in-out infinite;
         }
-        /* ------------------------------ */
 
+        /* --- Rest of Styles --- */
         .rank-card { 
             background: rgba(5, 5, 5, 0.8); 
             backdrop-filter: blur(16px); 
@@ -115,10 +125,12 @@
 
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
         <div class="text-center mb-16">
-            <h1 class="text-7xl font-black italic uppercase tracking-tighter glow-title">
-                <span class="global-text">GLOBAL</span>
-                <span class="ranks-text">RANKS</span>
-            </h1>
+            <div class="title-wrapper">
+                <h1 class="text-7xl font-black italic uppercase tracking-tighter">
+                    <span class="global-text">GLOBAL</span>
+                    <span class="ranks-text">RANKS</span>
+                </h1>
+            </div>
         </div>
 
         <div class="max-w-4xl mx-auto mb-16">
