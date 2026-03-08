@@ -24,20 +24,16 @@
 
 ### ⚡ <span style="color:#38bdf8">NETWORK TERMINALS</span>
 
-| Terminal | Purpose | Link |
+| Terminal | Purpose | Access |
 | :--- | :--- | :--- |
-| **Main Site** | Access the Network | [**Launch**](https://echodupe.github.io) |
-| **Discord** | Community & Support | [**Join**](https://discord.gg/yourlink) |
+| **Main Site** | Access the Network | `echodupe.github.io` |
+| **Discord** | Community & Support | `discord.gg/yourlink` |
 | **Server IP** | Direct Connection | `play.echodupels.minehut.gg` |
 
 <br>
 
-<a href="https://echodupe.github.io">
-  <img src="https://img.shields.io/badge/ENTER_INTERFACE-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white" />
-</a>
-<a href="https://discord.gg/yourlink">
-  <img src="https://img.shields.io/badge/JOIN_DISCORD-5865F2?style=for-the-badge&logo=discord&logoColor=white" />
-</a>
+![Interface](https://img.shields.io/badge/INTERFACE_LOCKED-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white)
+![Communication](https://img.shields.io/badge/COMMUNICATION_OFFLINE-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 
 ---
 
@@ -49,6 +45,6 @@
 
 ---
 
-<sub>**&copy; 2026 EchoDupeLS.**<br>V 2.0.0 Deployment. Unauthorized use of assets or layout is prohibited.</sub>
+<sub>**&copy; 2026 EchoDupeLS.**<br>V 2.0.0 Deployment. All buttons and badges are static for documentation purposes.</sub>
 
 </div>
