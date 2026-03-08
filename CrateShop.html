@@ -18,7 +18,7 @@
             position: fixed; inset: 0; z-index: -1;
         }
 
-        /* --- MATCHED GLOW FROM RANK SHOP --- */
+        /* --- MATCHED GLOW --- */
         .title-container {
             position: relative;
             display: inline-block;
@@ -47,16 +47,19 @@
             50% { opacity: 0.8; transform: scale(1.05, 1.1); }
         }
 
+        /* BIGGER BOXES */
         .crate-card { 
-            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); 
+            background: rgba(10, 10, 10, 0.8); 
+            backdrop-filter: blur(20px); 
             border: 1px solid rgba(6, 182, 212, 0.1); 
-            width: 100%; max-width: 280px;
+            width: 100%; 
+            max-width: 340px; /* Increased from 280px */
+            min-height: 480px; /* Ensuring consistent height */
         }
         
         .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
         .qty-btn.active { background: #06b6d4; color: #000; border-color: #06b6d4; }
 
-        /* MODAL STYLING - "DE-ZOOMED" */
         #modal-overlay { backdrop-filter: blur(12px); display: none; background: rgba(0,0,0,0.85); z-index: 100; }
         .modal-content { 
             background: #0a0a0a; 
@@ -77,28 +80,9 @@
             margin-bottom: 6px;
         }
 
-        .item-name {
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700; /* Bold instead of Black for readability */
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        .item-detail {
-            color: #71717a; /* Zinc-400 */
-            font-size: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        .chest-footer-img {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 10px;
-            image-rendering: pixelated;
-        }
+        .item-name { color: #fff; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
+        .item-detail { color: #71717a; font-size: 8px; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+        .chest-footer-img { width: 100%; margin-top: 15px; border-radius: 10px; image-rendering: pixelated; }
 
         .cart-active { transform: translateX(0) !important; }
     </style>
@@ -108,7 +92,9 @@
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <div class="w-1/3"></div>
+            <div class="w-1/3">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-cyan-400 transition">← Hub</a>
+            </div>
             
             <div class="w-1/3 flex justify-center">
                 <div class="title-container">
@@ -139,7 +125,7 @@
             <p class="text-[11px] font-black uppercase tracking-[0.5em] text-cyan-400/80 animate-pulse">Click the Keys to view Contents</p>
         </div>
 
-        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"></div>
+        <div id="crate-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 justify-items-center"></div>
     </main>
 
     <div id="modal-overlay" class="fixed inset-0 flex items-center justify-center p-4" onclick="if(event.target === this) closeModal()">
@@ -148,10 +134,7 @@
                 <h2 id="modal-title" class="text-xl font-black italic text-white uppercase tracking-tighter"></h2>
                 <button onclick="closeModal()" class="text-zinc-600 hover:text-white text-2xl">&times;</button>
             </div>
-
-            <div id="modal-list" class="flex flex-col max-h-[320px] overflow-y-auto pr-1">
-                </div>
-
+            <div id="modal-list" class="flex flex-col max-h-[320px] overflow-y-auto pr-1"></div>
             <img src="assets/ChestGUI.png" class="chest-footer-img" alt="GUI Footer">
         </div>
     </div>
@@ -197,19 +180,19 @@
         const grid = document.getElementById('crate-grid');
         keyData.forEach(item => {
             const card = document.createElement('div');
-            card.className = "crate-card p-8 rounded-[35px] flex flex-col text-center items-center shadow-xl hover:translate-y-[-5px] transition-transform";
+            card.className = "crate-card p-10 rounded-[45px] flex flex-col text-center items-center shadow-2xl hover:translate-y-[-10px] transition-all duration-300";
             card.dataset.selectedQty = 1;
             card.innerHTML = `
-                <div class="mb-6" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; cursor: pointer;">
-                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2.5"/><path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                <div class="mb-8 p-6 bg-white/5 rounded-3xl" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; cursor: pointer;">
+                    <svg width="72" height="72" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2"/><path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                 </div>
-                <h3 class="text-lg font-black uppercase italic text-white">${item.name}</h3>
-                <div class="mt-1 mb-4 flex flex-col h-10 items-center">
-                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0 leading-none">$0.00</span>
-                    <span id="price-display-${item.id}" class="text-3xl font-black text-cyan-500">$${item.price.toFixed(2)}</span>
+                <h3 class="text-xl font-black uppercase italic text-white tracking-tight">${item.name}</h3>
+                <div class="mt-2 mb-6 flex flex-col h-14 items-center justify-center">
+                    <span id="old-price-${item.id}" class="text-[11px] text-red-500 font-bold line-through opacity-0">$0.00</span>
+                    <span id="price-display-${item.id}" class="text-4xl font-black text-cyan-500">$${item.price.toFixed(2)}</span>
                 </div>
-                <div class="flex gap-1 mb-6">${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">${amt}x</button>`).join('')}</div>
-                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all">Add to Cart</button>`;
+                <div class="flex gap-2 mb-8">${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-4 py-2.5 rounded-xl text-xs font-black uppercase transition-all">${amt}x</button>`).join('')}</div>
+                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-white hover:scale-105 transition-all">Add to Cart</button>`;
             grid.appendChild(card);
         });
 
@@ -251,8 +234,14 @@
             const item = keyData.find(k => k.id === itemId);
             const card = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
             const qty = parseInt(card.dataset.selectedQty);
-            if (cart[item.id]) { cart[item.id].totalQty += qty; } 
-            else { cart[item.id] = { ...item, totalQty: qty }; }
+            
+            if (cart[item.id]) { 
+                // Supports both totalQty (keys) and quantity (ranks)
+                const currentQty = cart[item.id].totalQty || cart[item.id].quantity || 0;
+                cart[item.id].totalQty = currentQty + qty; 
+            } else { 
+                cart[item.id] = { ...item, totalQty: qty }; 
+            }
             updateCartUI();
         };
 
@@ -264,22 +253,36 @@
             const totalDisplay = document.getElementById('cart-total');
             const countDisplay = document.getElementById('cart-count');
             let grandTotal = 0, totalItems = 0;
+            
             list.innerHTML = Object.keys(cart).length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            
             Object.keys(cart).forEach(id => {
                 const entry = cart[id];
-                let price = entry.price * entry.totalQty;
-                if (entry.totalQty >= 5) price *= (1 - DISCOUNT_RATE);
+                // Unified quantity check
+                const actualQty = entry.totalQty || entry.quantity || 1;
+                
+                let price = entry.price * actualQty;
+                // Only apply discount to keys, not ranks
+                if (id.startsWith('key_') && actualQty >= 5) price *= (1 - DISCOUNT_RATE);
+                
                 grandTotal += price;
-                totalItems += entry.totalQty;
-                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
-                    <div><p class="font-black uppercase text-sm text-white">${entry.name}</p>
-                    <p class="text-cyan-500 text-[9px] font-black uppercase">QTY: ${entry.totalQty} | $${price.toFixed(2)}</p></div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase hover:text-white transition">Remove</button></div>`;
+                totalItems += actualQty;
+                
+                list.innerHTML += `
+                <div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
+                    <div>
+                        <p class="font-black uppercase text-sm text-white">${entry.name}</p>
+                        <p class="text-cyan-500 text-[9px] font-black uppercase">QTY: ${actualQty} | $${price.toFixed(2)}</p>
+                    </div>
+                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase hover:text-white transition">Remove</button>
+                </div>`;
             });
+            
             totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
             countDisplay.innerText = totalItems;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
+        
         updateCartUI();
     </script>
 </body>
