@@ -18,6 +18,6 @@ window.staffData = [
     { name: "Test", role: "Helper", category: "staff", isHighStaff: false },
     
     // BUILDERS
-    { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false },
+    { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false }, // <-- COMMA WAS ADDED HERE
     { name: "Skitxoe", role: "Head Builder", category: "builders", isHighStaff: false }
 ];
