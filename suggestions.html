@@ -49,6 +49,8 @@
             0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
             100% { box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
         }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
     </style>
 </head>
 <body class="no-select">
@@ -56,7 +58,7 @@
     <div class="bg-glow"></div>
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
-        <div class="max-w-7xl mx-auto flex justify-between items-center p-6 relative">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
             <div class="flex items-center gap-4">
                 <div class="w-2.5 h-2.5 bg-cyan-500 rounded-full pulse"></div>
                 <div class="hidden sm:block">
@@ -64,11 +66,9 @@
                     <p class="text-xs font-bold uppercase"><span id="player-count">0</span> Online</p>
                 </div>
             </div>
-
-            <a href="index.html" class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2 hover:opacity-70 transition-all">
+            <a href="index.html" class="text-3xl font-black italic text-cyan-500 tracking-tighter absolute left-1/2 -translate-x-1/2">
                 ECHODUPE<span class="text-white">LS</span>
             </a>
-
             <div class="flex items-center gap-6">
                 <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-cyan-500 transition">Store</a>
             </div>
@@ -83,7 +83,7 @@
             <p class="text-zinc-500 font-bold uppercase text-[10px] tracking-[0.2em] mt-8">Improve EchoDupe, By Suggesting Ideas, Reporting Bugs!</p>
         </div>
 
-        <div class="bg-zinc-900/30 p-8 rounded-[32px] border border-cyan-500/10 backdrop-blur-md shadow-2xl">
+        <div class="bg-zinc-900/30 p-8 rounded-[32px] border border-cyan-500/10 backdrop-blur-md">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                     <label class="block text-[10px] font-black uppercase text-zinc-500 mb-2 ml-1">Username</label>
@@ -106,7 +106,7 @@
                 <textarea id="suggest-text" rows="5" placeholder="Describe your idea or report in detail..." class="input-field w-full p-4 rounded-2xl text-white resize-none"></textarea>
             </div>
 
-            <button onclick="submitSuggestion()" id="submit-btn" class="w-full bg-cyan-600 hover:bg-white hover:text-black text-black py-5 rounded-2xl font-black uppercase tracking-widest transition-all">
+            <button onclick="submitSuggestion()" id="submit-btn" class="w-full bg-cyan-600 hover:bg-cyan-500 text-black py-5 rounded-2xl font-black uppercase tracking-widest transition-all">
                 Submit To Management
             </button>
             <p id="response-msg" class="text-center text-[10px] font-black uppercase hidden mt-6"></p>
@@ -146,7 +146,7 @@
             }
 
             btn.disabled = true;
-            btn.innerText = "TRANSMITTING...";
+            btn.innerText = "PROCESSING...";
 
             let embedColor = 0x06b6d4; 
             if (type === "Bug Report") embedColor = 0xef4444; 
