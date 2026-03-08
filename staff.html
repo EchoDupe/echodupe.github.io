@@ -92,21 +92,31 @@
         </footer>
     </div>
 
-    <script src="staff.js"></script>
-
     <script>
+        // =========================================
+        // EDIT YOUR STAFF HERE (ONE COMMIT ONLY)
+        // =========================================
+        const staffData = [
+            { name: "Skitxoe", role: "Owner", category: "high", isHighStaff: true },
+            { name: "Vexify__", role: "Manager", category: "high", isHighStaff: true },
+            { name: "SedneZ", role: "Developer", category: "high", isHighStaff: true },
+
+            { name: "Test", role: "Helper", category: "staff", isHighStaff: false },
+            
+            { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false },
+            { name: "Skitxoe21", role: "Head Builder", category: "builders", isHighStaff: false }
+        ];
+
         function renderStaff() {
-            // Check if window.staffData exists
-            if (!window.staffData) return;
-
-            // Stop the check interval once data is found
-            clearInterval(checkData);
-
             const highCont = document.getElementById('high-staff-container');
             const staffCont = document.getElementById('staff-container');
             const buildCont = document.getElementById('builders-container');
 
-            window.staffData.forEach(person => {
+            highCont.innerHTML = '';
+            staffCont.innerHTML = '';
+            buildCont.innerHTML = '';
+
+            staffData.forEach(person => {
                 const firstLetter = person.name.charAt(0).toUpperCase();
                 let html = '';
 
@@ -132,8 +142,10 @@
             });
         }
 
-        const checkData = setInterval(renderStaff, 100);
+        // Run the render immediately
+        renderStaff();
 
+        // Status Update
         function updateCount() { 
             const el = document.getElementById('player-count');
             if(el) el.innerText = 15 + Math.floor(Math.random() * 5); 
