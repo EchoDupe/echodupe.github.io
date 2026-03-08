@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | Keys</title>
+    <title>EchoDupe | Ranks</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
         .bg-grid {
             background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px), 
-                              linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.07) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.07) 1px, transparent 1px);
             position: fixed; inset: 0; z-index: -1;
         }
+        .bg-glow {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+            z-index: -1; pointer-events: none;
+        }
 
-        /* --- MATCHED GLOW FROM RANK SHOP --- */
+        /* --- THE MATCHED GLOW --- */
         .title-container {
             position: relative;
             display: inline-block;
@@ -27,7 +32,7 @@
 
         .matched-glow {
             position: absolute;
-            inset: -15px -40%; 
+            inset: -15px -30%; 
             background: linear-gradient(to right, 
                 rgba(255, 255, 255, 0) 0%, 
                 rgba(255, 255, 255, 0.35) 35%,   
@@ -44,243 +49,233 @@
 
         @keyframes glow-pulse {
             0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05, 1.1); }
+            50% { opacity: 0.8; transform: scale(1.1, 1.15); }
         }
 
-        .crate-card { 
-            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); 
+        .global-text { color: #ffffff; position: relative; }
+        .ranks-text { color: #06b6d4; position: relative; }
+
+        .rank-card { 
+            background: rgba(5, 5, 5, 0.8); 
+            backdrop-filter: blur(16px); 
             border: 1px solid rgba(6, 182, 212, 0.1); 
-            width: 100%; max-width: 280px;
-        }
-        
-        .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
-        .qty-btn.active { background: #06b6d4; color: #000; border-color: #06b6d4; }
-
-        /* MODAL STYLING - "DE-ZOOMED" */
-        #modal-overlay { backdrop-filter: blur(12px); display: none; background: rgba(0,0,0,0.85); z-index: 100; }
-        .modal-content { 
-            background: #0a0a0a; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            width: 95%; max-width: 360px;
-            padding: 1.5rem !important;
-            border-radius: 20px;
-        }
-
-        .item-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 10px 14px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            width: 100%; 
+            max-width: 380px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 10px;
-            margin-bottom: 6px;
+            flex-direction: column;
         }
-
-        .item-name {
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700; /* Bold instead of Black for readability */
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        .item-detail {
-            color: #71717a; /* Zinc-400 */
-            font-size: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        .chest-footer-img {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 10px;
-            image-rendering: pixelated;
-        }
-
+        .rank-card:hover { transform: translateY(-12px); border-color: #06b6d4; box-shadow: 0 0 50px rgba(6, 182, 212, 0.2); }
         .cart-active { transform: translateX(0) !important; }
+        
+        .mc-preview {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px;
+            border-radius: 14px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .perk-category {
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            color: #06b6d4;
+            margin-top: 1.5rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
+        .no-select { user-select: none; }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
 
     <nav class="fixed top-0 w-full z-40 bg-black/80 border-b border-cyan-500/10 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-6">
-            <div class="w-1/3"></div>
-            
-            <div class="w-1/3 flex justify-center">
-                <div class="title-container">
-                    <div class="matched-glow"></div>
-                    <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase relative z-10">
-                        ECHODUPE<span class="text-white">LS</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="w-1/3 flex justify-end">
-                <button onclick="toggleCart()" class="bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-cyan-500 hover:text-black transition-all">
+            <a href="index.html" class="text-2xl font-black italic text-cyan-500 tracking-tighter uppercase">ECHODUPE<span class="text-white">LS</span></a>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 hover:text-cyan-400 transition">← Hub</a>
+                <button onclick="toggleCart()" class="relative group bg-cyan-500/10 border border-cyan-500/20 px-6 py-2.5 rounded-xl font-black text-xs transition-all hover:bg-cyan-500 hover:text-black">
                     CART <span id="cart-count" class="ml-2 bg-cyan-500 text-black px-2 py-0.5 rounded text-[10px]">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto pt-44 pb-24 px-6">
-        <div class="text-center mb-16">
-            <div class="title-container mb-8">
+    <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
+        <div class="text-center mb-24">
+            <div class="title-container">
                 <div class="matched-glow"></div>
-                <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8 justify-center relative z-10">
-                    <span class="text-white">CRATE</span>
-                    <span class="text-cyan-500">KEYS</span>
+                <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-8">
+                    <span class="global-text">GLOBAL</span>
+                    <span class="ranks-text">RANKS</span>
                 </h1>
             </div>
-            <p class="text-[11px] font-black uppercase tracking-[0.5em] text-cyan-400/80 animate-pulse">Click the Keys to view Contents</p>
         </div>
 
-        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"></div>
+        <div class="max-w-4xl mx-auto mb-16">
+            <div class="bg-cyan-500/5 border border-cyan-500/10 rounded-2xl p-6 backdrop-blur-md">
+                <div class="flex flex-wrap justify-center gap-6 md:gap-12">
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">P:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Protection</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">U:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Unbreaking</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">S:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Sharpness</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">E:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Efficiency</span></div>
+                    <div class="flex items-center gap-2"><span class="text-cyan-500 font-black text-xs">M:</span><span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Mending</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="rank-grid" class="flex flex-wrap gap-10 justify-center items-stretch"></div>
     </main>
 
-    <div id="modal-overlay" class="fixed inset-0 flex items-center justify-center p-4" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h2 id="modal-title" class="text-xl font-black italic text-white uppercase tracking-tighter"></h2>
-                <button onclick="closeModal()" class="text-zinc-600 hover:text-white text-2xl">&times;</button>
-            </div>
-
-            <div id="modal-list" class="flex flex-col max-h-[320px] overflow-y-auto pr-1">
-                </div>
-
-            <img src="assets/ChestGUI.png" class="chest-footer-img" alt="GUI Footer">
+    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">&copy; 2026 EchoDupeLS. All Rights Reserved.</p>
+            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Designed & Developed by <span class="text-cyan-500">Skitxoe</span></p>
         </div>
-    </div>
+    </footer>
 
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-300 border-l border-cyan-500/20 flex flex-col">
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-500 border-l border-cyan-500/20 flex flex-col">
         <div class="flex justify-between items-center mb-12 text-white">
             <h3 class="text-3xl font-black uppercase italic tracking-tighter">Your <span class="text-cyan-500">Cart</span></h3>
             <button onclick="toggleCart()" class="text-3xl">&times;</button>
         </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8"></div>
+        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8 pr-2"></div>
         <div class="border-t border-cyan-500/10 pt-10 mt-auto">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
+            <button onclick="window.location.href='index.html?openCart=true'" class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Go to Checkout</button>
         </div>
     </div>
 
-    <footer class="w-full py-12 text-center border-t border-white/5">
-        <p class="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-600">Created by <span class="text-cyan-500">Skitxoe</span></p>
-    </footer>
-
     <script type="module">
-        const keyData = [
-            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, iconColor: '#10b981', contents: [
-                { name: 'Enchanted Netherite Helmet', detail: 'P1 | U1' }, 
-                { name: 'Enchanted Netherite Chestplate', detail: 'P1 | U1' }, 
-                { name: 'Enchanted Netherite Leggings', detail: 'P1 | U1' },
-                { name: 'Enchanted Netherite Boots', detail: 'P1 | U1' }, 
-                { name: 'Enchanted Netherite Sword', detail: 'S1 | U1' }, 
-                { name: 'Enchanted Netherite Axe', detail: 'S1 | U1' }, 
-                { name: 'Enchanted Netherite Pickaxe', detail: 'E1 | U1' }
-            ]},
-            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', contents: [{ name: 'Coming Soon', detail: '...' }] },
-            { id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', contents: [{ name: 'Coming Soon', detail: '...' }] },
-            { id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', contents: [{ name: 'Coming Soon', detail: '...' }] }
+        function parsePrefix(raw) {
+            let html = raw;
+            html = html.replace(/&#([A-Fa-f0-9]{6})&l/g, '</span><span style="color:#$1; font-weight:900;">');
+            html = html.replace(/&8&l/g, '</span><span style="color:#555555; font-weight:900;">');
+            html = html.replace(/&l/g, '');
+            return `<span>${html}</span>`;
+        }
+
+        const rankData = [
+            {
+                id: 'rank_sensor',
+                name: 'Sensor',
+                price: 3.00,
+                prefixRaw: '&8&l[&#FFFFFF&lS&#DFDFDF&lE&#B0B0B0&lN&#818181&lS&#525252&lO&#2D2D2D&lR&8&l]',
+                global: ['Exclusive Sensor Prefix', '3 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
+                armor: 'Netherite Gear (P5|U3|M)',
+                trim: 'SENSOR | QUARTZ',
+                weapons: ['Sword (S5|U3|M)', 'Axe (S5|U4|E3|M)', 'Pickaxe (E5|U3|M)']
+            },
+            {
+                id: 'rank_stalker',
+                name: 'Stalker',
+                price: 4.00,
+                prefixRaw: '&8&l[&#00FF88&lS&#00D572&lT&#00AB5C&lA&#008046&lL&#005531&lK&#003322&lE&#00110B&lR&8&l]',
+                global: ['Exclusive Stalker Prefix', '4 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
+                armor: 'Netherite Gear (P5|U4|M)',
+                trim: 'SILENCE | EMERALD',
+                weapons: ['Sword (S5|U4|M)', 'Axe (S5|U4|E6|M)', 'Pickaxe (E5|U4|M)']
+            },
+            {
+                id: 'rank_warden',
+                name: 'Warden',
+                price: 5.00,
+                prefixRaw: '&8&l[&#55FFFF&lW&#3BEDED&lA&#22DBDB&lR&#08C9C9&lD&#008E8E&lE&#001A33&lN&8&l]',
+                global: ['Exclusive Warden Prefix', '5 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
+                armor: 'Netherite Gear (P6|U4|M)',
+                trim: 'WARD | DIAMOND',
+                weapons: ['Sword (S6|U4|M)', 'Axe (S6|U4|E6|M)', 'Pickaxe (E6|U4|M)']
+            }
         ];
-
+        
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
-        const DISCOUNT_RATE = 0.1424;
-
-        const grid = document.getElementById('crate-grid');
-        keyData.forEach(item => {
+        const grid = document.getElementById('rank-grid');
+        
+        rankData.forEach(item => {
             const card = document.createElement('div');
-            card.className = "crate-card p-8 rounded-[35px] flex flex-col text-center items-center shadow-xl hover:translate-y-[-5px] transition-transform";
-            card.dataset.selectedQty = 1;
+            card.className = "rank-card p-10 rounded-[45px]";
+            const prefixHtml = item.prefixRaw ? `
+                <div class="mb-6">
+                    <p class="text-[9px] uppercase font-bold text-zinc-600 tracking-widest mb-2 text-center">In-Game Preview</p>
+                    <div class="mc-preview text-center">
+                        ${parsePrefix(item.prefixRaw)} <span style="color: #fff">Player</span>
+                    </div>
+                </div>
+            ` : '';
+
             card.innerHTML = `
-                <div class="mb-6" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; cursor: pointer;">
-                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2.5"/><path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                <div class="mb-6">
+                    <h3 class="text-2xl font-black uppercase italic text-white">${item.name}</h3>
+                    <div class="text-5xl font-black text-cyan-500 mt-2">$${item.price.toFixed(2)}</div>
                 </div>
-                <h3 class="text-lg font-black uppercase italic text-white">${item.name}</h3>
-                <div class="mt-1 mb-4 flex flex-col h-10 items-center">
-                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0 leading-none">$0.00</span>
-                    <span id="price-display-${item.id}" class="text-3xl font-black text-cyan-500">$${item.price.toFixed(2)}</span>
+                ${prefixHtml}
+                <div class="flex-grow">
+                    <div class="perk-category">Global Access</div>
+                    <div class="space-y-2 mb-4">
+                        ${item.global.map(p => `
+                            <div class="flex items-center gap-3">
+                                <span class="w-1 h-1 bg-cyan-500 rounded-full"></span>
+                                <p class="text-zinc-400 text-[10px] font-bold uppercase tracking-wider">${p}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="perk-category">Kit Armor</div>
+                    <div class="bg-zinc-900/40 p-4 rounded-xl border border-white/5 mb-4">
+                        <p class="text-white text-[10px] font-medium uppercase tracking-widest mb-1.5">${item.armor}</p>
+                        <p class="text-cyan-500 text-[9px] font-bold uppercase tracking-tighter">TRIM: ${item.trim}</p>
+                    </div>
+
+                    <div class="perk-category">Kit Weapons</div>
+                    <div class="space-y-1.5 mb-8">
+                        ${item.weapons.map(w => `
+                            <div class="flex items-center gap-3 bg-white/5 p-2 rounded-lg">
+                                <p class="text-zinc-300 text-[9px] font-bold uppercase tracking-wider">${w}</p>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-                <div class="flex gap-1 mb-6">${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">${amt}x</button>`).join('')}</div>
-                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all">Add to Cart</button>`;
+                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-500 text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Add To Cart</button>
+            `;
             grid.appendChild(card);
         });
 
-        window.openModal = (itemId) => {
-            const item = keyData.find(k => k.id === itemId);
-            document.getElementById('modal-title').innerText = item.name;
-            const listContainer = document.getElementById('modal-list');
-            listContainer.innerHTML = item.contents.map(c => `
-                <div class="item-box">
-                    <div class="text-left">
-                        <p class="item-name">${c.name}</p>
-                        <p class="item-detail">${c.detail}</p>
-                    </div>
-                </div>`).join('');
-            document.getElementById('modal-overlay').style.display = 'flex';
-        };
-
-        window.closeModal = () => { document.getElementById('modal-overlay').style.display = 'none'; };
-
-        window.updateQty = (itemId, qty, basePrice) => {
-            const card = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
-            card.dataset.selectedQty = qty;
-            card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${itemId}-${qty}`).classList.add('active');
-            const oldPriceEl = document.getElementById(`old-price-${itemId}`);
-            const newPriceEl = document.getElementById(`price-display-${itemId}`);
-            let total = basePrice * qty;
-            if (qty >= 5) {
-                oldPriceEl.innerText = `$${total.toFixed(2)}`;
-                oldPriceEl.classList.remove('opacity-0');
-                newPriceEl.innerText = `$${(total * (1 - DISCOUNT_RATE)).toFixed(2)}`;
-            } else {
-                oldPriceEl.classList.add('opacity-0');
-                newPriceEl.innerText = `$${total.toFixed(2)}`;
-            }
-        };
-
-        window.handleAddToCart = (itemId) => {
-            const item = keyData.find(k => k.id === itemId);
-            const card = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
-            const qty = parseInt(card.dataset.selectedQty);
-            if (cart[item.id]) { cart[item.id].totalQty += qty; } 
-            else { cart[item.id] = { ...item, totalQty: qty }; }
-            updateCartUI();
-        };
-
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
+        window.addToCart = (item) => { if (cart[item.id]) cart[item.id].quantity += 1; else cart[item.id] = { ...item, quantity: 1 }; updateCartUI(); document.getElementById('cart-sidebar').classList.add('cart-active'); };
         window.removeFromCart = (id) => { delete cart[id]; updateCartUI(); };
 
         function updateCartUI() {
             const list = document.getElementById('cart-items');
             const totalDisplay = document.getElementById('cart-total');
             const countDisplay = document.getElementById('cart-count');
-            let grandTotal = 0, totalItems = 0;
-            list.innerHTML = Object.keys(cart).length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            Object.keys(cart).forEach(id => {
-                const entry = cart[id];
-                let price = entry.price * entry.totalQty;
-                if (entry.totalQty >= 5) price *= (1 - DISCOUNT_RATE);
-                grandTotal += price;
-                totalItems += entry.totalQty;
-                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
-                    <div><p class="font-black uppercase text-sm text-white">${entry.name}</p>
-                    <p class="text-cyan-500 text-[9px] font-black uppercase">QTY: ${entry.totalQty} | $${price.toFixed(2)}</p></div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase hover:text-white transition">Remove</button></div>`;
+            const itemIds = Object.keys(cart);
+            let total = 0, qty = 0;
+            list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            itemIds.forEach(id => {
+                const item = cart[id];
+                total += (item.price * item.quantity);
+                qty += item.quantity;
+                const row = document.createElement('div');
+                row.className = "bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4";
+                row.innerHTML = `<div><p class="font-black uppercase text-xs text-white">${item.name}</p><p class="text-cyan-500 text-[9px] font-black">QTY: ${item.quantity}</p></div><button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button>`;
+                list.appendChild(row);
             });
-            totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
-            countDisplay.innerText = totalItems;
+            totalDisplay.innerText = `$${total.toFixed(2)}`;
+            countDisplay.innerText = qty;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
+
         updateCartUI();
+        document.getElementById('main-footer').addEventListener('contextmenu', (e) => e.preventDefault());
     </script>
 </body>
 </html>
