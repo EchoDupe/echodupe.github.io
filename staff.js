@@ -1,16 +1,10 @@
 /* =========================================
-   MEMBER TEMPLATES (Copy & Paste these)
+   ECHODUPE STAFF TEMPLATES (Copy & Paste)
    =========================================
-   
-   HIGH STAFF:
-   { name: "Name", role: "Owner", category: "high", isHighStaff: true },
-
-   STAFF:
-   { name: "Name", role: "Moderator", category: "staff", isHighStaff: false },
-
-   BUILDER:
-   { name: "Name", role: "Builder", category: "builders", isHighStaff: false },
-   
+   { name: "User", role: "Owner", category: "high", isHighStaff: true },
+   { name: "User", role: "Admin", category: "high", isHighStaff: true },
+   { name: "User", role: "Mod", category: "staff", isHighStaff: false },
+   { name: "User", role: "Builder", category: "builders", isHighStaff: false },
    =========================================
 */
 
