@@ -29,7 +29,6 @@
 | Terminal | Purpose | Access |
 | :--- | :--- | :--- |
 | **Main Site** | Web Interface | [**Visit Site**](https://echodupe.github.io) |
-| **Official Store** | Digital Shop | [**Open Store**](https://echodupe.github.io/store) |
 | **Discord** | Community Hub | [**Join Server**](https://discord.gg/yourlink) |
 | **Server IP** | Direct Uplink | `play.echodupels.minehut.gg` |
 
