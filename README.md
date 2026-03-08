@@ -1,7 +1,5 @@
 <div align="center">
 
-# <img src="assets/serverlogo.png" width="120" alt="EchoDupe Logo" /><br><span style="color:#0ea5e9">ECHODUPE</span><span style="color:#ffffff">WEBSITE</span> `V 2.0.0`
-
 **The official high-performance digital gateway for the EchoDupeLS Network.**
 
 <br>
