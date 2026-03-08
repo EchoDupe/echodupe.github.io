@@ -7,5 +7,5 @@ window.staffData = [
 
     { name: "Test", role: "Helper", category: "staff", isHighStaff: false },
     
-    { name: "Test", role: "Trail Builder", category: "builders", isHighStaff: false }
+    { name: "Test", role: "Trial Builder", category: "builders", isHighStaff: false }
 ];
