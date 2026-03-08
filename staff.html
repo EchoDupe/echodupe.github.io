@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | Staff</title>
+    <title>EchoDupe | Staff Team</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -77,12 +77,12 @@
         </section>
 
         <section class="mb-32">
-            <h2 class="section-title text-zinc-500">Staff Members</h2>
+            <h2 class="section-title">Staff Members</h2>
             <div id="staff-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center"></div>
         </section>
 
         <section class="mb-24">
-            <h2 class="section-title text-zinc-500">Builders</h2>
+            <h2 class="section-title">Builders</h2>
             <div id="builders-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center"></div>
         </section>
 
@@ -93,9 +93,6 @@
     </div>
 
     <script>
-        // =========================================
-        // EDIT YOUR STAFF HERE (ONE COMMIT ONLY)
-        // =========================================
         const staffData = [
             { name: "Skitxoe", role: "Owner", category: "high", isHighStaff: true },
             { name: "Vexify__", role: "Manager", category: "high", isHighStaff: true },
@@ -103,7 +100,7 @@
 
             { name: "N/A", role: "Sr. Administrator", category: "staff", isHighStaff: false },
             { name: "N/A", role: "Administrator", category: "staff", isHighStaff: false },
-            { name: "N/A", role: "Jr. Administator", category: "staff", isHighStaff: false },
+            { name: "N/A", role: "Jr. Administrator", category: "staff", isHighStaff: false },
             { name: "N/A", role: "Sr. Moderator", category: "staff", isHighStaff: false },
             { name: "N/A", role: "Moderator", category: "staff", isHighStaff: false },
             { name: "N/A", role: "Jr. Moderator", category: "staff", isHighStaff: false },
@@ -137,10 +134,10 @@
                     </div>`;
                 } else {
                     html = `
-                    <div class="staff-card p-8 rounded-[35px] text-center border-t border-zinc-800">
-                        <div class="w-16 h-16 bg-zinc-950 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-white/50">${firstLetter}</div>
+                    <div class="staff-card p-8 rounded-[35px] text-center border border-cyan-500/10">
+                        <div class="w-16 h-16 bg-zinc-950 border border-cyan-500/20 rounded-2xl mx-auto mb-4 flex items-center justify-center text-xl font-black italic text-cyan-500/80">${firstLetter}</div>
                         <h3 class="text-lg font-black uppercase italic text-white">${person.name}</h3>
-                        <p class="text-zinc-500 text-[9px] font-black uppercase tracking-widest mt-2">${person.role}</p>
+                        <p class="text-cyan-500/60 text-[9px] font-black uppercase tracking-widest mt-2">${person.role}</p>
                     </div>`;
                 }
 
@@ -150,10 +147,8 @@
             });
         }
 
-        // Run the render immediately
         renderStaff();
 
-        // Status Update
         function updateCount() { 
             const el = document.getElementById('player-count');
             if(el) el.innerText = 15 + Math.floor(Math.random() * 5); 
