@@ -18,27 +18,11 @@
             position: fixed; inset: 0; z-index: -1;
         }
 
-        /* --- THE COMBINED MIDDLE GLOW (Replaces Heartbeat) --- */
-        .title-container {
-            position: relative;
-            display: inline-block;
-            isolation: isolate;
-        }
-
+        .title-container { position: relative; display: inline-block; isolation: isolate; }
         .matched-glow {
-            position: absolute;
-            inset: -15px -30%; 
-            background: linear-gradient(to right, 
-                rgba(255, 255, 255, 0) 0%, 
-                rgba(255, 255, 255, 0.35) 35%,   /* White under CRATE */
-                rgba(130, 235, 255, 0.5) 50%,  /* The Blend in the middle */
-                rgba(6, 182, 212, 0.35) 65%,    /* Cyan under KEYS */
-                rgba(6, 182, 212, 0) 100%
-            );
-            filter: blur(50px);
-            mix-blend-mode: screen; 
-            z-index: -1;
-            pointer-events: none;
+            position: absolute; inset: -15px -30%; 
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(130, 235, 255, 0.5) 50%, rgba(6, 182, 212, 0.35) 65%, rgba(6, 182, 212, 0) 100%);
+            filter: blur(50px); mix-blend-mode: screen; z-index: -1; pointer-events: none;
             animation: glow-pulse 6s ease-in-out infinite;
         }
 
@@ -47,29 +31,35 @@
             50% { opacity: 0.8; transform: scale(1.1, 1.15); }
         }
 
-        .crate-text { color: #ffffff; position: relative; }
-        .keys-text { color: #06b6d4; position: relative; }
-
-        /* Card Styles */
         .crate-card { 
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(20px); 
+            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); 
             border: 1px solid rgba(6, 182, 212, 0.1); 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 100%;
-            max-width: 280px;
+            width: 100%; max-width: 280px;
         }
-        .crate-card:hover { 
-            transform: translateY(-10px); 
-            border-color: #06b6d4;
-            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.1);
-        }
+        .crate-card:hover { transform: translateY(-10px); border-color: #06b6d4; box-shadow: 0 10px 40px rgba(6, 182, 212, 0.1); }
         
+        .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease; }
+        .qty-btn.active { background: #06b6d4; color: #000; border-color: #06b6d4; }
+
         .cart-active { transform: translateX(0) !important; }
+        
+        /* Modal Styles */
+        #modal-overlay { backdrop-filter: blur(10px); display: none; }
+        .modal-content { background: rgba(5, 5, 5, 0.95); border: 1px solid rgba(6, 182, 212, 0.2); }
+
+        /* Tooltip style */
+        .key-icon-container { position: relative; cursor: pointer; }
+        .key-tooltip {
+            position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            background: #06b6d4; color: #000; font-size: 8px; font-weight: 900;
+            padding: 4px 8px; border-radius: 4px; white-space: nowrap;
+            opacity: 0; transition: opacity 0.3s; pointer-events: none; text-transform: uppercase;
+        }
+        .key-icon-container:hover .key-tooltip { opacity: 1; }
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 10px; }
-        .no-select { user-select: none; }
-        .dev-credit:hover { text-shadow: 0 0 10px #06b6d4; }
     </style>
 </head>
 <body>
@@ -97,21 +87,25 @@
                 </h1>
             </div>
         </div>
-        
-        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
-        </div>
+        <div id="crate-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center"></div>
     </main>
 
-    <footer id="main-footer" class="py-20 border-t border-cyan-500/10 mt-20 text-center no-select">
-        <div class="max-w-7xl mx-auto px-6">
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">
-                &copy; 2026 EchoDupeLS. All Rights Reserved.
-            </p>
-            <p class="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">
-                Designed & Developed by <span class="text-cyan-500 dev-credit transition-all cursor-default">Skitxoe</span>
-            </p>
+    <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/60">
+        <div class="modal-content w-full max-w-md rounded-[40px] p-10 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-cyan-500"></div>
+            <button onclick="closeModal()" class="absolute top-6 right-8 text-zinc-500 hover:text-white text-2xl font-bold">&times;</button>
+            
+            <div class="text-center mb-8">
+                <h2 id="modal-title" class="text-3xl font-black italic text-white uppercase tracking-tighter">Crate Contents</h2>
+                <p class="text-cyan-500 text-[10px] font-black tracking-[0.3em] mt-2">PREVIEWING REWARDS</p>
+            </div>
+
+            <div id="modal-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                </div>
+            
+            <button onclick="closeModal()" class="w-full mt-8 bg-zinc-900 border border-white/5 text-white py-4 rounded-2xl font-black uppercase text-xs hover:bg-zinc-800 transition-all">Close Preview</button>
         </div>
-    </footer>
+    </div>
 
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-black z-50 p-12 transform translate-x-full transition-transform duration-500 border-l border-cyan-500/20 flex flex-col">
         <div class="flex justify-between items-center mb-12 text-white">
@@ -130,37 +124,105 @@
 
     <script type="module">
         const keyData = [
-            { id: 'key_sculk', name: 'Sculk Key', price: 1.00, iconColor: '#10b981', description: 'UNLOCK THE SCULK SUPPLY CRATE' },
-            { id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', description: 'UNLOCK THE SHRIEKER SUPPLY CRATE' },
-            { id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', description: 'UNLOCK THE WARDEN SUPPLY CRATE' },
-            { id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', description: 'UNLOCK THE ELITE ECHO CRATE' }
+            { 
+                id: 'key_sculk', name: 'Sculk Key', price: 1.00, iconColor: '#10b981', 
+                description: 'UNLOCK THE SCULK SUPPLY CRATE',
+                contents: ['Standard Echo Sword', '5,000 Coins', 'Common Sculk Core', 'Protection IV Book']
+            },
+            { 
+                id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', 
+                description: 'UNLOCK THE SHRIEKER SUPPLY CRATE',
+                contents: ['Shrieker Bow', '10,000 Coins', 'Rare Shrieker Fragment', 'Sharpness V Book']
+            },
+            { 
+                id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', 
+                description: 'UNLOCK THE WARDEN SUPPLY CRATE',
+                contents: ['Warden Chestplate', '25,000 Coins', 'Epic Warden Heart', 'Unbreaking III Book']
+            },
+            { 
+                id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', 
+                description: 'UNLOCK THE ELITE ECHO CRATE',
+                contents: ['Mythic Echo Blade', '100,000 Coins', 'Legendary Echo Star', 'Custom Rank Voucher']
+            }
         ];
 
+        const DISCOUNT_PERCENT = 14.24;
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
         const grid = document.getElementById('crate-grid');
+        
         keyData.forEach(item => {
             const card = document.createElement('div');
-            card.className = "crate-card p-10 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
+            card.className = "crate-card p-8 rounded-[35px] flex flex-col text-center items-center shadow-2xl";
+            card.dataset.selectedQty = 1;
+
             card.innerHTML = `
-                <div class="mb-8" style="color: ${item.iconColor}; filter: drop-shadow(0 0 12px ${item.iconColor}aa)">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="key-icon-container mb-6" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; filter: drop-shadow(0 0 12px ${item.iconColor}aa)">
+                    <div class="key-tooltip">Click to view contents</div>
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2.5"/>
                         <path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-black uppercase italic text-white tracking-tight">${item.name}</h3>
-                <div class="text-4xl font-black mt-2 mb-6 text-cyan-500">$${item.price.toFixed(2)}</div>
-                <p class="text-zinc-500 text-[9px] font-bold uppercase mb-8 tracking-widest leading-relaxed">${item.description}</p>
-                <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg shadow-cyan-500/20">Add to Cart</button>`;
+                <h3 class="text-lg font-black uppercase italic text-white tracking-tight">${item.name}</h3>
+                <div id="price-display-${item.id}" class="text-3xl font-black mt-1 mb-4 text-cyan-500">$${item.price.toFixed(2)}</div>
+                
+                <div class="flex gap-1 mb-6">
+                    ${[1, 5, 10, 20].map(amt => `
+                        <button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">
+                            ${amt}x
+                        </button>
+                    `).join('')}
+                </div>
+
+                <p class="text-zinc-500 text-[8px] font-bold uppercase mb-6 tracking-widest leading-relaxed h-8">${item.description}</p>
+                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg shadow-cyan-500/20">Add to Cart</button>`;
+            
             grid.appendChild(card);
         });
 
+        // MODAL FUNCTIONS
+        window.openModal = (itemId) => {
+            const item = keyData.find(k => k.id === itemId);
+            document.getElementById('modal-title').innerText = item.name;
+            const listContainer = document.getElementById('modal-list');
+            listContainer.innerHTML = item.contents.map(content => `
+                <div class="bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between">
+                    <span class="text-zinc-400 text-[10px] font-black uppercase tracking-widest">${content}</span>
+                    <span class="text-cyan-500 text-[10px] font-black">WINNABLE</span>
+                </div>
+            `).join('');
+            document.getElementById('modal-overlay').style.display = 'flex';
+        };
+
+        window.closeModal = () => { document.getElementById('modal-overlay').style.display = 'none'; };
+
+        // QUANTITY & CART FUNCTIONS
+        window.updateQty = (itemId, qty, basePrice) => {
+            const container = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
+            container.dataset.selectedQty = qty;
+            container.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${itemId}-${qty}`).classList.add('active');
+            let total = basePrice * qty;
+            if (qty > 1) total = total * (1 - (DISCOUNT_PERCENT / 100));
+            document.getElementById(`price-display-${itemId}`).innerText = `$${total.toFixed(2)}`;
+        };
+
+        window.handleAddToCart = (itemId) => {
+            const item = keyData.find(k => k.id === itemId);
+            const card = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
+            const qty = parseInt(card.dataset.selectedQty);
+            let finalPrice = item.price * qty;
+            if (qty > 1) finalPrice = finalPrice * (1 - (DISCOUNT_PERCENT / 100));
+            addToCart(item, qty, finalPrice);
+        };
+
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         
-        window.addToCart = (item) => { 
-            if (cart[item.id]) cart[item.id].quantity += 1; 
-            else cart[item.id] = { ...item, quantity: 1 }; 
+        window.addToCart = (item, qty, price) => { 
+            const cartId = `${item.id}_x${qty}`;
+            if (cart[cartId]) cart[cartId].cartQuantity += 1;
+            else cart[cartId] = { ...item, displayName: `${item.name} (${qty}x)`, totalPrice: price, cartQuantity: 1 }; 
             updateCartUI(); 
             document.getElementById('cart-sidebar').classList.add('cart-active');
         };
@@ -171,22 +233,20 @@
             const list = document.getElementById('cart-items');
             const totalDisplay = document.getElementById('cart-total');
             const countDisplay = document.getElementById('cart-count');
-            const itemIds = Object.keys(cart);
-            let total = 0, qty = 0;
-
-            list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            
-            itemIds.forEach(id => {
-                const item = cart[id];
-                total += (item.price * item.quantity);
-                qty += item.quantity;
+            const itemKeys = Object.keys(cart);
+            let total = 0, totalItems = 0;
+            list.innerHTML = itemKeys.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            itemKeys.forEach(key => {
+                const entry = cart[key];
+                total += (entry.totalPrice * entry.cartQuantity);
+                totalItems += entry.cartQuantity;
                 list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
-                    <div><p class="font-black uppercase text-sm text-white">${item.name}</p><p class="text-cyan-500 text-[9px] font-black">QTY: ${item.quantity}</p></div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button></div>`;
+                    <div><p class="font-black uppercase text-sm text-white">${entry.displayName}</p>
+                    <p class="text-cyan-500 text-[9px] font-black">QTY: ${entry.cartQuantity} | $${(entry.totalPrice * entry.cartQuantity).toFixed(2)}</p></div>
+                    <button onclick="removeFromCart('${key}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button></div>`;
             });
-
             totalDisplay.innerText = `$${total.toFixed(2)}`;
-            countDisplay.innerText = qty;
+            countDisplay.innerText = totalItems;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
         updateCartUI();
