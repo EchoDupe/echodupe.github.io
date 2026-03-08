@@ -44,22 +44,19 @@
 
         .cart-active { transform: translateX(0) !important; }
         
-        /* Modal Styles */
-        #modal-overlay { backdrop-filter: blur(12px); display: none; background: rgba(0,0,0,0.75); }
-        .modal-content { background: #0a0a0a; border: 1px solid rgba(6, 182, 212, 0.2); box-shadow: 0 0 50px rgba(0,0,0,1); }
+        #modal-overlay { backdrop-filter: blur(12px); display: none; background: rgba(0,0,0,0.85); }
+        .modal-content { 
+            background: #0a0a0a; 
+            border: 1px solid rgba(6, 182, 212, 0.3); 
+            box-shadow: 0 0 60px rgba(0,0,0,1);
+            max-width: 450px; /* Slimmer for better visibility */
+        }
 
         .key-icon-container { position: relative; cursor: pointer; transition: transform 0.3s ease; }
         .key-icon-container:hover { transform: scale(1.1); }
-        .key-tooltip {
-            position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #000; font-size: 9px; font-weight: 900;
-            padding: 5px 10px; border-radius: 5px; white-space: nowrap;
-            opacity: 0; transition: all 0.3s; pointer-events: none; text-transform: uppercase;
-        }
-        .key-icon-container:hover .key-tooltip { opacity: 1; top: -45px; }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
     </style>
 </head>
@@ -89,11 +86,9 @@
             </div>
             
             <div class="flex flex-col items-center gap-2">
-                <div class="h-[1px] w-12 bg-cyan-500/50 mb-2"></div>
                 <p class="text-[11px] font-black uppercase tracking-[0.5em] text-cyan-400/80 animate-pulse">
                     Click the Keys to view Contents
                 </p>
-                <div class="h-[1px] w-12 bg-cyan-500/50 mt-2"></div>
             </div>
         </div>
 
@@ -101,25 +96,25 @@
     </main>
 
     <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content w-full max-w-lg rounded-[40px] p-8 relative overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-cyan-500 to-blue-600"></div>
+        <div class="modal-content w-full rounded-[30px] p-6 relative overflow-hidden flex flex-col">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-emerald-500"></div>
             
-            <div class="flex justify-between items-start mb-6">
+            <div class="flex justify-between items-start mb-4">
                 <div>
-                    <h2 id="modal-title" class="text-3xl font-black italic text-white uppercase tracking-tighter leading-none">Crate Contents</h2>
-                    <p class="text-cyan-500 text-[9px] font-black tracking-[0.4em] mt-2 uppercase">Official Loot Table</p>
+                    <h2 id="modal-title" class="text-2xl font-black italic text-white uppercase tracking-tighter leading-none">Sculk Key</h2>
+                    <p class="text-emerald-500 text-[8px] font-black tracking-[0.3em] mt-1 uppercase">Choose (1) Item on Unlock</p>
                 </div>
-                <button onclick="closeModal()" class="bg-white/5 hover:bg-red-500/20 hover:text-red-500 w-10 h-10 rounded-full flex items-center justify-center transition-all text-zinc-500">&times;</button>
+                <button onclick="closeModal()" class="text-zinc-600 hover:text-white text-2xl transition">&times;</button>
             </div>
 
-            <div id="modal-list" class="flex-grow overflow-y-auto space-y-2 pr-2 mb-6">
+            <div id="modal-list" class="grid grid-cols-1 gap-1 mb-4">
                 </div>
 
-            <div id="modal-image-container" class="mb-6 rounded-2xl overflow-hidden border border-white/5 bg-black/40">
+            <div id="modal-image-container" class="mb-4 rounded-xl overflow-hidden border border-white/5 bg-black/40 h-32">
                 </div>
 
-            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
-                <p class="text-red-500 text-[10px] font-black text-center uppercase tracking-[0.2em] leading-relaxed">
+            <div class="bg-red-500/10 border border-red-500/20 p-3 rounded-xl">
+                <p class="text-red-500 text-[9px] font-black text-center uppercase tracking-[0.1em]">
                     NONE OF THESE ITEMS WILL BE DUPEABLE IN GAME
                 </p>
             </div>
@@ -148,41 +143,32 @@
                 name: 'Sculk Key', 
                 price: 1.00, 
                 iconColor: '#10b981', 
-                description: 'UNLOCK THE SCULK SUPPLY CRATE',
+                description: 'CHOOSE 1 ENCHANTED NETHERITE PIECE',
                 image: 'assets/placeholder.png', 
                 contents: [
-                    { name: 'Enchanted Netherite Helmet', detail: 'P1 | U1 | Trim: Emerald Wild', rarity: 'EPIC' },
-                    { name: 'Enchanted Netherite Chestplate', detail: 'P1 | U1 | Trim: Emerald Wild', rarity: 'EPIC' },
-                    { name: 'Enchanted Netherite Leggings', detail: 'P1 | U1 | Trim: Emerald Wild', rarity: 'EPIC' },
-                    { name: 'Enchanted Netherite Boots', detail: 'P1 | U1 | Trim: Emerald Wild', rarity: 'EPIC' },
-                    { name: 'Enchanted Netherite Sword', detail: 'S1 | U1', rarity: 'LEGENDARY' },
-                    { name: 'Enchanted Netherite Axe', detail: 'S1 | U1', rarity: 'LEGENDARY' },
-                    { name: 'Enchanted Netherite Pickaxe', detail: 'E1 | U1', rarity: 'RARE' }
+                    { name: 'Enchanted Netherite Helmet', detail: 'P1 | U1 | Trim: Emerald Wild' },
+                    { name: 'Enchanted Netherite Chestplate', detail: 'P1 | U1 | Trim: Emerald Wild' },
+                    { name: 'Enchanted Netherite Leggings', detail: 'P1 | U1 | Trim: Emerald Wild' },
+                    { name: 'Enchanted Netherite Boots', detail: 'P1 | U1 | Trim: Emerald Wild' },
+                    { name: 'Enchanted Netherite Sword', detail: 'S1 | U1' },
+                    { name: 'Enchanted Netherite Axe', detail: 'S1 | U1' },
+                    { name: 'Enchanted Netherite Pickaxe', detail: 'E1 | U1' }
                 ]
             },
             { 
-                id: 'key_shrieker', 
-                name: 'Shrieker Key', 
-                price: 2.00, 
-                iconColor: '#bae6fd', 
+                id: 'key_shrieker', name: 'Shrieker Key', price: 2.00, iconColor: '#bae6fd', 
                 description: 'UNLOCK THE SHRIEKER SUPPLY CRATE',
-                contents: [{ name: 'Coming Soon', detail: 'Loot table being finalized', rarity: '???' }]
+                contents: [{ name: 'Coming Soon', detail: 'Loot table being finalized' }]
             },
             { 
-                id: 'key_warden', 
-                name: 'Warden Key', 
-                price: 3.00, 
-                iconColor: '#2563eb', 
+                id: 'key_warden', name: 'Warden Key', price: 3.00, iconColor: '#2563eb', 
                 description: 'UNLOCK THE WARDEN SUPPLY CRATE',
-                contents: [{ name: 'Coming Soon', detail: 'Loot table being finalized', rarity: '???' }]
+                contents: [{ name: 'Coming Soon', detail: 'Loot table being finalized' }]
             },
             { 
-                id: 'key_echo', 
-                name: 'Echo Key', 
-                price: 4.00, 
-                iconColor: '#22d3ee', 
+                id: 'key_echo', name: 'Echo Key', price: 4.00, iconColor: '#22d3ee', 
                 description: 'UNLOCK THE ELITE ECHO CRATE',
-                contents: [{ name: 'Coming Soon', detail: 'Loot table being finalized', rarity: '???' }]
+                contents: [{ name: 'Coming Soon', detail: 'Loot table being finalized' }]
             }
         ];
 
@@ -198,26 +184,21 @@
 
             card.innerHTML = `
                 <div class="key-icon-container mb-6" onclick="openModal('${item.id}')" style="color: ${item.iconColor}; filter: drop-shadow(0 0 12px ${item.iconColor}aa)">
-                    <div class="key-tooltip">Click to view contents</div>
                     <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 6C15 7.65685 13.6569 9 12 9C10.3431 9 9 7.65685 9 6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6Z" stroke="currentColor" stroke-width="2.5"/>
                         <path d="M12 9V21M12 21L14 19M12 21L10 19M12 15H15M12 12H15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
                 </div>
                 <h3 class="text-lg font-black uppercase italic text-white tracking-tight">${item.name}</h3>
-                <div id="price-display-${item.id}" class="text-3xl font-black mt-1 mb-4 text-cyan-500">$${item.price.toFixed(2)}</div>
-                
-                <div class="flex gap-1 mb-6">
-                    ${[1, 5, 10, 20].map(amt => `
-                        <button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">
-                            ${amt}x
-                        </button>
-                    `).join('')}
+                <div id="price-container-${item.id}" class="mt-1 mb-4 flex flex-col items-center justify-center h-10">
+                    <span id="old-price-${item.id}" class="text-[10px] text-red-500 font-bold line-through opacity-0 leading-none"></span>
+                    <span id="price-display-${item.id}" class="text-3xl font-black text-cyan-500">$${item.price.toFixed(2)}</span>
                 </div>
-
+                <div class="flex gap-1 mb-6">
+                    ${[1, 5, 10, 20].map(amt => `<button onclick="updateQty('${item.id}', ${amt}, ${item.price})" id="btn-${item.id}-${amt}" class="qty-btn ${amt === 1 ? 'active' : ''} px-3 py-1.5 rounded-lg text-[10px] font-black uppercase transition-all">${amt}x</button>`).join('')}
+                </div>
                 <p class="text-zinc-500 text-[8px] font-bold uppercase mb-6 tracking-widest h-8">${item.description}</p>
-                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg shadow-cyan-500/20">Add to Cart</button>`;
-            
+                <button onclick='handleAddToCart("${item.id}")' class="w-full bg-cyan-500 text-black py-4 rounded-xl font-black uppercase hover:bg-white transition-all shadow-lg">Add to Cart</button>`;
             grid.appendChild(card);
         });
 
@@ -225,56 +206,60 @@
             const item = keyData.find(k => k.id === itemId);
             document.getElementById('modal-title').innerText = item.name;
             const listContainer = document.getElementById('modal-list');
-            
             listContainer.innerHTML = item.contents.map(c => `
-                <div class="bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between group hover:border-cyan-500/30 transition-all">
+                <div class="bg-white/5 border border-white/5 p-2 px-3 rounded-lg flex items-center justify-between">
                     <div>
-                        <p class="text-white text-[10px] font-black uppercase tracking-tight">${c.name}</p>
-                        <p class="text-zinc-500 text-[8px] font-bold uppercase">${c.detail}</p>
+                        <p class="text-white text-[9px] font-black uppercase tracking-tight">${c.name}</p>
+                        <p class="text-zinc-500 text-[7px] font-bold uppercase">${c.detail}</p>
                     </div>
-                    <span class="text-[8px] font-black px-2 py-1 rounded bg-black/40 border border-white/10 text-cyan-400">${c.rarity}</span>
-                </div>
-            `).join('');
-
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500/40"></div>
+                </div>`).join('');
+            
             const imgContainer = document.getElementById('modal-image-container');
-            if(item.image) {
-                imgContainer.innerHTML = `<img src="${item.image}" class="w-full h-auto object-cover opacity-90">`;
-                imgContainer.style.display = 'block';
-            } else {
-                imgContainer.style.display = 'none';
-            }
-
+            if(item.image) { 
+                imgContainer.innerHTML = `<img src="${item.image}" class="w-full h-full object-cover opacity-80">`; 
+                imgContainer.style.display = 'block'; 
+            } else { imgContainer.style.display = 'none'; }
+            
             document.getElementById('modal-overlay').style.display = 'flex';
         };
 
         window.closeModal = () => { document.getElementById('modal-overlay').style.display = 'none'; };
 
         window.updateQty = (itemId, qty, basePrice) => {
-            const container = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
-            container.dataset.selectedQty = qty;
-            container.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
+            const card = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
+            card.dataset.selectedQty = qty;
+            card.querySelectorAll('.qty-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${itemId}-${qty}`).classList.add('active');
             
-            let total = basePrice * qty;
-            if (qty > 1) total = total * (1 - DISCOUNT_RATE);
-            document.getElementById(`price-display-${itemId}`).innerText = `$${total.toFixed(2)}`;
+            const oldPriceEl = document.getElementById(`old-price-${itemId}`);
+            const newPriceEl = document.getElementById(`price-display-${itemId}`);
+            let originalTotal = basePrice * qty;
+            let discountedTotal = (qty > 1) ? originalTotal * (1 - DISCOUNT_RATE) : originalTotal;
+
+            if (qty > 1) {
+                oldPriceEl.innerText = `$${originalTotal.toFixed(2)}`;
+                oldPriceEl.classList.remove('opacity-0');
+            } else {
+                oldPriceEl.classList.add('opacity-0');
+            }
+            newPriceEl.innerText = `$${discountedTotal.toFixed(2)}`;
         };
 
         window.handleAddToCart = (itemId) => {
             const item = keyData.find(k => k.id === itemId);
             const card = document.getElementById(`price-display-${itemId}`).closest('.crate-card');
             const qty = parseInt(card.dataset.selectedQty);
-            let finalPrice = item.price * qty;
-            if (qty > 1) finalPrice = finalPrice * (1 - DISCOUNT_RATE);
+            let finalPrice = (qty > 1) ? (item.price * qty) * (1 - DISCOUNT_RATE) : item.price;
             addToCart(item, qty, finalPrice);
         };
 
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         
         window.addToCart = (item, qty, price) => { 
-            const cartId = `${item.id}_x${qty}`;
-            if (cart[cartId]) cart[cartId].cartQuantity += 1;
-            else cart[cartId] = { ...item, displayName: `${item.name} (${qty}x)`, bundlePrice: price, cartQuantity: 1 }; 
+            const cartId = `${item.id}_bundle_${qty}`;
+            if (cart[cartId]) { cart[cartId].cartQuantity += 1; } 
+            else { cart[cartId] = { ...item, displayName: `${item.name} (${qty}x)`, bundlePrice: price, cartQuantity: 1, selectedQty: qty }; }
             updateCartUI(); 
             document.getElementById('cart-sidebar').classList.add('cart-active');
         };
@@ -287,23 +272,13 @@
             const countDisplay = document.getElementById('cart-count');
             const itemKeys = Object.keys(cart);
             let total = 0, totalItems = 0;
-
             list.innerHTML = itemKeys.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            
             itemKeys.forEach(key => {
                 const entry = cart[key];
                 total += (entry.bundlePrice * entry.cartQuantity);
-                totalItems += entry.cartQuantity;
-                list.innerHTML += `
-                    <div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
-                        <div>
-                            <p class="font-black uppercase text-sm text-white">${entry.displayName}</p>
-                            <p class="text-cyan-500 text-[9px] font-black">QTY: ${entry.cartQuantity} | $${(entry.bundlePrice * entry.cartQuantity).toFixed(2)}</p>
-                        </div>
-                        <button onclick="removeFromCart('${key}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button>
-                    </div>`;
+                totalItems += (entry.selectedQty * entry.cartQuantity);
+                list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4"><div><p class="font-black uppercase text-sm text-white">${entry.displayName}</p><p class="text-cyan-500 text-[9px] font-black">AMOUNT: ${entry.cartQuantity} | $${(entry.bundlePrice * entry.cartQuantity).toFixed(2)}</p></div><button onclick="removeFromCart('${key}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button></div>`;
             });
-
             totalDisplay.innerText = `$${total.toFixed(2)}`;
             countDisplay.innerText = totalItems;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
