@@ -23,49 +23,37 @@
             z-index: -1; pointer-events: none;
         }
 
-        /* --- Ambient Backglow Effect --- */
-        .title-wrapper {
+        /* --- Updated Matched Backglow --- */
+        .title-container {
             position: relative;
-            display: inline-flex;
-            justify-content: center;
-            gap: 0.3em;
-            isolation: isolate; /* Keeps glow behind text */
+            display: inline-block;
+            isolation: isolate;
         }
 
-        /* The actual blur behind the words */
-        .title-wrapper::after {
-            content: '';
+        .matched-glow {
             position: absolute;
-            inset: -20px -60px;
-            /* Creates the combination effect: White on left, Cyan on right */
+            inset: 0;
+            /* Matches White -> Cyan transition exactly behind the words */
             background: linear-gradient(to right, 
-                rgba(255, 255, 255, 0) 0%, 
-                rgba(255, 255, 255, 0.15) 30%, 
-                rgba(6, 182, 212, 0.25) 70%, 
-                rgba(6, 182, 212, 0) 100%);
-            filter: blur(40px);
+                rgba(255, 255, 255, 0.3) 20%, 
+                rgba(255, 255, 255, 0.1) 45%,
+                rgba(6, 182, 212, 0.1) 55%,
+                rgba(6, 182, 212, 0.4) 80%);
+            filter: blur(35px);
             z-index: -1;
-            border-radius: 50%;
+            transform: scale(1.2, 1.5); /* Makes it slightly taller/wider than text */
+            pointer-events: none;
         }
 
-        .global-text {
-            color: #ffffff;
-            position: relative;
-        }
+        .global-text { color: #ffffff; }
+        .ranks-text { color: #06b6d4; }
 
-        .ranks-text {
-            color: #06b6d4;
-            position: relative;
+        /* Subtle Shimmer */
+        @keyframes soft-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
-
-        /* Subtle ambient pulse of the backglow only */
-        @keyframes ambient-shimmer {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-        }
-        .title-wrapper::after {
-            animation: ambient-shimmer 4s ease-in-out infinite;
-        }
+        .matched-glow { animation: soft-pulse 4s ease-in-out infinite; }
 
         /* --- Rest of Styles --- */
         .rank-card { 
@@ -125,8 +113,9 @@
 
     <main class="max-w-7xl mx-auto pt-44 pb-12 px-6">
         <div class="text-center mb-16">
-            <div class="title-wrapper">
-                <h1 class="text-7xl font-black italic uppercase tracking-tighter">
+            <div class="title-container">
+                <div class="matched-glow"></div>
+                <h1 class="text-7xl font-black italic uppercase tracking-tighter flex gap-4">
                     <span class="global-text">GLOBAL</span>
                     <span class="ranks-text">RANKS</span>
                 </h1>
@@ -190,6 +179,7 @@
     </div>
 
     <script type="module">
+        /* Script logic remains identical to your previous version */
         function parsePrefix(raw) {
             let html = raw;
             html = html.replace(/&#([A-Fa-f0-9]{6})&l/g, '</span><span style="color:#$1; font-weight:900;">');
@@ -207,11 +197,7 @@
                 global: ['Exclusive Sensor Prefix', '3 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
                 armor: 'Netherite Gear (P5|U3|M)',
                 trim: 'SENSOR | QUARTZ',
-                weapons: [
-                    'Sword (S5|U3|M)',
-                    'Axe (S5|U4|E3|M)',
-                    'Pickaxe (E5|U3|M)'
-                ]
+                weapons: ['Sword (S5|U3|M)', 'Axe (S5|U4|E3|M)', 'Pickaxe (E5|U3|M)']
             },
             {
                 id: 'rank_stalker',
@@ -221,11 +207,7 @@
                 global: ['Exclusive Stalker Prefix', '4 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
                 armor: 'Netherite Gear (P5|U4|M)',
                 trim: 'SILENCE | EMERALD',
-                weapons: [
-                    'Sword (S5|U4|M)',
-                    'Axe (S5|U4|E6|M)',
-                    'Pickaxe (E5|U4|M)'
-                ]
+                weapons: ['Sword (S5|U4|M)', 'Axe (S5|U4|E6|M)', 'Pickaxe (E5|U4|M)']
             },
             {
                 id: 'rank_warden',
@@ -235,11 +217,7 @@
                 global: ['Exclusive Warden Prefix', '5 Homes: Set-locations', 'Fly in Spawn Access', '3-Hour Kit Cooldown'],
                 armor: 'Netherite Gear (P6|U4|M)',
                 trim: 'WARD | DIAMOND',
-                weapons: [
-                    'Sword (S6|U4|M)',
-                    'Axe (S6|U4|E6|M)',
-                    'Pickaxe (E6|U4|M)'
-                ]
+                weapons: ['Sword (S6|U4|M)', 'Axe (S6|U4|E6|M)', 'Pickaxe (E6|U4|M)']
             }
         ];
         
@@ -249,7 +227,6 @@
         rankData.forEach(item => {
             const card = document.createElement('div');
             card.className = "rank-card p-10 rounded-[45px]";
-            
             const prefixHtml = item.prefixRaw ? `
                 <div class="mb-6">
                     <p class="text-[9px] uppercase font-bold text-zinc-600 tracking-widest mb-2 text-center">In-Game Preview</p>
@@ -264,9 +241,7 @@
                     <h3 class="text-2xl font-black uppercase italic text-white">${item.name}</h3>
                     <div class="text-5xl font-black text-cyan-500 mt-2">$${item.price.toFixed(2)}</div>
                 </div>
-                
                 ${prefixHtml}
-
                 <div class="flex-grow">
                     <div class="perk-category">Global Access</div>
                     <div class="space-y-2 mb-4">
@@ -277,13 +252,11 @@
                             </div>
                         `).join('')}
                     </div>
-
                     <div class="perk-category">Kit Armor</div>
                     <div class="bg-zinc-900/40 p-3 rounded-xl border border-white/5 mb-4">
                         <p class="text-white text-[10px] font-black uppercase mb-1">${item.armor}</p>
                         <p class="text-cyan-500 text-[9px] font-bold uppercase tracking-tighter">TRIM: ${item.trim}</p>
                     </div>
-
                     <div class="perk-category">Kit Weapons</div>
                     <div class="space-y-1.5 mb-8">
                         ${item.weapons.map(w => `
@@ -293,7 +266,6 @@
                         `).join('')}
                     </div>
                 </div>
-
                 <button onclick='addToCart(${JSON.stringify(item)})' class="w-full bg-cyan-500 text-black py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Add To Cart</button>
             `;
             grid.appendChild(card);
@@ -322,9 +294,7 @@
             const countDisplay = document.getElementById('cart-count');
             const itemIds = Object.keys(cart);
             let total = 0, qty = 0;
-
             list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
-            
             itemIds.forEach(id => {
                 const item = cart[id];
                 total += (item.price * item.quantity);
@@ -334,7 +304,6 @@
                 row.innerHTML = `<div><p class="font-black uppercase text-xs text-white">${item.name}</p><p class="text-cyan-500 text-[9px] font-black">QTY: ${item.quantity}</p></div><button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button>`;
                 list.appendChild(row);
             });
-
             totalDisplay.innerText = `$${total.toFixed(2)}`;
             countDisplay.innerText = qty;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
