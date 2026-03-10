@@ -28,7 +28,7 @@
 
 | Terminal | Purpose | Access |
 | :--- | :--- | :--- |
-| **Main Site** | Web Interface | [**Visit Site**](https://echodupe.github.io) |
+| **Main Site** | Web Interface | [**Visit Site**]((https://echodupe-hub.netlify.app) |
 | **Discord** | Community Hub | [**Join Server**]([https://discord.gg/yourlink](https://discord.gg/aH2SyywD2x)) |
 | **Server IP** | Direct Uplink | `play.echodupels.minehut.gg` |
 
