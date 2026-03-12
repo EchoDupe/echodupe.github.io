@@ -140,18 +140,17 @@
         </div>
         <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8 pr-2"></div>
         <div class="border-t border-cyan-500/10 pt-10 space-y-8">
-            <input type="text" id="mc-username" placeholder="Minecraft Username" class="w-full bg-zinc-900 border border-cyan-500/10 rounded-2xl p-5 text-white focus:outline-none focus:border-cyan-500">
             <div class="flex justify-between items-end">
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button onclick="handleCheckout()" class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Complete Purchase</button>
+            <button onclick="window.location.href='Checkout.html'" class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
         </div>
     </div>
 
     <script>
-        // JS logic preserved for server status and cart
         const cfg = { serverIP: "play.echodupels.minehut.gg", cashAppTag: "$YourTagHere" };
+        const DISCOUNT_RATE = 0.1424;
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
         document.getElementById('ip-display').innerText = cfg.serverIP;
 
@@ -188,18 +187,31 @@
             const totalDisplay = document.getElementById('cart-total');
             const countDisplay = document.getElementById('cart-count');
             const itemIds = Object.keys(cart);
-            let total = 0; let qty = 0;
+            let grandTotal = 0; let totalQty = 0;
+            
             list.innerHTML = itemIds.length > 0 ? '' : '<p class="text-zinc-800 text-center py-20 font-black uppercase text-xs">Empty</p>';
+            
             itemIds.forEach(id => {
-                const item = cart[id];
-                total += (item.price * item.quantity); qty += item.quantity;
+                const entry = cart[id];
+                const actualQty = entry.totalQty || entry.quantity || 1;
+                let price = entry.price * actualQty;
+
+                if (id.startsWith('key_') && actualQty >= 5) price *= (1 - DISCOUNT_RATE);
+                
+                grandTotal += price;
+                totalQty += actualQty;
+
                 list.innerHTML += `<div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between">
-                    <div><p class="font-black uppercase text-sm text-white">${item.name}</p><p class="text-cyan-500 text-[10px] font-black">QTY: ${item.quantity}</p></div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black">REMOVE</button>
+                    <div>
+                        <p class="font-black uppercase text-sm text-white">${entry.name}</p>
+                        <p class="text-cyan-500 text-[10px] font-black uppercase">QTY: ${actualQty} | $${price.toFixed(2)}</p>
+                    </div>
+                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button>
                 </div>`;
             });
-            totalDisplay.innerText = `$${total.toFixed(2)}`;
-            countDisplay.innerText = qty;
+            
+            totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
+            countDisplay.innerText = totalQty;
             localStorage.setItem('echo_cart', JSON.stringify(cart));
         }
 
