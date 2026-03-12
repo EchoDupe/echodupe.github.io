@@ -23,9 +23,8 @@
             border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
-        .glowing-selection:hover { transform: scale(1.02); }
         .glowing-selection::before {
             content: '';
             position: absolute;
@@ -50,40 +49,26 @@
             to { transform: rotate(360deg); }
         }
 
-        .platform-card { 
-            border: 2px solid rgba(255,255,255,0.05); 
+        /* Active State for Platform/Payment */
+        .platform-card, .payment-card { 
+            filter: grayscale(1); 
+            opacity: 0.4; 
             transition: all 0.3s ease; 
-            cursor: pointer;
-            filter: grayscale(1);
-            opacity: 0.5;
         }
-        .platform-card.active { 
-            border-color: #06b6d4; 
-            background: rgba(6, 182, 212, 0.1); 
-            filter: grayscale(0);
-            opacity: 1;
+        .active { 
+            filter: grayscale(0) !important; 
+            opacity: 1 !important; 
+            transform: scale(1.02);
         }
-
-        .payment-card { 
-            border: 2px solid rgba(255,255,255,0.05); 
-            transition: all 0.3s ease; 
-            cursor: pointer;
-            filter: grayscale(1);
-            opacity: 0.5;
-        }
-        .payment-card.active { 
-            border-color: #06b6d4; 
-            background: rgba(6, 182, 212, 0.1); 
-            filter: grayscale(0);
-            opacity: 1;
-        }
+        /* Only show the glowing border if active */
+        .platform-card:not(.active)::before { display: none; }
     </style>
 </head>
 <body class="p-6">
     <div class="bg-grid"></div>
 
     <div class="max-w-4xl mx-auto pt-20 pb-20">
-        <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-10 text-center">Complete <span class="text-cyan-500">Order</span></h1>
+        <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-10 text-center">Final <span class="text-cyan-500">Checkout</span></h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="checkout-container p-8 rounded-[40px]">
@@ -97,39 +82,37 @@
             </div>
 
             <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
-                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em]">Select Platform</h2>
+                
                 <div class="grid grid-cols-2 gap-4">
                     <div id="platform-bedrock" onclick="setPlatform('Bedrock')" class="platform-card active glowing-selection p-[2px]">
-                        <div class="selection-content p-4 text-center">
-                            <p class="text-[10px] font-black uppercase text-zinc-500">Edition</p>
-                            <p class="font-bold text-white text-2xl">🎮 BEDROCK</p>
+                        <div class="selection-content p-6 text-center">
+                            <p class="text-4xl mb-1">🎮</p>
+                            <p class="font-black text-white text-xs tracking-widest">BEDROCK</p>
                         </div>
                     </div>
                     <div id="platform-java" onclick="setPlatform('Java')" class="platform-card glowing-selection p-[2px]">
-                        <div class="selection-content p-4 text-center">
-                            <p class="text-[10px] font-black uppercase text-zinc-500">Edition</p>
-                            <p class="font-bold text-white text-2xl">💻 JAVA</p>
+                        <div class="selection-content p-6 text-center">
+                            <p class="text-4xl mb-1">💻</p>
+                            <p class="font-black text-white text-xs tracking-widest">JAVA</p>
                         </div>
                     </div>
                 </div>
 
-                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em] mt-2">Delivery Info</h2>
                 <input type="text" id="final-username" placeholder="MINECRAFT USERNAME" 
                        class="w-full bg-zinc-900/50 border border-white/10 rounded-2xl p-5 text-white font-bold focus:border-cyan-500 outline-none transition-all placeholder:text-zinc-700">
 
-                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em] mt-2">Select Method</h2>
                 <div class="grid grid-cols-2 gap-4">
-                    <div id="method-cash" onclick="setPayment('CashApp')" class="payment-card active p-6 rounded-3xl flex flex-col items-center">
+                    <div id="method-cash" onclick="setPayment('CashApp')" class="payment-card active p-6 bg-zinc-900/50 border border-white/5 rounded-3xl flex flex-col items-center">
                         <img src="assets/CashApp.png" alt="CashApp" class="h-8 mb-2 object-contain">
                         <span class="text-[10px] font-black uppercase">CashApp</span>
                     </div>
-                    <div id="method-paypal" onclick="setPayment('PayPal')" class="payment-card p-6 rounded-3xl flex flex-col items-center">
+                    <div id="method-paypal" onclick="setPayment('PayPal')" class="payment-card p-6 bg-zinc-900/50 border border-white/5 rounded-3xl flex flex-col items-center">
                         <img src="assets/PayPal.png" alt="PayPal" class="h-8 mb-2 object-contain">
                         <span class="text-[10px] font-black uppercase">PayPal</span>
                     </div>
                 </div>
 
-                <div class="bg-white/5 border border-white/5 p-6 rounded-3xl">
+                <div class="bg-cyan-500/5 border border-cyan-500/20 p-6 rounded-3xl">
                     <p id="instr-title" class="text-[10px] font-black uppercase text-cyan-500 mb-1">Pay to CashTag</p>
                     <p id="instr-value" class="text-xl font-black text-white">$YourCashTag</p>
                 </div>
@@ -137,17 +120,15 @@
                 <button onclick="submitToDiscord()" class="w-full bg-cyan-500 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]">
                     Submit Order
                 </button>
-                <a href="index.html" class="text-center text-[10px] font-black uppercase text-zinc-600 hover:text-cyan-500 transition-colors">← Back to shop</a>
             </div>
         </div>
     </div>
 
     <script>
-        let selectedPlatform = 'Bedrock'; // Default to Bedrock
+        let selectedPlatform = 'Bedrock';
         let selectedMethod = 'CashApp';
         const cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
-        // Function to handle platform selection
         function setPlatform(platform) {
             selectedPlatform = platform;
             document.getElementById('platform-bedrock').classList.toggle('active', platform === 'Bedrock');
@@ -162,10 +143,10 @@
             const val = document.getElementById('instr-value');
             if(method === 'CashApp') {
                 title.innerText = "Pay to CashTag";
-                val.innerText = "$YourCashTag"; // EDIT THIS
+                val.innerText = "$YourCashTag";
             } else {
                 title.innerText = "Pay to PayPal Email";
-                val.innerText = "your@email.com"; // EDIT THIS
+                val.innerText = "your@email.com";
             }
         }
 
@@ -175,7 +156,7 @@
             let total = 0;
             const ids = Object.keys(cart);
             if(ids.length === 0) {
-                container.innerHTML = `<p class="text-zinc-700 font-black uppercase text-xs italic">No items found...</p>`;
+                container.innerHTML = `<p class="text-zinc-700 font-black uppercase text-xs italic">Cart is empty</p>`;
                 return;
             }
             container.innerHTML = ids.map(id => {
@@ -195,29 +176,26 @@
 
         async function submitToDiscord() {
             const mcUser = document.getElementById('final-username').value.trim();
-            const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
+            const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // PASTE YOUR URL HERE
+
             if (!mcUser) return alert("Please enter your Minecraft Username!");
-            if (WEBHOOK_URL === "YOUR_DISCORD_WEBHOOK_URL_HERE") {
-                alert("Developer: Please set the Discord Webhook URL in the script.");
-                return;
-            }
-            if (Object.keys(cart).length === 0) return alert("Your cart is empty!");
+            if (Object.keys(cart).length === 0) return alert("Cart is empty!");
 
             const itemsList = Object.keys(cart).map(id => `- **${cart[id].name}** (x${cart[id].totalQty || cart[id].quantity || 1})`).join('\n');
 
             const payload = {
-                username: "EchoDupe Order Log",
+                username: "EchoDupe Shop",
                 embeds: [{
                     title: "🚀 NEW ORDER RECEIVED",
                     color: 0x06b6d4,
                     fields: [
-                        { name: "👤 Customer", value: `\`${mcUser}\``, inline: true },
-                        { name: "🎮 Platform", value: `\`${selectedPlatform}\``, inline: true }, // Added platform to Discord payload
-                        { name: "💳 Method", value: `\`${selectedMethod}\``, inline: true },
+                        { name: "👤 User", value: mcUser, inline: true },
+                        { name: "🎮 Platform", value: selectedPlatform, inline: true },
+                        { name: "💳 Method", value: selectedMethod, inline: true },
                         { name: "💰 Total", value: document.getElementById('summary-total').innerText, inline: true },
-                        { name: "📦 Items Ordered", value: itemsList || "No items" }
+                        { name: "📦 Items", value: itemsList || "None" }
                     ],
-                    footer: { text: "EchoDupe Automated Shop • " + new Date().toLocaleString() }
+                    footer: { text: "EchoDupe Log • " + new Date().toLocaleString() }
                 }]
             };
 
@@ -229,21 +207,15 @@
                 });
 
                 if (response.ok) {
-                    alert("Order Logged! Please send payment now to receive your items.");
-                    // Optional: localStorage.clear();
-                    // window.location.href = "success.html";
+                    alert("Order Submitted! Please complete payment to receive your items.");
                 } else {
-                    alert("Order failed to send. Please check your Webhook URL or Discord settings.");
+                    alert("Failed to send to Discord. Check your Webhook URL.");
                 }
-            } catch (error) {
-                console.error("Webhook Error:", error);
-                alert("Connection error occurred. Check your internet or webhook URL.");
+            } catch (err) {
+                alert("Error connecting to Discord.");
             }
         }
 
-        // Initialize payment and platform selection on load
-        setPlatform(selectedPlatform);
-        setPayment(selectedMethod);
         renderSummary();
     </script>
 </body>
