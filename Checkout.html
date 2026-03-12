@@ -78,7 +78,6 @@
             </div>
 
             <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
-                
                 <div>
                     <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em] mb-4">Select a Platform</h2>
                     <div class="grid grid-cols-2 gap-4">
@@ -118,28 +117,30 @@
                 </div>
 
                 <button onclick="submitToDiscord()" class="w-full bg-cyan-500 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-                    Submit Order
+                    Submit Order & Pay
                 </button>
             </div>
         </div>
     </div>
 
     <script>
+        // --- CONFIGURATION ---
+        const CASHAPP_LINK = "https://cash.app/$YourTag"; // Replace with your link
+        const PAYPAL_LINK = "https://paypal.me/YourEmail"; // Replace with your link
+        const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+
         let selectedPlatform = null;
         let selectedMethod = 'CashApp';
         const cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
         function togglePlatform(platform) {
             const statusText = document.getElementById('platform-status');
-            
             if (selectedPlatform === platform) {
-                // If clicking the same one, unselect both
                 selectedPlatform = null;
                 document.getElementById('platform-bedrock').classList.remove('active');
                 document.getElementById('platform-java').classList.remove('active');
                 statusText.innerText = "Selected: None";
             } else {
-                // Select the new one
                 selectedPlatform = platform;
                 document.getElementById('platform-bedrock').classList.toggle('active', platform === 'Bedrock');
                 document.getElementById('platform-java').classList.toggle('active', platform === 'Java');
@@ -188,13 +189,13 @@
 
         async function submitToDiscord() {
             const mcUser = document.getElementById('final-username').value.trim();
-            const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
 
             if (!selectedPlatform) return alert("Platform selection is required!");
             if (!mcUser) return alert("Please enter your Minecraft Username!");
             if (Object.keys(cart).length === 0) return alert("Cart is empty!");
 
             const itemsList = Object.keys(cart).map(id => `- **${cart[id].name}** (x${cart[id].totalQty || cart[id].quantity || 1})`).join('\n');
+            const totalStr = document.getElementById('summary-total').innerText;
 
             const payload = {
                 username: "EchoDupe Shop",
@@ -205,10 +206,9 @@
                         { name: "👤 User", value: mcUser, inline: true },
                         { name: "🎮 Platform", value: selectedPlatform, inline: true },
                         { name: "💳 Method", value: selectedMethod, inline: true },
-                        { name: "💰 Total", value: document.getElementById('summary-total').innerText, inline: true },
+                        { name: "💰 Total", value: totalStr, inline: true },
                         { name: "📦 Items", value: itemsList || "None" }
-                    ],
-                    footer: { text: "EchoDupe Log • " + new Date().toLocaleString() }
+                    ]
                 }]
             };
 
@@ -220,12 +220,15 @@
                 });
 
                 if (response.ok) {
-                    alert("Order Submitted! Please complete payment to receive your items.");
+                    // Redirect logic
+                    const finalLink = (selectedMethod === 'CashApp') ? CASHAPP_LINK : PAYPAL_LINK;
+                    alert("Order logged! Opening payment link now...");
+                    window.open(finalLink, '_blank'); 
                 } else {
-                    alert("Failed to send to Discord. Check your Webhook URL.");
+                    alert("Error sending order to Discord.");
                 }
             } catch (err) {
-                alert("Error connecting to Discord.");
+                alert("Connection error.");
             }
         }
 
