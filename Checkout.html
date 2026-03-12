@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; }
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .bg-grid {
             background-size: 50px 50px;
             background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px), 
@@ -15,73 +15,106 @@
             position: fixed; inset: 0; z-index: -1;
         }
         .checkout-container { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.1); }
-        .payment-option { border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
-        .payment-option.active { border-color: #06b6d4; background: rgba(6, 182, 212, 0.1); }
+        
+        /* Payment Selection Styling */
+        .payment-card { 
+            border: 2px solid rgba(255,255,255,0.05); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            cursor: pointer;
+            filter: grayscale(1);
+            opacity: 0.5;
+        }
+        .payment-card.active { 
+            border-color: #06b6d4; 
+            background: rgba(6, 182, 212, 0.1); 
+            filter: grayscale(0);
+            opacity: 1;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="p-6">
     <div class="bg-grid"></div>
 
-    <div class="max-w-4xl mx-auto pt-20">
-        <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-10 text-center">Final <span class="text-cyan-500">Checkout</span></h1>
+    <div class="max-w-4xl mx-auto pt-20 pb-20">
+        <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-10 text-center">Complete <span class="text-cyan-500">Order</span></h1>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="checkout-container p-8 rounded-[40px]">
-                <h2 class="text-xl font-black uppercase mb-6 text-zinc-400">Your Items</h2>
-                <div id="summary-items" class="space-y-4"></div>
-                <div class="border-t border-white/10 mt-6 pt-6 flex justify-between items-center">
-                    <span class="font-bold text-zinc-500 uppercase text-xs">Total Amount</span>
-                    <span id="summary-total" class="text-3xl font-black text-cyan-500">$0.00</span>
+                <h2 class="text-xs font-black uppercase mb-6 text-zinc-500 tracking-[0.2em]">Order Summary</h2>
+                <div id="summary-items" class="space-y-3">
+                    </div>
+                
+                <div class="border-t border-white/10 mt-8 pt-6 flex justify-between items-end">
+                    <div>
+                        <p class="text-[10px] font-black text-zinc-500 uppercase">Grand Total</p>
+                        <p id="summary-total" class="text-4xl font-black text-white">$0.00</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[9px] font-bold text-cyan-500 uppercase animate-pulse">Waiting for Payment</p>
+                    </div>
                 </div>
             </div>
 
             <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
-                <h2 class="text-xl font-black uppercase text-zinc-400">Order Details</h2>
+                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em]">Delivery Info</h2>
                 
-                <input type="text" id="final-username" placeholder="Minecraft Username" class="w-full bg-zinc-900 border border-white/5 rounded-2xl p-5 text-white focus:border-cyan-500 outline-none transition">
+                <input type="text" id="final-username" placeholder="MINECRAFT USERNAME" 
+                       class="w-full bg-zinc-900/50 border border-white/10 rounded-2xl p-5 text-white font-bold focus:border-cyan-500 outline-none transition-all placeholder:text-zinc-700">
 
+                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em] mt-2">Select Method</h2>
+                
                 <div class="grid grid-cols-2 gap-4">
-                    <div id="opt-cashapp" onclick="selectPayment('CashApp')" class="payment-option active bg-zinc-900 p-4 rounded-2xl flex flex-col items-center justify-center">
-                        <img src="assets/CashApp.png" alt="CashApp" class="h-8 mb-2 object-contain">
+                    <div id="method-cash" onclick="setPayment('CashApp')" class="payment-card active p-6 rounded-3xl flex flex-col items-center">
+                        <img src="assets/CashApp.png" alt="CashApp" class="h-10 mb-2 object-contain">
                         <span class="text-[10px] font-black uppercase">CashApp</span>
                     </div>
-                    <div id="opt-paypal" onclick="selectPayment('PayPal')" class="payment-option bg-zinc-900 p-4 rounded-2xl flex flex-col items-center justify-center">
-                        <img src="assets/PayPal.png" alt="PayPal" class="h-8 mb-2 object-contain">
+                    <div id="method-paypal" onclick="setPayment('PayPal')" class="payment-card p-6 rounded-3xl flex flex-col items-center">
+                        <img src="assets/PayPal.png" alt="PayPal" class="h-10 mb-2 object-contain">
                         <span class="text-[10px] font-black uppercase">PayPal</span>
                     </div>
                 </div>
 
-                <div class="bg-cyan-500/5 border border-cyan-500/20 p-6 rounded-3xl text-center">
-                    <p id="pay-method-title" class="text-[10px] font-black uppercase text-cyan-500 mb-2 tracking-widest">Pay via CashApp</p>
-                    <p id="pay-tag" class="text-2xl font-black">$YourTagHere</p>
-                    <p class="text-[9px] text-zinc-500 mt-2 uppercase">Put your username in the payment note!</p>
+                <div class="bg-white/5 border border-white/5 p-6 rounded-3xl">
+                    <p id="instr-title" class="text-[10px] font-black uppercase text-cyan-500 mb-1">Pay to CashTag</p>
+                    <p id="instr-value" class="text-xl font-black text-white">$YourCashTag</p>
+                    <p class="text-[9px] text-zinc-500 mt-3 leading-relaxed uppercase">
+                        Important: Add your Minecraft username to the <span class="text-white">payment notes</span> so we know who to give the items to!
+                    </p>
                 </div>
 
-                <button onclick="submitOrder()" class="w-full bg-white text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-cyan-500 transition-all">Confirm & Submit Order</button>
-                <a href="index.html" class="text-center text-[10px] font-black uppercase text-zinc-600 hover:text-white">← Cancel & Go Back</a>
+                <button onclick="submitToDiscord()" class="w-full bg-cyan-500 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+                    Submit Order
+                </button>
+                
+                <a href="index.html" class="text-center text-[10px] font-black uppercase text-zinc-600 hover:text-cyan-500 transition-colors">← Back to shop</a>
             </div>
         </div>
     </div>
 
     <script>
-        let currentMethod = 'CashApp';
-        let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
+        let selectedMethod = 'CashApp';
+        const cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
-        function selectPayment(method) {
-            currentMethod = method;
-            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
-            
+        // 1. Handle Payment Toggling
+        function setPayment(method) {
+            selectedMethod = method;
+            document.getElementById('method-cash').classList.toggle('active', method === 'CashApp');
+            document.getElementById('method-paypal').classList.toggle('active', method === 'PayPal');
+
+            const title = document.getElementById('instr-title');
+            const val = document.getElementById('instr-value');
+
             if(method === 'CashApp') {
-                document.getElementById('opt-cashapp').classList.add('active');
-                document.getElementById('pay-method-title').innerText = "Pay via CashApp";
-                document.getElementById('pay-tag').innerText = "$YourTagHere"; // Replace with your tag
+                title.innerText = "Pay to CashTag";
+                val.innerText = "$YourCashTag"; // EDIT THIS
             } else {
-                document.getElementById('opt-paypal').classList.add('active');
-                document.getElementById('pay-method-title').innerText = "Pay via PayPal";
-                document.getElementById('pay-tag').innerText = "your@email.com"; // Replace with your PayPal email
+                title.innerText = "Pay to PayPal Email";
+                val.innerText = "your@email.com"; // EDIT THIS
             }
         }
 
+        // 2. Render the Cart Summary
         function renderSummary() {
             const container = document.getElementById('summary-items');
             const totalDisplay = document.getElementById('summary-total');
@@ -89,7 +122,7 @@
 
             const ids = Object.keys(cart);
             if(ids.length === 0) {
-                container.innerHTML = "<p class='text-zinc-600 font-bold uppercase text-xs'>Cart is empty...</p>";
+                container.innerHTML = `<p class="text-zinc-700 font-black uppercase text-xs italic">No items found...</p>`;
                 return;
             }
 
@@ -101,68 +134,66 @@
                 total += price;
 
                 return `
-                <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl">
+                <div class="flex justify-between items-center bg-white/[0.03] border border-white/5 p-4 rounded-2xl">
                     <div>
-                        <p class="font-black uppercase text-xs">${item.name}</p>
-                        <p class="text-[10px] text-zinc-500 font-bold">QTY: ${qty}</p>
+                        <p class="font-black uppercase text-[11px] tracking-tight">${item.name}</p>
+                        <p class="text-[9px] text-zinc-500 font-bold">AMOUNT: ${qty}</p>
                     </div>
-                    <p class="font-black text-sm">$${price.toFixed(2)}</p>
+                    <p class="font-black text-sm text-cyan-500">$${price.toFixed(2)}</p>
                 </div>`;
             }).join('');
 
             totalDisplay.innerText = `$${total.toFixed(2)}`;
         }
 
-        async function submitOrder() {
-            const username = document.getElementById('final-username').value;
-            const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // PASTE YOUR WEBHOOK URL HERE
+        // 3. Discord Webhook Logic
+        async function submitToDiscord() {
+            const mcUser = document.getElementById('final-username').value.trim();
+            const totalVal = document.getElementById('summary-total').innerText;
+            
+            // --- CONFIGURE YOUR WEBHOOK HERE ---
+            const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
 
-            if(!username) return alert("Enter your MC Username!");
-            if(webhookURL === "YOUR_DISCORD_WEBHOOK_URL_HERE") {
-                alert("Developer: Please set the Discord Webhook URL in the script.");
-                return;
-            }
+            if (!mcUser) return alert("Please enter your Minecraft Username!");
+            if (Object.keys(cart).length === 0) return alert("Your cart is empty!");
 
-            // Prepare items string for Discord
-            const itemDetails = Object.keys(cart).map(id => {
-                const item = cart[id];
-                return `${item.name} (x${item.totalQty || item.quantity || 1})`;
-            }).join(', ');
-
-            const total = document.getElementById('summary-total').innerText;
+            // Format items for the Discord Message
+            const itemsList = Object.keys(cart).map(id => {
+                return `- **${cart[id].name}** (x${cart[id].totalQty || cart[id].quantity || 1})`;
+            }).join('\n');
 
             const payload = {
-                username: "EchoDupe Shop",
-                avatar_url: "https://i.imgur.com/example.png",
+                username: "EchoDupe Order Log",
                 embeds: [{
-                    title: "🛒 New Order Placed",
-                    color: 3447003, // Cyan color
+                    title: "🚀 NEW ORDER RECEIVED",
+                    color: 0x06b6d4,
                     fields: [
-                        { name: "Minecraft User", value: username, inline: true },
-                        { name: "Payment Method", value: currentMethod, inline: true },
-                        { name: "Total", value: total, inline: true },
-                        { name: "Items", value: itemDetails }
+                        { name: "👤 Customer", value: `\`${mcUser}\``, inline: true },
+                        { name: "💳 Method", value: `\`${selectedMethod}\``, inline: true },
+                        { name: "💰 Total", value: `**${totalVal}**`, inline: true },
+                        { name: "📦 Items Ordered", value: itemsList || "No items" }
                     ],
-                    timestamp: new Date().toISOString()
+                    footer: { text: "EchoDupe Automated Shop • " + new Date().toLocaleString() }
                 }]
             };
 
             try {
-                const response = await fetch(webhookURL, {
+                const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 if (response.ok) {
-                    alert(`Order Submitted! Please send ${total} via ${currentMethod} to complete the delivery.`);
-                    localStorage.removeItem('echo_cart'); // Clear cart after success
+                    alert("Order Logged! Please send payment now to receive your items.");
+                    // Optional: localStorage.clear();
+                    // window.location.href = "success.html";
                 } else {
-                    alert("Error submitting order. Check console.");
+                    alert("Order failed to send. Please check your Webhook URL.");
                 }
-            } catch (err) {
-                console.error(err);
-                alert("Failed to connect to Discord.");
+            } catch (error) {
+                console.error("Webhook Error:", error);
+                alert("Connection error occurred.");
             }
         }
 
