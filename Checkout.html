@@ -16,10 +16,43 @@
         }
         .checkout-container { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.1); }
         
-        /* Payment Selection Styling */
+        /* The Animated Blue Light Border */
+        .glowing-selection {
+            position: relative;
+            background: rgba(10, 10, 10, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .glowing-selection:hover { transform: scale(1.02); }
+        .glowing-selection::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #06b6d4);
+            animation: rotate 4s linear infinite;
+            z-index: 0;
+        }
+        .glowing-selection::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: #0a0a0a;
+            border-radius: 18px;
+            z-index: 1;
+        }
+        .selection-content { position: relative; z-index: 2; }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .payment-card { 
             border: 2px solid rgba(255,255,255,0.05); 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: all 0.3s ease; 
             cursor: pointer;
             filter: grayscale(1);
             opacity: 0.5;
@@ -29,7 +62,6 @@
             background: rgba(6, 182, 212, 0.1); 
             filter: grayscale(0);
             opacity: 1;
-            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -42,35 +74,41 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="checkout-container p-8 rounded-[40px]">
                 <h2 class="text-xs font-black uppercase mb-6 text-zinc-500 tracking-[0.2em]">Order Summary</h2>
-                <div id="summary-items" class="space-y-3">
-                    </div>
+                <div id="summary-items" class="space-y-3"></div>
                 
-                <div class="border-t border-white/10 mt-8 pt-6 flex justify-between items-end">
-                    <div>
-                        <p class="text-[10px] font-black text-zinc-500 uppercase">Grand Total</p>
-                        <p id="summary-total" class="text-4xl font-black text-white">$0.00</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-[9px] font-bold text-cyan-500 uppercase animate-pulse">Waiting for Payment</p>
-                    </div>
+                <div class="border-t border-white/10 mt-8 pt-6">
+                    <p class="text-[10px] font-black text-zinc-500 uppercase">Grand Total</p>
+                    <p id="summary-total" class="text-4xl font-black text-white">$0.00</p>
                 </div>
             </div>
 
             <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
-                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em]">Delivery Info</h2>
                 
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glowing-selection p-[2px]">
+                        <div class="selection-content p-4 text-center">
+                            <p class="text-[10px] font-black uppercase text-zinc-500">Selection A</p>
+                            <p class="font-bold text-white">BEDROCK/p>
+                        </div>
+                    </div>
+                    <div class="glowing-selection p-[2px]">
+                        <div class="selection-content p-4 text-center">
+                            <p class="text-[10px] font-black uppercase text-zinc-500">Selection B</p>
+                            <p class="font-bold text-white">JAVA</p>
+                        </div>
+                    </div>
+                </div>
+
                 <input type="text" id="final-username" placeholder="MINECRAFT USERNAME" 
                        class="w-full bg-zinc-900/50 border border-white/10 rounded-2xl p-5 text-white font-bold focus:border-cyan-500 outline-none transition-all placeholder:text-zinc-700">
 
-                <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em] mt-2">Select Method</h2>
-                
                 <div class="grid grid-cols-2 gap-4">
                     <div id="method-cash" onclick="setPayment('CashApp')" class="payment-card active p-6 rounded-3xl flex flex-col items-center">
-                        <img src="assets/CashApp.png" alt="CashApp" class="h-10 mb-2 object-contain">
+                        <img src="assets/CashApp.png" alt="CashApp" class="h-8 mb-2 object-contain">
                         <span class="text-[10px] font-black uppercase">CashApp</span>
                     </div>
                     <div id="method-paypal" onclick="setPayment('PayPal')" class="payment-card p-6 rounded-3xl flex flex-col items-center">
-                        <img src="assets/PayPal.png" alt="PayPal" class="h-10 mb-2 object-contain">
+                        <img src="assets/PayPal.png" alt="PayPal" class="h-8 mb-2 object-contain">
                         <span class="text-[10px] font-black uppercase">PayPal</span>
                     </div>
                 </div>
@@ -78,16 +116,11 @@
                 <div class="bg-white/5 border border-white/5 p-6 rounded-3xl">
                     <p id="instr-title" class="text-[10px] font-black uppercase text-cyan-500 mb-1">Pay to CashTag</p>
                     <p id="instr-value" class="text-xl font-black text-white">$YourCashTag</p>
-                    <p class="text-[9px] text-zinc-500 mt-3 leading-relaxed uppercase">
-                        Important: Add your Minecraft username to the <span class="text-white">payment notes</span> so we know who to give the items to!
-                    </p>
                 </div>
 
-                <button onclick="submitToDiscord()" class="w-full bg-cyan-500 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+                <button onclick="submitToDiscord()" class="w-full bg-cyan-500 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(6,182,212,0.3)]">
                     Submit Order
                 </button>
-                
-                <a href="index.html" class="text-center text-[10px] font-black uppercase text-zinc-600 hover:text-cyan-500 transition-colors">← Back to shop</a>
             </div>
         </div>
     </div>
@@ -96,105 +129,69 @@
         let selectedMethod = 'CashApp';
         const cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
-        // 1. Handle Payment Toggling
         function setPayment(method) {
             selectedMethod = method;
             document.getElementById('method-cash').classList.toggle('active', method === 'CashApp');
             document.getElementById('method-paypal').classList.toggle('active', method === 'PayPal');
-
             const title = document.getElementById('instr-title');
             const val = document.getElementById('instr-value');
-
             if(method === 'CashApp') {
                 title.innerText = "Pay to CashTag";
-                val.innerText = "$YourCashTag"; // EDIT THIS
+                val.innerText = "$YourCashTag";
             } else {
                 title.innerText = "Pay to PayPal Email";
-                val.innerText = "your@email.com"; // EDIT THIS
+                val.innerText = "your@email.com";
             }
         }
 
-        // 2. Render the Cart Summary
         function renderSummary() {
             const container = document.getElementById('summary-items');
             const totalDisplay = document.getElementById('summary-total');
             let total = 0;
-
             const ids = Object.keys(cart);
-            if(ids.length === 0) {
-                container.innerHTML = `<p class="text-zinc-700 font-black uppercase text-xs italic">No items found...</p>`;
-                return;
-            }
-
             container.innerHTML = ids.map(id => {
                 const item = cart[id];
                 const qty = item.totalQty || item.quantity || 1;
                 let price = item.price * qty;
                 if (id.startsWith('key_') && qty >= 5) price *= 0.8576; 
                 total += price;
-
                 return `
-                <div class="flex justify-between items-center bg-white/[0.03] border border-white/5 p-4 rounded-2xl">
-                    <div>
-                        <p class="font-black uppercase text-[11px] tracking-tight">${item.name}</p>
-                        <p class="text-[9px] text-zinc-500 font-bold">AMOUNT: ${qty}</p>
-                    </div>
+                <div class="flex justify-between items-center bg-white/[0.03] p-4 rounded-2xl border border-white/5">
+                    <p class="font-black uppercase text-[11px]">${item.name} (x${qty})</p>
                     <p class="font-black text-sm text-cyan-500">$${price.toFixed(2)}</p>
                 </div>`;
             }).join('');
-
             totalDisplay.innerText = `$${total.toFixed(2)}`;
         }
 
-        // 3. Discord Webhook Logic
         async function submitToDiscord() {
             const mcUser = document.getElementById('final-username').value.trim();
-            const totalVal = document.getElementById('summary-total').innerText;
-            
-            // --- CONFIGURE YOUR WEBHOOK HERE ---
             const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; 
-
             if (!mcUser) return alert("Please enter your Minecraft Username!");
-            if (Object.keys(cart).length === 0) return alert("Your cart is empty!");
 
-            // Format items for the Discord Message
-            const itemsList = Object.keys(cart).map(id => {
-                return `- **${cart[id].name}** (x${cart[id].totalQty || cart[id].quantity || 1})`;
-            }).join('\n');
+            const itemsList = Object.keys(cart).map(id => `- **${cart[id].name}** (x${cart[id].totalQty || cart[id].quantity || 1})`).join('\n');
 
             const payload = {
-                username: "EchoDupe Order Log",
+                username: "EchoDupe Log",
                 embeds: [{
-                    title: "🚀 NEW ORDER RECEIVED",
+                    title: "🚀 NEW ORDER",
                     color: 0x06b6d4,
                     fields: [
-                        { name: "👤 Customer", value: `\`${mcUser}\``, inline: true },
-                        { name: "💳 Method", value: `\`${selectedMethod}\``, inline: true },
-                        { name: "💰 Total", value: `**${totalVal}**`, inline: true },
-                        { name: "📦 Items Ordered", value: itemsList || "No items" }
-                    ],
-                    footer: { text: "EchoDupe Automated Shop • " + new Date().toLocaleString() }
+                        { name: "👤 User", value: mcUser, inline: true },
+                        { name: "💳 Method", value: selectedMethod, inline: true },
+                        { name: "💰 Total", value: document.getElementById('summary-total').innerText, inline: true },
+                        { name: "📦 Items", value: itemsList || "None" }
+                    ]
                 }]
             };
 
-            try {
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+            const response = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-                if (response.ok) {
-                    alert("Order Logged! Please send payment now to receive your items.");
-                    // Optional: localStorage.clear();
-                    // window.location.href = "success.html";
-                } else {
-                    alert("Order failed to send. Please check your Webhook URL.");
-                }
-            } catch (error) {
-                console.error("Webhook Error:", error);
-                alert("Connection error occurred.");
-            }
+            if (response.ok) alert("Order Logged! Send payment to finish.");
         }
 
         renderSummary();
