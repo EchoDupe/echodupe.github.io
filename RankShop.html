@@ -162,7 +162,7 @@
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button onclick="window.location.href='index.html?openCart=true'" class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Go to Checkout</button>
+            <button onclick="window.location.href='Checkout.html'" class="block text-center w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Go to Checkout</button>
         </div>
     </div>
 
@@ -210,6 +210,7 @@
         
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
         const grid = document.getElementById('rank-grid');
+        const DISCOUNT_RATE = 0.1424; // Consistent with keys
         
         rankData.forEach(item => {
             const card = document.createElement('div');
@@ -263,8 +264,6 @@
         window.toggleCart = () => { document.getElementById('cart-sidebar').classList.toggle('cart-active'); updateCartUI(); };
         
         window.addToCart = (item) => { 
-            // Only add if this specific rank isn't already in the cart
-            // AND since you only want 1 rank, we don't increment quantity
             if (!cart[item.id]) {
                 cart[item.id] = { ...item, quantity: 1 }; 
             }
@@ -284,20 +283,23 @@
             
             itemIds.forEach(id => {
                 const item = cart[id];
-                const actualQty = item.quantity || item.totalQty || 1;
+                const actualQty = item.totalQty || item.quantity || 1;
                 
-                total += (item.price * actualQty);
+                let price = item.price * actualQty;
+                // Keys get discount, ranks usually don't, but logic matches Hub
+                if (id.startsWith('key_') && actualQty >= 5) price *= (1 - DISCOUNT_RATE);
+                
+                total += price;
                 qtyCount += actualQty;
                 
-                const row = document.createElement('div');
-                row.className = "bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4";
-                row.innerHTML = `
+                list.innerHTML += `
+                <div class="bg-zinc-900/50 p-6 rounded-3xl border border-cyan-500/10 flex justify-between items-center mb-4">
                     <div>
-                        <p class="font-black uppercase text-xs text-white">${item.name}</p>
-                        <p class="text-cyan-500 text-[9px] font-black">QTY: ${actualQty}</p>
+                        <p class="font-black uppercase text-sm text-white">${item.name}</p>
+                        <p class="text-cyan-500 text-[9px] font-black uppercase">QTY: ${actualQty} | $${price.toFixed(2)}</p>
                     </div>
-                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase">Remove</button>`;
-                list.appendChild(row);
+                    <button onclick="removeFromCart('${id}')" class="text-red-500 text-[9px] font-black uppercase hover:text-white transition">Remove</button>
+                </div>`;
             });
             
             totalDisplay.innerText = `$${total.toFixed(2)}`;
