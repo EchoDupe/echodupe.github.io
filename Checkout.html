@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EchoDupe | Secure Checkout</title>
+    <title>EchoDupe | Checkout</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -15,6 +15,8 @@
             position: fixed; inset: 0; z-index: -1;
         }
         .checkout-container { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.1); }
+        .payment-option { border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; }
+        .payment-option.active { border-color: #06b6d4; background: rgba(6, 182, 212, 0.1); }
     </style>
 </head>
 <body class="p-6">
@@ -34,13 +36,24 @@
             </div>
 
             <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
-                <h2 class="text-xl font-black uppercase text-zinc-400">Payment Details</h2>
+                <h2 class="text-xl font-black uppercase text-zinc-400">Order Details</h2>
                 
                 <input type="text" id="final-username" placeholder="Minecraft Username" class="w-full bg-zinc-900 border border-white/5 rounded-2xl p-5 text-white focus:border-cyan-500 outline-none transition">
-                
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div id="opt-cashapp" onclick="selectPayment('CashApp')" class="payment-option active bg-zinc-900 p-4 rounded-2xl flex flex-col items-center justify-center">
+                        <img src="assets/CashApp.png" alt="CashApp" class="h-8 mb-2 object-contain">
+                        <span class="text-[10px] font-black uppercase">CashApp</span>
+                    </div>
+                    <div id="opt-paypal" onclick="selectPayment('PayPal')" class="payment-option bg-zinc-900 p-4 rounded-2xl flex flex-col items-center justify-center">
+                        <img src="assets/PayPal.png" alt="PayPal" class="h-8 mb-2 object-contain">
+                        <span class="text-[10px] font-black uppercase">PayPal</span>
+                    </div>
+                </div>
+
                 <div class="bg-cyan-500/5 border border-cyan-500/20 p-6 rounded-3xl text-center">
-                    <p class="text-[10px] font-black uppercase text-cyan-500 mb-2 tracking-widest">Pay via CashApp</p>
-                    <p class="text-2xl font-black">$YourTagHere</p>
+                    <p id="pay-method-title" class="text-[10px] font-black uppercase text-cyan-500 mb-2 tracking-widest">Pay via CashApp</p>
+                    <p id="pay-tag" class="text-2xl font-black">$YourTagHere</p>
                     <p class="text-[9px] text-zinc-500 mt-2 uppercase">Put your username in the payment note!</p>
                 </div>
 
@@ -51,7 +64,23 @@
     </div>
 
     <script>
+        let currentMethod = 'CashApp';
         let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
+
+        function selectPayment(method) {
+            currentMethod = method;
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+            
+            if(method === 'CashApp') {
+                document.getElementById('opt-cashapp').classList.add('active');
+                document.getElementById('pay-method-title').innerText = "Pay via CashApp";
+                document.getElementById('pay-tag').innerText = "$YourTagHere"; // Replace with your tag
+            } else {
+                document.getElementById('opt-paypal').classList.add('active');
+                document.getElementById('pay-method-title').innerText = "Pay via PayPal";
+                document.getElementById('pay-tag').innerText = "your@email.com"; // Replace with your PayPal email
+            }
+        }
 
         function renderSummary() {
             const container = document.getElementById('summary-items');
@@ -68,7 +97,7 @@
                 const item = cart[id];
                 const qty = item.totalQty || item.quantity || 1;
                 let price = item.price * qty;
-                if (id.startsWith('key_') && qty >= 5) price *= 0.8576; // Match your 14.24% discount
+                if (id.startsWith('key_') && qty >= 5) price *= 0.8576; 
                 total += price;
 
                 return `
@@ -85,11 +114,56 @@
         }
 
         async function submitOrder() {
-            const user = document.getElementById('final-username').value;
-            if(!user) return alert("Enter your MC Username!");
-            
-            // Here you would add the Webhook code from the previous message
-            alert("Order Details Logged! Please complete the CashApp payment now.");
+            const username = document.getElementById('final-username').value;
+            const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // PASTE YOUR WEBHOOK URL HERE
+
+            if(!username) return alert("Enter your MC Username!");
+            if(webhookURL === "YOUR_DISCORD_WEBHOOK_URL_HERE") {
+                alert("Developer: Please set the Discord Webhook URL in the script.");
+                return;
+            }
+
+            // Prepare items string for Discord
+            const itemDetails = Object.keys(cart).map(id => {
+                const item = cart[id];
+                return `${item.name} (x${item.totalQty || item.quantity || 1})`;
+            }).join(', ');
+
+            const total = document.getElementById('summary-total').innerText;
+
+            const payload = {
+                username: "EchoDupe Shop",
+                avatar_url: "https://i.imgur.com/example.png",
+                embeds: [{
+                    title: "🛒 New Order Placed",
+                    color: 3447003, // Cyan color
+                    fields: [
+                        { name: "Minecraft User", value: username, inline: true },
+                        { name: "Payment Method", value: currentMethod, inline: true },
+                        { name: "Total", value: total, inline: true },
+                        { name: "Items", value: itemDetails }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            try {
+                const response = await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alert(`Order Submitted! Please send ${total} via ${currentMethod} to complete the delivery.`);
+                    localStorage.removeItem('echo_cart'); // Clear cart after success
+                } else {
+                    alert("Error submitting order. Check console.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Failed to connect to Discord.");
+            }
         }
 
         renderSummary();
