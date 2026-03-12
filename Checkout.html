@@ -16,7 +16,6 @@
         }
         .checkout-container { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.1); }
         
-        /* The Animated Blue Light Border */
         .glowing-selection {
             position: relative;
             background: rgba(10, 10, 10, 0.9);
@@ -49,7 +48,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Active State for Platform/Payment */
         .platform-card, .payment-card { 
             filter: grayscale(1); 
             opacity: 0.4; 
@@ -60,7 +58,6 @@
             opacity: 1 !important; 
             transform: scale(1.02);
         }
-        /* Only show the glowing border if active */
         .platform-card:not(.active)::before { display: none; }
     </style>
 </head>
@@ -74,7 +71,6 @@
             <div class="checkout-container p-8 rounded-[40px]">
                 <h2 class="text-xs font-black uppercase mb-6 text-zinc-500 tracking-[0.2em]">Order Summary</h2>
                 <div id="summary-items" class="space-y-3"></div>
-                
                 <div class="border-t border-white/10 mt-8 pt-6">
                     <p class="text-[10px] font-black text-zinc-500 uppercase">Grand Total</p>
                     <p id="summary-total" class="text-4xl font-black text-white">$0.00</p>
@@ -83,19 +79,23 @@
 
             <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
                 
-                <div class="grid grid-cols-2 gap-4">
-                    <div id="platform-bedrock" onclick="setPlatform('Bedrock')" class="platform-card active glowing-selection p-[2px]">
-                        <div class="selection-content p-6 text-center">
-                            <p class="text-4xl mb-1">🎮</p>
-                            <p class="font-black text-white text-xs tracking-widest">BEDROCK</p>
+                <div>
+                    <h2 class="text-xs font-black uppercase text-zinc-500 tracking-[0.2em] mb-4">Select a Platform</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div id="platform-bedrock" onclick="togglePlatform('Bedrock')" class="platform-card glowing-selection p-[2px]">
+                            <div class="selection-content p-6 text-center">
+                                <p class="text-4xl mb-1">🎮</p>
+                                <p class="font-black text-white text-xs tracking-widest uppercase">Bedrock</p>
+                            </div>
+                        </div>
+                        <div id="platform-java" onclick="togglePlatform('Java')" class="platform-card glowing-selection p-[2px]">
+                            <div class="selection-content p-6 text-center">
+                                <p class="text-4xl mb-1">💻</p>
+                                <p class="font-black text-white text-xs tracking-widest uppercase">Java</p>
+                            </div>
                         </div>
                     </div>
-                    <div id="platform-java" onclick="setPlatform('Java')" class="platform-card glowing-selection p-[2px]">
-                        <div class="selection-content p-6 text-center">
-                            <p class="text-4xl mb-1">💻</p>
-                            <p class="font-black text-white text-xs tracking-widest">JAVA</p>
-                        </div>
-                    </div>
+                    <p id="platform-status" class="text-[10px] font-black uppercase text-cyan-500 mt-3 tracking-widest text-center">Selected: None</p>
                 </div>
 
                 <input type="text" id="final-username" placeholder="MINECRAFT USERNAME" 
@@ -125,14 +125,26 @@
     </div>
 
     <script>
-        let selectedPlatform = 'Bedrock';
+        let selectedPlatform = null;
         let selectedMethod = 'CashApp';
         const cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
 
-        function setPlatform(platform) {
-            selectedPlatform = platform;
-            document.getElementById('platform-bedrock').classList.toggle('active', platform === 'Bedrock');
-            document.getElementById('platform-java').classList.toggle('active', platform === 'Java');
+        function togglePlatform(platform) {
+            const statusText = document.getElementById('platform-status');
+            
+            if (selectedPlatform === platform) {
+                // If clicking the same one, unselect both
+                selectedPlatform = null;
+                document.getElementById('platform-bedrock').classList.remove('active');
+                document.getElementById('platform-java').classList.remove('active');
+                statusText.innerText = "Selected: None";
+            } else {
+                // Select the new one
+                selectedPlatform = platform;
+                document.getElementById('platform-bedrock').classList.toggle('active', platform === 'Bedrock');
+                document.getElementById('platform-java').classList.toggle('active', platform === 'Java');
+                statusText.innerText = `Selected: ${platform}`;
+            }
         }
 
         function setPayment(method) {
@@ -176,8 +188,9 @@
 
         async function submitToDiscord() {
             const mcUser = document.getElementById('final-username').value.trim();
-            const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // PASTE YOUR URL HERE
+            const WEBHOOK_URL = "YOUR_DISCORD_WEBHOOK_URL_HERE";
 
+            if (!selectedPlatform) return alert("Platform selection is required!");
             if (!mcUser) return alert("Please enter your Minecraft Username!");
             if (Object.keys(cart).length === 0) return alert("Cart is empty!");
 
