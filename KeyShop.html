@@ -53,8 +53,8 @@
             backdrop-filter: blur(20px); 
             border: 1px solid rgba(6, 182, 212, 0.1); 
             width: 100%; 
-            max-width: 340px; /* Increased from 280px */
-            min-height: 480px; /* Ensuring consistent height */
+            max-width: 340px; 
+            min-height: 480px; 
         }
         
         .qty-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
@@ -144,13 +144,13 @@
             <h3 class="text-3xl font-black uppercase italic tracking-tighter">Your <span class="text-cyan-500">Cart</span></h3>
             <button onclick="toggleCart()" class="text-3xl">&times;</button>
         </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8"></div>
+        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 mb-8 pr-2"></div>
         <div class="border-t border-cyan-500/10 pt-10 mt-auto">
             <div class="flex justify-between items-end mb-8">
                 <span class="text-zinc-500 font-bold uppercase text-xs">Total</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0.00</span>
             </div>
-            <button class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
+            <button onclick="window.location.href='Checkout.html'" class="w-full bg-cyan-600 text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white transition-all">Proceed to Checkout</button>
         </div>
     </div>
 
@@ -239,7 +239,6 @@
             const qty = parseInt(card.dataset.selectedQty);
             
             if (cart[item.id]) { 
-                // Supports both totalQty (keys) and quantity (ranks)
                 const currentQty = cart[item.id].totalQty || cart[item.id].quantity || 0;
                 cart[item.id].totalQty = currentQty + qty; 
             } else { 
@@ -261,11 +260,9 @@
             
             Object.keys(cart).forEach(id => {
                 const entry = cart[id];
-                // Unified quantity check
                 const actualQty = entry.totalQty || entry.quantity || 1;
                 
                 let price = entry.price * actualQty;
-                // Only apply discount to keys, not ranks
                 if (id.startsWith('key_') && actualQty >= 5) price *= (1 - DISCOUNT_RATE);
                 
                 grandTotal += price;
