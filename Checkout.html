@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoDupe | Secure Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; }
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(6, 182, 212, 0.05) 1px, transparent 1px), 
+                              linear-gradient(to bottom, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            position: fixed; inset: 0; z-index: -1;
+        }
+        .checkout-container { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(6, 182, 212, 0.1); }
+    </style>
+</head>
+<body class="p-6">
+    <div class="bg-grid"></div>
+
+    <div class="max-w-4xl mx-auto pt-20">
+        <h1 class="text-5xl font-black italic uppercase tracking-tighter mb-10 text-center">Final <span class="text-cyan-500">Checkout</span></h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="checkout-container p-8 rounded-[40px]">
+                <h2 class="text-xl font-black uppercase mb-6 text-zinc-400">Your Items</h2>
+                <div id="summary-items" class="space-y-4"></div>
+                <div class="border-t border-white/10 mt-6 pt-6 flex justify-between items-center">
+                    <span class="font-bold text-zinc-500 uppercase text-xs">Total Amount</span>
+                    <span id="summary-total" class="text-3xl font-black text-cyan-500">$0.00</span>
+                </div>
+            </div>
+
+            <div class="checkout-container p-8 rounded-[40px] flex flex-col gap-6">
+                <h2 class="text-xl font-black uppercase text-zinc-400">Payment Details</h2>
+                
+                <input type="text" id="final-username" placeholder="Minecraft Username" class="w-full bg-zinc-900 border border-white/5 rounded-2xl p-5 text-white focus:border-cyan-500 outline-none transition">
+                
+                <div class="bg-cyan-500/5 border border-cyan-500/20 p-6 rounded-3xl text-center">
+                    <p class="text-[10px] font-black uppercase text-cyan-500 mb-2 tracking-widest">Pay via CashApp</p>
+                    <p class="text-2xl font-black">$YourTagHere</p>
+                    <p class="text-[9px] text-zinc-500 mt-2 uppercase">Put your username in the payment note!</p>
+                </div>
+
+                <button onclick="submitOrder()" class="w-full bg-white text-black py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-cyan-500 transition-all">Confirm & Submit Order</button>
+                <a href="index.html" class="text-center text-[10px] font-black uppercase text-zinc-600 hover:text-white">← Cancel & Go Back</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('echo_cart')) || {};
+
+        function renderSummary() {
+            const container = document.getElementById('summary-items');
+            const totalDisplay = document.getElementById('summary-total');
+            let total = 0;
+
+            const ids = Object.keys(cart);
+            if(ids.length === 0) {
+                container.innerHTML = "<p class='text-zinc-600 font-bold uppercase text-xs'>Cart is empty...</p>";
+                return;
+            }
+
+            container.innerHTML = ids.map(id => {
+                const item = cart[id];
+                const qty = item.totalQty || item.quantity || 1;
+                let price = item.price * qty;
+                if (id.startsWith('key_') && qty >= 5) price *= 0.8576; // Match your 14.24% discount
+                total += price;
+
+                return `
+                <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl">
+                    <div>
+                        <p class="font-black uppercase text-xs">${item.name}</p>
+                        <p class="text-[10px] text-zinc-500 font-bold">QTY: ${qty}</p>
+                    </div>
+                    <p class="font-black text-sm">$${price.toFixed(2)}</p>
+                </div>`;
+            }).join('');
+
+            totalDisplay.innerText = `$${total.toFixed(2)}`;
+        }
+
+        async function submitOrder() {
+            const user = document.getElementById('final-username').value;
+            if(!user) return alert("Enter your MC Username!");
+            
+            // Here you would add the Webhook code from the previous message
+            alert("Order Details Logged! Please complete the CashApp payment now.");
+        }
+
+        renderSummary();
+    </script>
+</body>
+</html>
